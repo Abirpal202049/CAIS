@@ -113,8 +113,6 @@ const Custom_Table: React.FC<props> = ({ tableType }) => {
                 key={idx}
                 style={{
                   minWidth: "8rem",
-                  fontWeight: "500",
-                  padding: "1rem 0rem",
                 }}
                 body={columnBody}
                 className={styles.column}
