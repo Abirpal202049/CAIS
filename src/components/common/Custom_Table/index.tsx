@@ -23,49 +23,41 @@ const Custom_Table: React.FC<props> = ({ tableType }) => {
   const AlertColumnBody = ({ data, field }: { data: any; field: any }) => {
     switch (field) {
       case "bu_id":
-        return <div className={styles.columnBody}>{data.bu_id}</div>;
+        return <div>{data.bu_id}</div>;
       case "score":
-        return <div className={styles.columnBody}>{data.score}</div>;
+        return <div>{data.score}</div>;
       case "state":
-        return <div className={styles.columnBody}>{data.state}</div>;
+        return <div>{data.state}</div>;
       case "deleted":
-        return <div className={styles.columnBody}>{data.deleted}</div>;
+        return <div>{data.deleted}</div>;
       case "details":
-        return <div className={styles.columnBody}>{data.details}</div>;
+        return <div>{data.details}</div>;
       case "fl_read":
-        return <div className={styles.columnBody}>{data.fl_read}</div>;
+        return <div>{data.fl_read}</div>;
       case "alert_id":
-        return <div className={styles.columnBody}>{data.alert_id}</div>;
+        return <div>{data.alert_id}</div>;
       case "status_id":
-        return <div className={styles.columnBody}>{data.status_id}</div>;
+        return <div>{data.status_id}</div>;
       case "create_date":
-        return <div className={styles.columnBody}>{data.create_date}</div>;
+        return <div>{data.create_date}</div>;
       case "alert_type_id":
-        return <div className={styles.columnBody}>{data.alert_type_id}</div>;
+        return <div>{data.alert_type_id}</div>;
       case "business_date":
-        return <div className={styles.columnBody}>{data.business_date}</div>;
+        return <div>{data.business_date}</div>;
       case "business_unit":
-        return <div className={styles.columnBody}>{data.business_unit}</div>;
+        return <div>{data.business_unit}</div>;
       case "fl_attachment":
-        return <div className={styles.columnBody}>{data.fl_attachment}</div>;
+        return <div>{data.fl_attachment}</div>;
       case "last_update_date":
-        return <div className={styles.columnBody}>{data.last_update_date}</div>;
+        return <div>{data.last_update_date}</div>;
       case "owner_internal_id":
-        return (
-          <div className={styles.columnBody}>{data.owner_internal_id}</div>
-        );
+        return <div>{data.owner_internal_id}</div>;
       case "business_unit_family":
-        return (
-          <div className={styles.columnBody}>{data.business_unit_family}</div>
-        );
+        return <div>{data.business_unit_family}</div>;
       case "business_unit_family_previous":
-        return (
-          <div className={styles.columnBody}>
-            {data.business_unit_family_previous}
-          </div>
-        );
+        return <div>{data.business_unit_family_previous}</div>;
       default:
-        return <div className={styles.columnBody}>{data.value}</div>;
+        return <div>{data.value}</div>;
     }
   };
 
