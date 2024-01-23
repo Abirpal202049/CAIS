@@ -10238,29 +10238,48 @@ const response = {
 
 const Custom_Table: React.FC<props> = ({}) => {
   const [data, setData] = React.useState(response);
-  const body = (data: any) => {
-    return <div className={styles.abc}>{data}</div>;
-  };
+
   return (
     <div className={styles.customTableContainer}>
-      <DataTable
-        value={data.alerts.slice(0, 100)}
-        // tableStyle={{ minWidth: "50rem" }}
-        scrollable
-      >
-        {data &&
-          Object.keys(data.alerts[0]).map((ele, idx) => {
-            return (
-              <Column
-                field={ele}
-                header={ele}
-                // key={idx}
-                className={styles.column}
-                // body={body}
-              />
-            );
-          })}
-      </DataTable>
+      <div>
+        <DataTable
+          showGridlines
+          scrollable
+          showSelectAll
+          stripedRows
+          value={data.alerts.slice(0, 100)}
+          tableStyle={{ minWidth: "200rem" }}
+          scrollHeight="calc(100vh - 100px)"
+          emptyMessage="No Data found."
+        >
+          {data &&
+            Object.keys(data.alerts[0]).map((ele, idx) => {
+              return (
+                <Column
+                  field={ele}
+                  header={ele}
+                  headerStyle={{
+                    color: "grey",
+                    padding: "1rem 0rem",
+                    fontWeight: "400",
+                    position: "sticky",
+                    top: "0",
+                    zIndex: "2",
+                    backgroundColor: "#f8f9fa",
+                  }}
+                  key={idx}
+                  style={{
+                    minWidth: "8rem",
+                    fontWeight: "500",
+                    padding: "1rem 0rem",
+                  }}
+                  // body={body}
+                  className={styles.column}
+                />
+              );
+            })}
+        </DataTable>
+      </div>
     </div>
   );
 };
