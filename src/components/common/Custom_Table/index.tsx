@@ -6,11 +6,13 @@ import { Column } from "primereact/column";
 import styles from "./custom_table.module.scss";
 import axios from "axios";
 
-type props = {};
+type props = {
+  tableType : string
+};
 
 
 
-const Custom_Table: React.FC<props> = ({}) => {
+const Custom_Table: React.FC<props> = ({tableType}) => {
 
   const [data, setData] = React.useState([{}]);
 
@@ -21,11 +23,51 @@ const Custom_Table: React.FC<props> = ({}) => {
     })()
   },[]);
   
-  const columnBody = (data:any) =>{
-    const tableType = "alerts"
+  const AlertColumnBody = ({data,field}:{data:any,field:any}) =>{
+    switch(field){
+      case "bu_id":
+        return <div className={styles.columnBody}>{data.bu_id}</div>
+      case "score":
+        return <div className={styles.columnBody}>{data.score}</div>
+      case "state":
+        return <div className={styles.columnBody}>{data.state}</div>
+      case "deleted":
+        return <div className={styles.columnBody}>{data.deleted}</div>
+      case "details":
+        return <div className={styles.columnBody}>{data.details}</div>
+      case "fl_read":
+        return <div className={styles.columnBody}>{data.fl_read}</div>
+      case "alert_id":
+        return <div className={styles.columnBody}>{data.alert_id}</div>
+      case "status_id":
+        return <div className={styles.columnBody}>{data.status_id}</div>
+      case "create_date":
+        return <div className={styles.columnBody}>{data.create_date}</div>
+      case "alert_type_id":
+        return <div className={styles.columnBody}>{data.alert_type_id}</div>
+      case "business_date":
+        return <div className={styles.columnBody}>{data.business_date}</div>
+      case "business_unit":
+        return <div className={styles.columnBody}>{data.business_unit}</div>
+      case "fl_attachment":
+        return <div className={styles.columnBody}>{data.fl_attachment}</div>
+      case "last_update_date":
+        return <div className={styles.columnBody}>{data.last_update_date}</div>
+      case "owner_internal_id":
+        return <div className={styles.columnBody}>{data.owner_internal_id}</div>
+      case "business_unit_family":
+        return <div className={styles.columnBody}>{data.business_unit_family}</div>
+      case "business_unit_family_previous":
+        return <div className={styles.columnBody}>{data.business_unit_family_previous}</div>
+      default:
+        return <div className={styles.columnBody}>{data.value}</div>
+    }
+  }
+
+  const columnBody = (data:any,options:any) =>{
     switch(tableType){
       case "alerts":
-        return <></>
+        return <AlertColumnBody data={data} field={options.field}/>
     }
 
     return <div className={styles.columnBody}>{data.value}</div>
@@ -41,6 +83,7 @@ const Custom_Table: React.FC<props> = ({}) => {
           value={data.slice(0, 100)}
           tableStyle={{ minWidth: "200rem" }}
           emptyMessage="No Data found."
+          className={styles[tableType]}
         >
           {data &&
             Object.keys(data[0]).map((ele, idx) => {
@@ -63,7 +106,7 @@ const Custom_Table: React.FC<props> = ({}) => {
                     fontWeight: "500",
                     padding: "1rem 0rem",
                   }}
-                  // body={body}
+                  body={columnBody}
                   className={styles.column}
                 />
               );

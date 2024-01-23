@@ -6,7 +6,7 @@ export default function Home() {
   return (
     <>
       <h1>Cais </h1>
-      <Custom_Table />
+      <Custom_Table tableType="alerts"/>
       <Link href="/login">Login</Link>
     </>
   );
