@@ -22,7 +22,7 @@ const Custom_Table: React.FC<props> = ({tableType}) => {
       setData(res.data.alerts);
     })()
   },[]);
-  
+
   const AlertColumnBody = ({data,field}:{data:any,field:any}) =>{
     switch(field){
       case "bu_id":
@@ -72,17 +72,26 @@ const Custom_Table: React.FC<props> = ({tableType}) => {
 
     return <div className={styles.columnBody}>{data.value}</div>
   }
+
+  const onPageChange = (event:any) =>{
+    console.log(event);
+  }
   return (
     <div className={styles.customTableContainer}>
-      <div>
         <DataTable
           showGridlines
           scrollable
           showSelectAll
+          scrollHeight="calc(90vh - 100px)"
           stripedRows
+          rows={11}
+          paginator
+          rowsPerPageOptions={[11, 25, 50]}
           value={data.slice(0, 100)}
           tableStyle={{ minWidth: "200rem" }}
           emptyMessage="No Data found."
+          totalRecords={100}
+          onPage = {onPageChange}
           className={styles[tableType]}
         >
           {data &&
@@ -91,11 +100,12 @@ const Custom_Table: React.FC<props> = ({tableType}) => {
                 <Column
                   field={ele}
                   header={ele}
+                  selectionMode={ele=="bu_id"?"multiple":undefined}
                   headerStyle={{
                     color: "grey",
                     padding: "1rem 0rem",
                     fontWeight: "400",
-                    position: "sticky",
+                    // position: "sticky",
                     top: "0",
                     zIndex: "2",
                     backgroundColor: "#f8f9fa",
@@ -108,11 +118,11 @@ const Custom_Table: React.FC<props> = ({tableType}) => {
                   }}
                   body={columnBody}
                   className={styles.column}
+                  sortable
                 />
               );
             })}
         </DataTable>
-      </div>
     </div>
   );
 };

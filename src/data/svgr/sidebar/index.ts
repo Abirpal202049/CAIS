@@ -1,0 +1,6 @@
+export { default as Grid01 } from './grid01.svg'
+export { default as homeSetting } from './home-setting.svg'
+export { default as Report } from './report.svg'
+export { default as Setting } from './setting.svg'
+export { default as userCircleBlock } from './user-circle-block.svg'
+export { default as menuCircleVertical } from './warning-error.svg'

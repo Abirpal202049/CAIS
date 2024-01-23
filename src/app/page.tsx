@@ -2,6 +2,7 @@ import Image from "next/image";
 import styles from "./page.module.css";
 import Link from "next/link";
 import Custom_Table from "@/components/common/Custom_Table";
+
 export default function Home() {
   return (
     <>
