@@ -1,5 +1,6 @@
 "use client"
-import { SidebarProps } from "@/types";
+
+import { SidebarProps } from "@/types/SidebarComponent";
 import LogoVisibilityComponent from "./logoVisibilityComponent";
 import OptionsComponent from "./OptionsComponent";
 import Styles from './Styles.module.scss'

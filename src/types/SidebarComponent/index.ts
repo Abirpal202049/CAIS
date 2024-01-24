@@ -1,4 +1,4 @@
- interface AppSidebarOptions {
+export interface AppSidebarOptions {
     tabName: string;
     link: string;
     iconName: string;
@@ -15,3 +15,15 @@ export interface SidebarProps {
     onClickTab?: Function;
     onToggle?: Boolean;
 }
+
+export interface IconBtnProps {
+    iconName?: string;
+    width: Number;
+    height: Number;
+    alt?: string;
+    enableIcons: boolean;
+    activeOnHover: boolean;
+    icon:React.ReactNode,
+    link:string,
+    route:string,
+  }
