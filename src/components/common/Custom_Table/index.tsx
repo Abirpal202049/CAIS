@@ -53,54 +53,11 @@ const Custom_Table: React.FC<props> = ({ tableType, select, columnFilter }) => {
     // Replace space before single-digit day with an empty string
     return formattedDate.replace(/ (\d) /, " $1 ").trim();
   };
-  const AlertColumnBody = ({ data, field }: { data: any; field: any }) => {
-    const Container = (value: string) => {
-      return <div className={styles.alertColumn}>{value}</div>;
-    };
-    switch (field) {
-      case "bu_id":
-        return Container(data.bu_id);
-      case "score":
-        return Container(data.score);
-      case "state":
-        return Container(data.state);
-      case "deleted":
-        return Container(data.deleted);
-      case "details":
-        return Container(data.details);
-      case "fl_read":
-        return Container(data.fl_read);
-      case "alert_id":
-        return Container(data.alert_id);
-      case "status_id":
-        return Container(data.status_id);
-      case "create_date":
-        return Container(formatDate(data.create_date));
-      case "alert_type_id":
-        return Container(data.alert_type_id);
-      case "business_date":
-        return Container(formatDate(data.business_date));
-      case "business_unit":
-        return Container(data.business_unit);
-      case "fl_attachment":
-        return Container(data.fl_attachment);
-      case "last_update_date":
-        return Container(data.last_update_date);
-      case "owner_internal_id":
-        return Container(data.owner_internal_id);
-      case "business_unit_family":
-        return Container(data.business_unit_family);
-      case "business_unit_family_previous":
-        return Container(data.business_unit_family_previous);
-      default:
-        return Container("-");
-    }
-  };
 
   const columnBody = (data: any, options: any) => {
     switch (tableType) {
       case "alerts":
-        return <AlertColumnBody data={data} field={options.field} />;
+        return <div className={styles.columnBody}>{data[options.field]}</div>;
     }
 
     return <div className={styles.columnBody}>{data.value}</div>;
