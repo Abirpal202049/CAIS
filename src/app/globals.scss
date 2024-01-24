@@ -1,0 +1,25 @@
+*{
+    font-size: 14px;
+}
+
+/* Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+width: 7px;
+height: 7px;
+}
+
+*::-webkit-scrollbar-track {
+background: #ffffff00;
+}
+
+*::-webkit-scrollbar-thumb {
+background-color: var(--surface-400);
+border-radius: 10px;
+visibility: hidden;
+}
+
+*:active::-webkit-scrollbar-thumb,
+*:focus::-webkit-scrollbar-thumb,
+*:hover::-webkit-scrollbar-thumb {
+visibility: visible;
+}

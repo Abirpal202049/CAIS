@@ -4,11 +4,29 @@
   justify-content: center;
   padding: 2rem;
   width: auto;
-  .header{
+
+  .dynamicColumn {
+    min-width: 80vw;
+    margin-left: auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .header {
     padding-inline: 5px;
   }
   .column {
     padding: 1rem 0rem;
     font-weight: 500;
+  }
+
+  .alerts {
+    white-space: nowrap;
+    .alertColumn {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 10rem;
+    }
   }
 }
