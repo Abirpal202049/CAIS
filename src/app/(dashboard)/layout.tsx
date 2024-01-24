@@ -1,13 +1,16 @@
 import Link from "next/link";
 import { ReactNode } from "react";
-
+import '@/components/Styles.scss'
+import SidebarMainComponent from "@/components/common/Sidebar/SidebarMainComponent";
 type Props = {
   children: ReactNode;
 };
 
 export default function DashboardLayout({ children }: Props) {
+
   return (
     <div>
+        <SidebarMainComponent/>
       <h1>DashboardLayout</h1>
       <div>{children}</div>
       <ol>
