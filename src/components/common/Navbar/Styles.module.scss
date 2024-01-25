@@ -37,10 +37,6 @@
     display: flex; 
     justify-content: space-between;
     width: 400px;
-
-    @media  (min-width: 1000px) {
-        width: 300px;
-    }
 }
 
 .navbar_container_div2_User{

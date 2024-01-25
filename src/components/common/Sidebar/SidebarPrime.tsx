@@ -20,7 +20,7 @@ const SidebarPrime = ({ isHovered, onToggle, setisHovered, logoVisibility, setOn
     };
 
     return (
-        <div>
+        <div className={Styles.test}>
             <Sidebar
                 id="sidebar"
                 style={{
@@ -33,11 +33,21 @@ const SidebarPrime = ({ isHovered, onToggle, setisHovered, logoVisibility, setOn
                 onHide={() => false}
                 className={Styles.sidebar_div}
                 unstyled={true}
-                baseZIndex={1}
+                baseZIndex={5}
                 dismissable={false}
                 showCloseIcon={false}
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}
+                pt={{
+                    mask: {
+                      style: {
+                        height: "100vh",
+                        width: isHovered
+                          ? "var(--sidebar-width-expand)"
+                          : "var(--sidebar-width-collapse)",
+                      },
+                    },
+                  }}
             >
                 <div className={`${Styles.sidebar_content_container}`}>
                     {/* Logo */}
@@ -48,10 +58,7 @@ const SidebarPrime = ({ isHovered, onToggle, setisHovered, logoVisibility, setOn
                         onToggle={onToggle}
                     />
 
-                    <section
-                        className={` ${Styles.sidebar_section} ${isHovered ? "" : "align-items-center"
-                            }`}
-                    >
+                    <section className={` ${Styles.sidebar_section} ${isHovered ? "" : "align-items-center"}`}>
                         {/* Sidebar - Menu Options */}
                         <OptionsComponent
                             sidebarOpenState={isHovered}

@@ -7,7 +7,7 @@ export const start = (
 
       <span className={`p-input-icon-left ${Styles.navbar_search_container}`}>
         <Search className={Styles.search_icon} />
-        <InputText type="text" placeholder="Search in “Alerts”" />
+        <InputText type="text" placeholder="Search in “Alerts”" className={Styles.input_Filed}/>
       </span>
 
     </div>

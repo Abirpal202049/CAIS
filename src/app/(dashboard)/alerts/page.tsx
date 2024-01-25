@@ -7,6 +7,7 @@ import Custom_Table from '@/components/common/Custom_Table'
 const Page = () => {
   return (
     <div className={Styles.alert_main_section}>
+    <div className={Styles.alert_main_section1}>
       {/*  Top Navbar */}
       <MainSection/>
       
@@ -15,7 +16,7 @@ const Page = () => {
 
       {/*  Custom Table */}
       <Custom_Table  tableType="alerts" select={true} columnFilter={true}/>
-
+      </div>
     </div>
   )
 }
