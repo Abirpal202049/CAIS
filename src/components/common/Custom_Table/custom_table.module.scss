@@ -35,3 +35,19 @@
     }
   }
 }
+
+.table_headerStyle {
+  display: flex;
+  align-items: center;
+  justify-items: space-between;
+}
+
+.table_header_filter {
+  display: flex;
+  align-items: center;
+  gap: var(--inline-spacing);
+}
+
+.tableClassName {
+  border: var(--border);
+}
