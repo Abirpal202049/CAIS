@@ -22,6 +22,11 @@ const defaultFilters: DataTableFilterMeta = {
   global: { value: null, matchMode: FilterMatchMode.CONTAINS },
 };
 
+type ColumnProps = {
+  field: string;
+  header: string;
+};
+
 const Custom_Table: React.FC<Props> = ({
   tableType,
   select,
@@ -29,18 +34,14 @@ const Custom_Table: React.FC<Props> = ({
   data,
   handleSwitch,
 }) => {
-  console.log(data);
   const [selectedItems, setSelectedItems] = React.useState([]);
-  const [columns, setColumns] = React.useState<
-    { field: string; header: string }[]
-  >([]);
-  const [visibleColumns, setVisibleColumns] = React.useState<
-    { field: string; header: string }[]
-  >([]);
 
   // States for Filteration
   const [filters, setFilters] = useState<DataTableFilterMeta>(defaultFilters);
   const [globalFilterValue, setGlobalFilterValue] = useState<string>("");
+
+  const [columns, setColumns] = React.useState<ColumnProps[]>([]);
+  const [visibleColumns, setVisibleColumns] = React.useState<ColumnProps[]>([]);
 
   React.useEffect(() => {
     const dynamicColumns = Object.keys(data[0]).map((ele) => ({
@@ -155,7 +156,7 @@ const Custom_Table: React.FC<Props> = ({
         onSelectionChange={(e: any) => setSelectedItems(e.value)}
         scrollable
         showSelectAll
-        scrollHeight="calc(90vh - 100px)"
+        scrollHeight="calc(74vh - 100px)"
         className={styles[tableType]}
         tableStyle={{ minWidth: "50rem" }}
         emptyMessage="No Data found."

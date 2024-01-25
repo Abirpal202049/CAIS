@@ -1,10 +1,11 @@
 "use client"
 import React , { Key } from 'react'
-import Styles from './Styles.module.scss'
-import { AppSidebarOptions } from '@/types';
-import Link from 'next/link';
-import IconBtn from './Icon';
 import { usePathname } from 'next/navigation';
+import Link from 'next/link';
+
+import IconBtn from './Icon';
+import { AppSidebarOptions } from '@/types/SidebarComponent';
+import Styles from './Styles.module.scss'
 
 const OptionsComponent = ({sidebarOpenState,menuList,sidebarSelected}:any) => {
 
