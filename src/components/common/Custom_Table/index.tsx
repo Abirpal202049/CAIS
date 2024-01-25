@@ -6,7 +6,7 @@ import { MultiSelect, MultiSelectChangeEvent } from "primereact/multiselect";
 
 import styles from "./custom_table.module.scss";
 
-type props = {
+type Props = {
   tableType: string;
   select: boolean;
   columnFilter: boolean;
@@ -14,7 +14,7 @@ type props = {
   handleSwitch: any;
 };
 
-const Custom_Table: React.FC<props> = ({
+const Custom_Table: React.FC<Props> = ({
   tableType,
   select,
   columnFilter,

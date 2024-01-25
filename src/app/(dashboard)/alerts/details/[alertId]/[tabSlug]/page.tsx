@@ -1,9 +1,7 @@
-import React from 'react'
+import React from "react";
 
-type Props = {}
+type Props = {};
 
 export default function AlertDetailsPage({}: Props) {
-  return (
-    <div>AlertDetailsPage</div>
-  )
+  return <div>AlertDetailsPage</div>;
 }

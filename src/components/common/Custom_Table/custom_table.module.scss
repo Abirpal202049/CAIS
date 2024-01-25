@@ -13,10 +13,11 @@
     justify-content: space-between;
     align-items: center;
 
-    // [class~="p-multiselect-label-container"] {
-    //   opacity: 0;
-    // }
+    [class~="p-multiselect-label-container"] {
+      opacity: 0;
+    }
   }
+
   .header {
     padding-inline: 5px;
   }

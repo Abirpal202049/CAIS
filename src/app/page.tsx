@@ -3,7 +3,6 @@ import React from "react";
 import axios from "axios";
 import Link from "next/link";
 import Custom_Table from "@/components/common/Custom_Table";
-import Custom_Tab from "@/components/common/Custom_Tab";
 
 //utils
 import { formatDate } from "@/utils/formatData";
@@ -31,7 +30,6 @@ export default function Home() {
   return (
     <>
       <h1>Cais </h1>
-      <Custom_Tab />
       <Custom_Table
         tableType="alerts"
         select={true}
