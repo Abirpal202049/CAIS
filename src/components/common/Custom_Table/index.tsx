@@ -5,16 +5,22 @@ import { Column } from "primereact/column";
 import { MultiSelect, MultiSelectChangeEvent } from "primereact/multiselect";
 
 import styles from "./custom_table.module.scss";
-import axios from "axios";
 
 type props = {
   tableType: string;
   select: boolean;
   columnFilter: boolean;
+  data: any;
+  handleSwitch: any;
 };
 
-const Custom_Table: React.FC<props> = ({ tableType, select, columnFilter }) => {
-  const [data, setData] = React.useState([{}]);
+const Custom_Table: React.FC<props> = ({
+  tableType,
+  select,
+  columnFilter,
+  data,
+  handleSwitch,
+}) => {
   const [selectedItems, setSelectedItems] = React.useState([]);
   const [columns, setColumns] = React.useState<
     { field: string; header: string }[]
@@ -24,9 +30,9 @@ const Custom_Table: React.FC<props> = ({ tableType, select, columnFilter }) => {
   >([]);
   React.useEffect(() => {
     (async () => {
-      const res = await axios.get("https://api.npoint.io/b4e5dbdf2e9ad517f981");
-      setData(res.data.alerts);
-      const dynamicColumns = Object.keys(res.data.alerts[0]).map((ele) => ({
+      console.log(data);
+
+      const dynamicColumns = Object.keys(data[0]).map((ele) => ({
         field: ele,
         header: ele
           .split("_")
@@ -36,74 +42,10 @@ const Custom_Table: React.FC<props> = ({ tableType, select, columnFilter }) => {
       setColumns(dynamicColumns);
       setVisibleColumns(dynamicColumns);
     })();
-  }, []);
-
-  // Shift this function to utilities
-  const formatDate = (date: string) => {
-    const newDate = new Date(date);
-    const options: Intl.DateTimeFormatOptions = {
-      day: "numeric",
-      month: "short",
-      year: "numeric",
-    };
-    const formattedDate = new Intl.DateTimeFormat("en-US", options).format(
-      newDate
-    ); // editing and verification needed
-
-    // Replace space before single-digit day with an empty string
-    return formattedDate.replace(/ (\d) /, " $1 ").trim();
-  };
-  const AlertColumnBody = ({ data, field }: { data: any; field: any }) => {
-    const Container = (value: string) => {
-      return <div className={styles.alertColumn}>{value}</div>;
-    };
-    switch (field) {
-      case "bu_id":
-        return Container(data.bu_id);
-      case "score":
-        return Container(data.score);
-      case "state":
-        return Container(data.state);
-      case "deleted":
-        return Container(data.deleted);
-      case "details":
-        return Container(data.details);
-      case "fl_read":
-        return Container(data.fl_read);
-      case "alert_id":
-        return Container(data.alert_id);
-      case "status_id":
-        return Container(data.status_id);
-      case "create_date":
-        return Container(formatDate(data.create_date));
-      case "alert_type_id":
-        return Container(data.alert_type_id);
-      case "business_date":
-        return Container(formatDate(data.business_date));
-      case "business_unit":
-        return Container(data.business_unit);
-      case "fl_attachment":
-        return Container(data.fl_attachment);
-      case "last_update_date":
-        return Container(data.last_update_date);
-      case "owner_internal_id":
-        return Container(data.owner_internal_id);
-      case "business_unit_family":
-        return Container(data.business_unit_family);
-      case "business_unit_family_previous":
-        return Container(data.business_unit_family_previous);
-      default:
-        return Container("-");
-    }
-  };
+  }, [data]);
 
   const columnBody = (data: any, options: any) => {
-    switch (tableType) {
-      case "alerts":
-        return <AlertColumnBody data={data} field={options.field} />;
-    }
-
-    return <div className={styles.columnBody}>{data.value}</div>;
+    return handleSwitch(data, options.field);
   };
 
   const onPageChange = (event: any) => {
