@@ -2,27 +2,37 @@
 import React from "react";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
-import { MultiSelect, MultiSelectChangeEvent } from 'primereact/multiselect';
+import { MultiSelect, MultiSelectChangeEvent } from "primereact/multiselect";
 
 import styles from "./custom_table.module.scss";
 import axios from "axios";
 
 type props = {
-  tableType: string
-  select:boolean
-  columnFilter:boolean
+  tableType: string;
+  select: boolean;
+  columnFilter: boolean;
 };
 
-const Custom_Table: React.FC<props> = ({ tableType,select,columnFilter }) => {
+const Custom_Table: React.FC<props> = ({ tableType, select, columnFilter }) => {
   const [data, setData] = React.useState([{}]);
   const [selectedItems, setSelectedItems] = React.useState([]);
-  const [columns, setColumns] = React.useState<{field:string,header:string} []>([]);
-  const [visibleColumns, setVisibleColumns] = React.useState<{field:string,header:string} []>([]);
+  const [columns, setColumns] = React.useState<
+    { field: string; header: string }[]
+  >([]);
+  const [visibleColumns, setVisibleColumns] = React.useState<
+    { field: string; header: string }[]
+  >([]);
   React.useEffect(() => {
     (async () => {
       const res = await axios.get("https://api.npoint.io/b4e5dbdf2e9ad517f981");
       setData(res.data.alerts);
-      const dynamicColumns = Object.keys(res.data.alerts[0]).map((ele) => ({field:ele,header:ele.split("_").map((ele) => ele.charAt(0).toUpperCase() + ele.slice(1)).join(" ")}));
+      const dynamicColumns = Object.keys(res.data.alerts[0]).map((ele) => ({
+        field: ele,
+        header: ele
+          .split("_")
+          .map((ele) => ele.charAt(0).toUpperCase() + ele.slice(1))
+          .join(" "),
+      }));
       setColumns(dynamicColumns);
       setVisibleColumns(dynamicColumns);
     })();
@@ -30,18 +40,23 @@ const Custom_Table: React.FC<props> = ({ tableType,select,columnFilter }) => {
 
   // Shift this function to utilities
   const formatDate = (date: string) => {
-    const  newDate = new Date(date);
-    const options = { day: 'numeric', month: 'short', year: 'numeric' };
-  const formattedDate = new Intl.DateTimeFormat('en-US', options).format(newDate);  // editing and verification needed
-  
-  // Replace space before single-digit day with an empty string
-  return formattedDate.replace(/ (\d) /, ' $1 ');
-    return newDate.toLocaleDateString();
-  }
+    const newDate = new Date(date);
+    const options: Intl.DateTimeFormatOptions = {
+      day: "numeric",
+      month: "short",
+      year: "numeric",
+    };
+    const formattedDate = new Intl.DateTimeFormat("en-US", options).format(
+      newDate
+    ); // editing and verification needed
+
+    // Replace space before single-digit day with an empty string
+    return formattedDate.replace(/ (\d) /, " $1 ").trim();
+  };
   const AlertColumnBody = ({ data, field }: { data: any; field: any }) => {
-    const Container = (value:string) =>{
-      return <div className={styles.alertColumn}>{value}</div>
-    }
+    const Container = (value: string) => {
+      return <div className={styles.alertColumn}>{value}</div>;
+    };
     switch (field) {
       case "bu_id":
         return Container(data.bu_id);
@@ -76,7 +91,7 @@ const Custom_Table: React.FC<props> = ({ tableType,select,columnFilter }) => {
       case "business_unit_family":
         return Container(data.business_unit_family);
       case "business_unit_family_previous":
-        return  Container(data.business_unit_family_previous);
+        return Container(data.business_unit_family_previous);
       default:
         return Container("-");
     }
@@ -94,73 +109,92 @@ const Custom_Table: React.FC<props> = ({ tableType,select,columnFilter }) => {
   const onPageChange = (event: any) => {
     console.log(event);
     // API call for Pagination
-  }
+  };
 
   const onColumnToggle = (event: MultiSelectChangeEvent) => {
     let selectedColumns = event.value;
-    let orderedSelectedColumns = columns.filter((col) => selectedColumns.some((sCol:{field:string,header:string}) => sCol.field === col.field));
+    let orderedSelectedColumns = columns.filter((col) =>
+      selectedColumns.some(
+        (sCol: { field: string; header: string }) => sCol.field === col.field
+      )
+    );
 
     setVisibleColumns(orderedSelectedColumns);
-};
+  };
 
-const tableHeader = <MultiSelect value={visibleColumns} options={columns} optionLabel="header" onChange={onColumnToggle} display="chip" multiple className={styles.dynamicColumn}/>;
+  const tableHeader = (
+    <MultiSelect
+      value={visibleColumns}
+      options={columns}
+      optionLabel="header"
+      onChange={onColumnToggle}
+      display="chip"
+      className={`${styles.dynamicColumn} ${
+        columns.length === visibleColumns.length
+          ? styles.dynamicColumnChipsHide
+          : ""
+      }`}
+    />
+  );
 
-  const columnHeader = (ele:string) =>{
-    const name = ele.split("_").map((ele) => ele.charAt(0).toUpperCase() + ele.slice(1)).join(" ");
-    return <div className={styles.header}>{name}</div>
-  }
-
+  const columnHeader = (ele: string) => {
+    const name = ele
+      .split("_")
+      .map((ele) => ele.charAt(0).toUpperCase() + ele.slice(1))
+      .join(" ");
+    return <div className={styles.header}>{name}</div>;
+  };
   return (
     <div className={styles.customTableContainer}>
-        <DataTable
-          value={data.slice(0, 100)}
-          header = {tableHeader}
-          // pagination from here
-          paginator
-          rows={10}
-          rowsPerPageOptions={[10, 25, 50]}
-          totalRecords={100}
-          // onPage = {onPageChange}
-          // selecting row with checkboxes from here
-          selectionMode={select==true?'multiple':null}
-          selection={selectedItems}
-          onSelectionChange={(e:any) => setSelectedItems(e.value)}
-          // sortIcon
-          scrollable
-          showSelectAll
-          scrollHeight="calc(90vh - 100px)"
-          className={styles[tableType]}
-          tableStyle={{ minWidth: "50rem" }}
-          emptyMessage="No Data found."
-        >
-
-          {select && <Column selectionMode="multiple" style={{width:"3rem"}}/>}
-          {data &&
-            visibleColumns.map((ele, idx) => {
-              return (
-                <Column
-                  field={ele.field}
-                  header={ele.header}
-                  headerStyle={{
-                    color: "grey",
-                    padding: "1rem",
-                    fontWeight: "400",
-                    top: "0",
-                    zIndex: "2",
-                    backgroundColor: "#f8f9fa",
-                  }}
-                  key={idx}
-                  style={{
-                    // minWidth: "6rem",
-                    fontWeight: "500",
-                    padding: "1rem",
-                  }}
-                  body={columnBody}
-                  sortable
-                />
-              );
-            })}
-        </DataTable>
+      <DataTable
+        value={data.slice(0, 100)}
+        header={tableHeader}
+        // pagination from here
+        paginator
+        rows={10}
+        rowsPerPageOptions={[10, 25, 50]}
+        totalRecords={100}
+        // onPage = {onPageChange}
+        // selecting row with checkboxes from here
+        selectionMode={select == true ? "multiple" : null}
+        selection={selectedItems}
+        onSelectionChange={(e: any) => setSelectedItems(e.value)}
+        scrollable
+        showSelectAll
+        scrollHeight="calc(90vh - 100px)"
+        className={styles[tableType]}
+        tableStyle={{ minWidth: "50rem" }}
+        emptyMessage="No Data found."
+      >
+        {select && (
+          <Column selectionMode="multiple" style={{ width: "3rem" }} />
+        )}
+        {data &&
+          visibleColumns.map((ele, idx) => {
+            return (
+              <Column
+                field={ele.field}
+                header={ele.header}
+                headerStyle={{
+                  color: "grey",
+                  padding: "1rem",
+                  fontWeight: "400",
+                  top: "0",
+                  zIndex: "2",
+                  backgroundColor: "#f8f9fa",
+                }}
+                key={idx}
+                style={{
+                  // minWidth: "6rem",
+                  fontWeight: "500",
+                  padding: "1rem",
+                }}
+                body={columnBody}
+                sortable
+              />
+            );
+          })}
+      </DataTable>
     </div>
   );
 };
