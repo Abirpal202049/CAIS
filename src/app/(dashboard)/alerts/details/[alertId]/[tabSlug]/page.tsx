@@ -28,7 +28,6 @@ export default function AlertDetailsPage({}: Props) {
   };
   return (
     <>
-      <Custom_Tab />
       <Custom_Table
         tableType="alerts"
         select={true}
