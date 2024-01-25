@@ -28,9 +28,10 @@ const Custom_Table: React.FC<props> = ({
   const [visibleColumns, setVisibleColumns] = React.useState<
     { field: string; header: string }[]
   >([]);
+
   React.useEffect(() => {
     (async () => {
-      console.log(data);
+      // console.log(data);
 
       const dynamicColumns = Object.keys(data[0]).map((ele) => ({
         field: ele,
@@ -70,7 +71,7 @@ const Custom_Table: React.FC<props> = ({
       options={columns}
       optionLabel="header"
       onChange={onColumnToggle}
-      display="chip"
+      // display="chip"
       className={`${styles.dynamicColumn} ${
         columns.length === visibleColumns.length
           ? styles.dynamicColumnChipsHide

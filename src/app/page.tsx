@@ -12,10 +12,10 @@ export default function Home() {
   const [data, setData] = React.useState([{}]);
   React.useEffect(() => {
     (async () => {
-      const res = await axios.get("https://api.npoint.io/65c1706f2f4be7cbc4f8");
-      console.log(res.data);
+      const res = await axios.get("https://api.npoint.io/e31ba500e557b4487e48");
+      // console.log(res.data.financial_advisors);
 
-      setData(res.data);
+      setData(res.data.financial_advisors);
     })();
   }, []);
 

@@ -6,17 +6,16 @@
   width: auto;
 
   .dynamicColumn {
-    max-width: 50vw;
+    max-width: 300px;
     margin-left: auto;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-  }
-  .dynamicColumnChipsHide {
-    [class~="p-multiselect-label-container"] {
-      opacity: 0;
-    }
+
+    // [class~="p-multiselect-label-container"] {
+    //   opacity: 0;
+    // }
   }
   .header {
     padding-inline: 5px;
