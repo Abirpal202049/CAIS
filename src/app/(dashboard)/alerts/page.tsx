@@ -1,9 +1,15 @@
+import MainSection from '@/components/common/Navbar/MainSection'
 import React from 'react'
+import Styles from './Styles.module.scss'
 
-type Props = {}
-
-export default function AlertPage({}: Props) {
+const Page = () => {
   return (
-    <div>AlertPage</div>
+    <div className={Styles.alert_main_section}>
+      {/*  Top Navbar */}
+      <MainSection/>
+      
+    </div>
   )
 }
+
+export default Page
