@@ -1,0 +1,5 @@
+$bodyWidth: calc(100vw - var(--sidebar-width-collapse));
+._dashboard_container_body {
+  width: $bodyWidth;
+  margin-left: var(--sidebar-width-collapse);
+}

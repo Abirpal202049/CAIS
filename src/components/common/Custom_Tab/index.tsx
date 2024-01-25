@@ -1,5 +1,4 @@
 "use client";
-import { TabMenu } from "primereact/tabmenu";
 import React from "react";
 import styles from "../Custom_Tab/custom_tab.module.scss";
 import { useRouter } from "next/navigation";
@@ -23,17 +22,6 @@ const Custom_Tab: React.FC<props> = ({
   const router = useRouter();
   return (
     <div className={styles.tabMenu}>
-      {/* <TabMenu
-        model={TabsModel}
-        activeIndex={selectedTabIndex}
-        onTabChange={(e) => handleTabChange(e)}
-        unstyled={true}
-        pt={{
-          action: {
-            className: "surface-ground",
-          },
-        }}
-      /> */}
       {TabsModel.map((ele, idx) => {
         return (
           <div
@@ -42,6 +30,7 @@ const Custom_Tab: React.FC<props> = ({
               idx === selectedTabIndex ? styles.active : ""
             }`}
             onClick={() => {
+              alert("hello");
               setSelectedTabIndex(idx);
               if (ele.redirect) router.push(ele.redirect);
             }}
