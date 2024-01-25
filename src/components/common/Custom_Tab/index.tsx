@@ -13,11 +13,13 @@ const Custom_Tab: React.FC = () => {
   };
 
   const TabsModel = [
-    { label: "Overview", value: "Overview" },
-    { label: "Lineage", value: "Lineage" },
-    { label: "Alerts", value: "Alerts" },
-    { label: "Activity", value: "Activity" },
-    { label: "Discssions", value: "Discssions" },
+    { label: "Alert Details", value: "Overview" },
+    { label: "Position", value: "Position" },
+    { label: "Trades", value: "Trades" },
+    { label: "Historical Trades", value: "Historical Trades" },
+    { label: "Prior Alerts", value: "Prior Alerts" },
+    { label: "Financial Advisor", value: "Financial Advisor" },
+    { label: "Other AML Related Alerts", value: "Other AML Related Alerts" },
   ];
   return (
     <div className={styles.customTab_container}>
