@@ -13,15 +13,18 @@ type props = {
   columnFilter: boolean;
 };
 
+type ColumnProps = {
+  field: string;
+  header: string 
+}
+
 const Custom_Table: React.FC<props> = ({ tableType, select, columnFilter }) => {
+
   const [data, setData] = React.useState([{}]);
   const [selectedItems, setSelectedItems] = React.useState([]);
-  const [columns, setColumns] = React.useState<
-    { field: string; header: string }[]
-  >([]);
-  const [visibleColumns, setVisibleColumns] = React.useState<
-    { field: string; header: string }[]
-  >([]);
+  const [columns, setColumns] = React.useState<ColumnProps[]>([]);
+  const [visibleColumns, setVisibleColumns] = React.useState<ColumnProps[]>([]);
+
   React.useEffect(() => {
     (async () => {
       const res = await axios.get("https://api.npoint.io/b4e5dbdf2e9ad517f981");
@@ -118,7 +121,7 @@ const Custom_Table: React.FC<props> = ({ tableType, select, columnFilter }) => {
         onSelectionChange={(e: any) => setSelectedItems(e.value)}
         scrollable
         showSelectAll
-        scrollHeight="calc(90vh - 100px)"
+        scrollHeight="calc(74vh - 100px)"
         className={styles[tableType]}
         tableStyle={{ minWidth: "50rem" }}
         emptyMessage="No Data found."

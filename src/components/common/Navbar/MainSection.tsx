@@ -1,37 +1,17 @@
 "use client"
 import React, { useState } from 'react';
 import { Menubar } from 'primereact/menubar';
-import { InputText } from 'primereact/inputtext';
 import Styles from './Styles.module.scss'
-import { Search } from '@/data/svgr/navbar'
 import { navBarOption } from '@/data/navbar';
 import Image from 'next/image';
 import { Dropdown } from 'primereact/dropdown';
+import { cities, start } from './data';
+
 type Props = {}
 
 const MainSection = ({ }: Props) => {
 
   const [selectedCity, setSelectedCity] = useState(null);
-  const start = (
-    <div className={Styles.navbar_container_div}>
-
-      <span className={`p-input-icon-left ${Styles.navbar_search_container}`}>
-        <Search className={Styles.search_icon} />
-        <InputText type="text" placeholder="Search in “Alerts”" />
-      </span>
-
-    </div>
-
-  );
-
-  const cities = [
-    { name: 'New York', code: 'NY' },
-    { name: 'Rome', code: 'RM' },
-    { name: 'London', code: 'LDN' },
-    { name: 'Istanbul', code: 'IST' },
-    { name: 'Paris', code: 'PRS' }
-  ];
-
 
   const end = (
     <div className={Styles.navbar_container_div2}>
