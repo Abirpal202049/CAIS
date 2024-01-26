@@ -4,3 +4,31 @@
 .green {
   color: var(--green);
 }
+
+.indigo {
+  color: var(--indigo);
+}
+
+.primary {
+  color: var(--primary-color);
+}
+.rounded {
+  border-radius: 10px;
+  padding: 0.5rem;
+  width: fit-content;
+}
+
+.backgroundRed {
+  color: var(--red);
+  background-color: var(--red-100);
+}
+
+.backgroundIndigo {
+  color: var(--indigo);
+  background-color: var(--indigo-100);
+}
+
+.backgroundGreen {
+  color: var(--green);
+  background-color: var(--green-100);
+}

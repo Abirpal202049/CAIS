@@ -2,15 +2,23 @@
 import React, { useEffect, useState } from "react";
 import Custom_Tab from "@/components/common/Custom_Tab";
 import Information from "./_components/Information";
+import { usePathname } from "next/navigation";
 import axios from "axios";
 
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
-  const [tabIndex, setTabIndex] = useState(0);
+  const [tabIndex, setTabIndex] = React.useState(0);
   const [data, setData] = useState([{}]);
   console.log("%%%%%%%%", data);
   const [loading, setLoading] = useState(true);
+  const pathName = usePathname();
+  React.useEffect(() => {
+    setTabIndex(() => {
+      const tabSlug = pathName.split("/")[4];
+      return tabsModel.findIndex((tab) => tab.redirect === tabSlug);
+    });
+  }, []);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -35,7 +43,6 @@ export default function RootLayout({
     {
       label: "Alert Details",
       value: "Overview",
-      // count: 6,
       redirect: "alert_details",
     },
     { label: "Position", value: "Position", redirect: "position" },

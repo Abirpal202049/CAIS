@@ -101,8 +101,15 @@ function Trades() {
 
   const handleSwitch = (data: any, field: any) => {
     switch (field) {
-      case "create_date":
-        return <div>{formatDate(data.create_date)}</div>;
+      case "ORIG_CURR_CD":
+      case "BASE_CURR_CD":
+        return (
+          <div className={`${styles.backgroundRed} ${styles.rounded}`}>
+            {data[field]}
+          </div>
+        );
+      case "EXECUTION_LOCAL_DATE_TIME":
+        return <div>{data[field].split(" ")[0]}</div>;
       default:
         return <div>{data[field]}</div>;
     }
@@ -159,8 +166,8 @@ function Financial_Advisors() {
 
   const handleSwitch = (data: any, field: any) => {
     switch (field) {
-      case "create_date":
-        return <div>{formatDate(data.create_date)}</div>;
+      case "id":
+        return <div className={`${styles.primary}`}>{data[field]}</div>;
       default:
         return <div>{data[field]}</div>;
     }

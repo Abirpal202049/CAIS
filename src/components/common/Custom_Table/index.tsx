@@ -141,6 +141,7 @@ const Custom_Table: React.FC<Props> = ({
       />
     </div>
   );
+
   const customSortIcon = (options: any) => {
     const order = options.sortOrder;
     if (order === 0) return <ChevronsUpDown size={15} />;
