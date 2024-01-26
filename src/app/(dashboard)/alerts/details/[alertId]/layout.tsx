@@ -1,10 +1,36 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Custom_Tab from "@/components/common/Custom_Tab";
+import Information from "./_components/Information";
+import axios from "axios";
+
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
-  const [tabIndex, setTabIndex] = React.useState(0);
+  const [tabIndex, setTabIndex] = useState(0);
+  const [data, setData] = useState([{}]);
+  console.log("%%%%%%%%", data);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await axios.get(
+          "https://api.npoint.io/c748243694692e1247ef"
+        );
+        console.log("8888----", res.data);
+
+        setData(res.data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   const tabsModel = [
     {
       label: "Alert Details",
@@ -39,6 +65,8 @@ export default function RootLayout({
         setSelectedTabIndex={setTabIndex}
       />
       {children}
+
+      <Information data={data} loading={loading} />
     </>
   );
 }
