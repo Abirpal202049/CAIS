@@ -64,29 +64,31 @@ const SidebarPrime = ({
             zIndex: 9999,
           },
         }}
-      >
-        {/* <div className={`${Styles.sidebar_content_container}`}> */}
-        {/* Logo */}
-        {/* <LogoVisibilityComponent
-            logoVisibility={logoVisibility}
-            sidebarOpenState={isHovered}
-            onClickTab={setOnToggle}
-            onToggle={onToggle}
-          /> */}
 
-        <section
-          className={` ${Styles.sidebar_section} ${
-            isHovered ? "" : "align-items-center"
-          }`}
-        >
-          {/* Sidebar - Menu Options */}
-          <OptionsComponent
-            sidebarOpenState={isHovered}
-            menuList={menuList}
-            sidebarSelected={sidebarSelected}
-          />
-        </section>
-        {/* </div> */}
+        content={({ closeIconRef, hide }) => (
+          <div>
+            <LogoVisibilityComponent
+              logoVisibility={logoVisibility}
+              sidebarOpenState={isHovered}
+              onClickTab={setOnToggle}
+              onToggle={onToggle}
+            />
+
+            <section
+              className={` ${Styles.sidebar_section} ${isHovered ? "" : "align-items-center"
+                }`}
+            >
+              {/* Sidebar - Menu Options */}
+              <OptionsComponent
+                sidebarOpenState={isHovered}
+                menuList={menuList}
+                sidebarSelected={sidebarSelected}
+              />
+            </section>
+          </div>
+        )}
+      >
+
       </Sidebar>
     </div>
   );

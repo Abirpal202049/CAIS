@@ -11,8 +11,9 @@
   top: 0;
   left: 0;
   height: 100vh;
-  z-index: 1;
+  z-index: 5;
 }
+
 
 .sidebar_content_container {
   display: flex;
@@ -26,11 +27,20 @@
   transition-duration: 200;
   transition: all 0.1s ease-in-out;
 }
+.sidebar_logo_expand {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px;
+  // border: 2px solid rgba(0,0,0);
+  transition: all 0.1s ease-in-out;
+  
+}
 .sidebar_logo {
   display: flex;
   justify-content: center;
   padding: 12px;
-  // border-bottom: 2px solid rgba(0,0,0,0.1);
+  // border: 2px solid rgba(0,0,0);
   transition: all 0.1s ease-in-out;
 }
 
@@ -60,14 +70,14 @@
   margin-left: 5px;
 }
 
-.sidebar_menu_container_close {
-  justify-content: center;
-  align-items: center;
-}
+// .sidebar_menu_container_close {
+//   justify-content: center;
+//   align-items: center;
+// }
 
 .sidebar_menu_container_open {
-  margin-right: 12px;
-  margin-left: 12px;
+  // margin-right: 12px;
+  // margin-left: 12px;
   transition: all 0.1s ease-in-out;
 }
 
@@ -81,7 +91,7 @@
   transition: all 0.1s ease-in-out;
 }
 .sidebar_menu_open {
-  margin-top: 1rem;
+  margin-top: -5px;
 }
 
 .sidebar_section {
@@ -93,11 +103,12 @@
 }
 
 .menulist_open {
-  padding: 5px 2px;
+  // padding: 5px 2px;
+  padding: 10px;
   display: flex;
   text-align: left;
-  margin-right: 8px;
-  margin-left: 8px;
+  // margin-right: 8px;
+  // margin-left: 8px;
   transition: all 0.1s ease-in-out;
 }
 .menulist_close {
@@ -106,8 +117,11 @@
 
 .menulist_text {
   text-align: left;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   flex: 3;
-
+  // border: 2px solid black;
   p {
     text-decoration: none;
     font-weight: 500;
@@ -128,8 +142,8 @@
   flex: 1;
 
   svg {
-    width: 20px;
-    height: 20px;
+    width: 25px;
+    height: 25px;
   }
 }
 
@@ -187,4 +201,24 @@
   margin-top: 5px;
   margin-bottom: 5px;
   transition: all 0.1s ease-in-out;
+}
+
+.nested_link{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2px;
+  p{
+    color: grey;
+
+    &:hover{
+      color:var(--primary-color);
+    }
+  }
+}
+
+.nested_sidebar_components{
+  // visibility: hidden;
+  transition: all 0.1s ease-in-out;
+  overflow-y: hidden;
 }

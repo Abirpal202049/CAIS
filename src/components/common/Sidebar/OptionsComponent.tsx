@@ -1,16 +1,22 @@
 "use client"
-import React, { Key } from 'react'
+import React, { Key, useRef } from 'react'
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
+import { Ripple } from 'primereact/Ripple';
+import { StyleClass } from 'primereact/StyleClass';
+
+
 
 import IconBtn from './Icon';
 import { AppSidebarOptions } from '@/types/SidebarComponent';
 import Styles from './Styles.module.scss'
+import { ChevronDown } from 'lucide-react';
 
 const OptionsComponent = ({ sidebarOpenState, menuList, sidebarSelected }: any) => {
 
     const pathname = usePathname();
     const route = pathname.split('/')[1]
+    const btnRef1 = useRef(null);
 
     return (
         <div className={`${sidebarOpenState
@@ -20,10 +26,9 @@ const OptionsComponent = ({ sidebarOpenState, menuList, sidebarSelected }: any) 
         >
             {menuList?.map((option: AppSidebarOptions, index: Key) => {
                 return (
-                    <Link key={index} href={option.link}>
+                    <div key={index} >
                         <div
-                            className={` ${!sidebarOpenState ? `${Styles.sidebar_menu}` : `${Styles.sidebar_menu_open}`} ${sidebarSelected === option.link && "surface-200"
-                                } ${sidebarOpenState ? `${Styles.menulist_open}` : `${Styles.menulist_close}`}`}
+                            className={` ${!sidebarOpenState ? `${Styles.sidebar_menu}` : `${Styles.sidebar_menu_open}`} ${sidebarSelected === option.link && "surface-200"} ${sidebarOpenState ? `${Styles.menulist_open}` : `${Styles.menulist_close}`}`}
                         >
                             <IconBtn
                                 alt={option.tabName}
@@ -38,43 +43,59 @@ const OptionsComponent = ({ sidebarOpenState, menuList, sidebarSelected }: any) 
                             />
                             {sidebarOpenState && (
                                 <div className={`${Styles.menulist_text} ${route === option.link ? `${Styles.menulist_text_active}` : ''}`}>
-                                    <p>
-                                        {option?.tabName}
-                                    </p>
+                                    {
+                                        option?.options && option?.options?.length > 0 ? (
+                                            <StyleClass nodeRef={btnRef1} selector=".expand"  enterClassName="hidden" enterActiveClassName="slidedown" leaveToClassName="hidden" leaveActiveClassName="slideup">
+                                                <a ref={btnRef1} className={Styles.nested_link}>
+                                                    <p>{option?.tabName}</p>
+                                                    <ChevronDown style={{ color: 'gray' }} />
+                                                </a>
+                                                <Ripple />
+                                            </StyleClass>
+                                        ) : (
+                                            <Link href={option.link}>
+                                                <p>
+                                                    {option?.tabName}
+                                                </p>
+                                            </Link>
+                                        )
+                                    }
                                 </div>
                             )}
                         </div>
-                        {option?.options && option?.options?.length > 0 && sidebarOpenState && (
-                            <div className={Styles.submenu_container}>
-                                {option?.options?.map((subOption: AppSidebarOptions, index: Key) => {
-                                    return (
-                                        <Link key={index} href={`${option.link}/${subOption.link}`}>
-                                            <div
-                                                className={`${Styles.submenu} ${route === subOption.link ? `${Styles.submenu_active}` : ''}`}
-                                            >
-                                                <IconBtn
-                                                    alt={subOption.tabName}
-                                                    height={subOption.size}
-                                                    width={subOption.size}
-                                                    iconName={subOption.iconName}
-                                                    enableIcons={sidebarSelected === subOption.link}
-                                                    activeOnHover={true}
-                                                    icon={<subOption.icon />}
-                                                    link={subOption.link}
-                                                    route={route}
-                                                />
-                                                <div className={`${Styles.menulist_text} ${route === subOption.link ? `${Styles.menulist_text_active}` : ''}`}>
-                                                    <p>
-                                                        {subOption?.tabName}
-                                                    </p>
+                        {/* <div className={`${Styles.nested_sidebar_components} expand hidden`}>
+                            {option?.options && option?.options?.length > 0 && sidebarOpenState && (
+                                <div className={`${Styles.submenu_container}`} >
+                                    {option?.options?.map((subOption: AppSidebarOptions, index: Key) => {
+                                        return (
+                                            <Link key={index} href={`${option.link}/${subOption.link}`}>
+                                                <div
+                                                    className={`${Styles.submenu} ${route === subOption.link ? `${Styles.submenu_active}` : ''}`}
+                                                >
+                                                    <IconBtn
+                                                        alt={subOption.tabName}
+                                                        height={subOption.size}
+                                                        width={subOption.size}
+                                                        iconName={subOption.iconName}
+                                                        enableIcons={sidebarSelected === subOption.link}
+                                                        activeOnHover={true}
+                                                        icon={<subOption.icon />}
+                                                        link={subOption.link}
+                                                        route={route}
+                                                    />
+                                                    <div className={`${Styles.menulist_text} ${route === subOption.link ? `${Styles.menulist_text_active}` : ''}`}>
+                                                        <p>
+                                                            {subOption?.tabName}
+                                                        </p>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </Link>
-                                    )
-                                })}
-                            </div>
-                        )}
-                    </Link>
+                                            </Link>
+                                        )
+                                    })}
+                                </div>
+                            )}
+                        </div> */}
+                    </div>
                 );
             })}
         </div>
