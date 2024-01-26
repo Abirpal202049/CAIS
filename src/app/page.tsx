@@ -1,16 +1,15 @@
 "use client";
-
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 
 export default function Home() {
   const router = useRouter();
   useEffect(() => {
-    router.push("/alerts");
-  });
+    router.push("/alerts/details");
+  }, []);
   return (
     <>
-      <h1>Home Page</h1>
+      <h1>Cais - Home </h1>
     </>
   );
 }

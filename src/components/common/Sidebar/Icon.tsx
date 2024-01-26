@@ -17,11 +17,8 @@ export default function IconBtn({
 
   return (
     <div className={`cursor-pointer ${Styles.icon_container} ${route==link?`${Styles.icon_active}`:''}`}>
-      <div
-        className={`${enableIcons ? "hidden " : "block p-1"} cursor-pointer`}
-      >
+      <div>
         {icon}
-
       </div>
     </div>
   );

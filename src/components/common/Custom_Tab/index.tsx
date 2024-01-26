@@ -1,31 +1,47 @@
 "use client";
-import { TabMenu } from "primereact/tabmenu";
 import React from "react";
 import styles from "../Custom_Tab/custom_tab.module.scss";
+import { useRouter } from "next/navigation";
 
-const Custom_Tab: React.FC = () => {
-  const [selectedTabIndex, setSelectedTabIndex] = React.useState(0);
-  const [selectedTab, setSelectedTab] = React.useState("Overview");
+type props = {
+  TabsModel: {
+    label: string;
+    value: string;
+    count?: number;
+    redirect?: string;
+  }[];
+  selectedTabIndex: number;
+  setSelectedTabIndex: React.Dispatch<React.SetStateAction<number>>;
+};
 
-  const handleTabChange = (e: any) => {
-    setSelectedTabIndex(e.index);
-    setSelectedTab(e.value);
-  };
-
-  const TabsModel = [
-    { label: "Overview", value: "Overview" },
-    { label: "Lineage", value: "Lineage" },
-    { label: "Alerts", value: "Alerts" },
-    { label: "Activity", value: "Activity" },
-    { label: "Discssions", value: "Discssions" },
-  ];
+const Custom_Tab: React.FC<props> = ({
+  TabsModel,
+  selectedTabIndex,
+  setSelectedTabIndex,
+}) => {
+  const router = useRouter();
   return (
-    <div className={styles.customTab_container}>
-      <TabMenu
-        model={TabsModel}
-        activeIndex={selectedTabIndex}
-        onTabChange={(e) => handleTabChange(e)}
-      />
+    <div className={styles.tabMenu}>
+      {TabsModel.map((ele, idx) => {
+        return (
+          <div
+            key={idx}
+            className={`${styles.tab} ${
+              idx === selectedTabIndex ? styles.active : ""
+            }`}
+            onClick={() => {
+              // alert("hello");
+              setSelectedTabIndex(idx);
+              if (ele.redirect) router.push(ele.redirect);
+            }}
+          >
+            <div>{ele.label}</div>
+            {ele.count && (
+              <div className={`${styles.countData}`}>{ele.count}</div>
+            )}
+          </div>
+        );
+      })}
     </div>
   );
 };

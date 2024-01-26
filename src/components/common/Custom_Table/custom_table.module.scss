@@ -2,22 +2,21 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 2rem;
   width: auto;
 
   .dynamicColumn {
-    max-width: 50vw;
+    max-width: 300px;
     margin-left: auto;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-  }
-  .dynamicColumnChipsHide {
+
     [class~="p-multiselect-label-container"] {
       opacity: 0;
     }
   }
+
   .header {
     padding-inline: 5px;
   }
@@ -34,4 +33,20 @@
       max-width: 10rem;
     }
   }
+}
+
+.table_headerStyle {
+  display: flex;
+  align-items: center;
+  justify-items: space-between;
+}
+
+.table_header_filter {
+  display: flex;
+  align-items: center;
+  gap: var(--inline-spacing);
+}
+
+.tableClassName {
+  border: var(--border);
 }

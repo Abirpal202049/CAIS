@@ -27,7 +27,7 @@ const LogoVisibilityComponent = ({ sidebarOpenState, logoVisibility,onClickTab,o
                     }}
                 >
                     {sidebarOpenState ? (
-                        <div className={Styles.sidebar_logo}>
+                        <div className={Styles.sidebar_logo_expand}>
                             <Link href="/alerts">
                                 <Image
                                     src="/CaisFullLogo.svg"
@@ -46,8 +46,8 @@ const LogoVisibilityComponent = ({ sidebarOpenState, logoVisibility,onClickTab,o
                             <Link href="/alerts">
                                 <Image
                                     src="/logo.svg"
-                                    width={40}
-                                    height={40}
+                                    width={150}
+                                    height={50}
                                     alt="Logo"
                                 />
                             </Link>
