@@ -53,6 +53,16 @@ export default function App_Sidebar({
         showCloseIcon={false}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
+        pt={{
+          mask: {
+            style: {
+              height: "100vh",
+              width: isHovered
+                ? "var(--sidebar-width-expand)"
+                : "var(--sidebar-width-collapse)",
+            },
+          },
+        }}
       >
         <div className={`${Styles.sidebar_content_container}`}>
           {/* Logo */}
