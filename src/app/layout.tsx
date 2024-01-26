@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Inter, Roboto } from "next/font/google";
 import "../styles/globals.scss";
 import { PrimeReactProvider } from "primereact/api";
 import "../styles/theme/theme-light.scss";
 import ReduxProvider from "@/components/Providers/ReduxProvider";
 
-const inter = Inter({ subsets: ["latin"] });
+// const inter = Inter({ subsets: ["latin"] });
+const roboto = Roboto({ subsets: ["latin"], weight: ["400", "700"] });
 
 export const metadata: Metadata = {
   title: "Cais Manager",
@@ -20,9 +21,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <ReduxProvider>
-      <PrimeReactProvider>
-        <body className={inter.className}>{children}</body>
-      </PrimeReactProvider>
+        <PrimeReactProvider>
+          <body className={roboto.className}>{children}</body>
+        </PrimeReactProvider>
       </ReduxProvider>
     </html>
   );

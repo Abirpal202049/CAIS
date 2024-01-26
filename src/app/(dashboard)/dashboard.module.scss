@@ -13,3 +13,7 @@ $bodyWidthExpand: calc(100vw - var(--sidebar-width-expand));
 // ._dashboard_background {
 //   background-color: var(--backround);
 // }
+._dashboard_body {
+  max-height: calc(100vh - var(--navbar-height));
+  padding: 0 1rem;
+}

@@ -15,7 +15,7 @@ export default function DashboardLayout({ children }: Props) {
         {/* <h1>DashboardLayout</h1> */}
         <div>
           <MainSection />
-          <div className={styles._dashboard_background}>
+          <div className={styles._dashboard_body}>
             {children}
           </div>
         </div>

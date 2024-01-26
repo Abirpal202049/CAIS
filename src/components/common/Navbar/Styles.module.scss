@@ -1,12 +1,14 @@
 .navbar_container {
   // border: 2px solid black;
   z-index: 0;
+  height: var(--navbar-height);
 }
 
 .navbar {
   display: flex;
   justify-content: space-between;
   background-color: white;
+  border: none !important;
 }
 
 .navbar_search_container {
@@ -131,11 +133,12 @@
 .navbar_container_div2 {
   display: flex;
   justify-content: space-between;
-  width: 400px;
+  // width: 400px;
+  gap: 1rem;
 
-  @media (min-width: 1000px) {
-    width: 300px;
-  }
+  // @media (min-width: 1000px) {
+  //   width: 300px;
+  // }
 }
 
 .navbar_container_div2_User {
@@ -150,7 +153,8 @@
   flex: 1;
   justify-content: space-around;
   padding-top: 8px;
-  gap: 5px;
+  gap: 0.5rem;
+  color: var(--surface-500);
 
   svg {
     width: 25px;
