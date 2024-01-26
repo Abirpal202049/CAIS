@@ -10,8 +10,8 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   const [tabIndex, setTabIndex] = React.useState(0);
   const [data, setData] = useState([{}]);
-  console.log("%%%%%%%%", data);
   const [loading, setLoading] = useState(true);
+
   const pathName = usePathname();
   React.useEffect(() => {
     setTabIndex(() => {
