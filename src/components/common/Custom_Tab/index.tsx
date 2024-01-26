@@ -30,7 +30,6 @@ const Custom_Tab: React.FC<props> = ({
               idx === selectedTabIndex ? styles.active : ""
             }`}
             onClick={() => {
-              // alert("hello");
               setSelectedTabIndex(idx);
               if (ele.redirect) router.push(ele.redirect);
             }}

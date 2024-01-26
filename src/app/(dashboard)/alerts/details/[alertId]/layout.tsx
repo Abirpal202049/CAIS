@@ -9,7 +9,7 @@ export default function RootLayout({
     {
       label: "Alert Details",
       value: "Overview",
-      count: 6,
+      // count: 6,
       redirect: "alert_details",
     },
     { label: "Position", value: "Position", redirect: "position" },

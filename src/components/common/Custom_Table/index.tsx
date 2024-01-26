@@ -130,14 +130,6 @@ const Custom_Table: React.FC<Props> = ({
     </div>
   );
 
-  // const columnHeader = (ele: string) => {
-  //   const name = ele
-  //     .split("_")
-  //     .map((ele) => ele.charAt(0).toUpperCase() + ele.slice(1))
-  //     .join(" ");
-  //   return <div className={styles.header}>{name}</div>;
-  // };
-
   return (
     <div className={styles.customTableContainer}>
       <DataTable
@@ -179,7 +171,7 @@ const Custom_Table: React.FC<Props> = ({
                   zIndex: "2",
                   backgroundColor: "#f8f9fa",
                 }}
-                bodyClassName={styles.tableClassName}
+                bodyClassName={styles.columnClassName}
                 key={idx}
                 style={{
                   // minWidth: "6rem",
