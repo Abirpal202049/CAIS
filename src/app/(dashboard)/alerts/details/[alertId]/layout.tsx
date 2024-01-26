@@ -1,15 +1,22 @@
 "use client";
 import React from "react";
 import Custom_Tab from "@/components/common/Custom_Tab";
+import { usePathname } from "next/navigation";
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   const [tabIndex, setTabIndex] = React.useState(0);
+  const pathName = usePathname();
+  React.useEffect(() => {
+    setTabIndex(() => {
+      const tabSlug = pathName.split("/")[4];
+      return tabsModel.findIndex((tab) => tab.redirect === tabSlug);
+    });
+  }, []);
   const tabsModel = [
     {
       label: "Alert Details",
       value: "Overview",
-      // count: 6,
       redirect: "alert_details",
     },
     { label: "Position", value: "Position", redirect: "position" },
