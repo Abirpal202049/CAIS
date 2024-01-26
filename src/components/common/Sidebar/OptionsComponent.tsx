@@ -43,22 +43,28 @@ const OptionsComponent = ({ sidebarOpenState, menuList, sidebarSelected }: any) 
                             />
                             {sidebarOpenState && (
                                 <div className={`${Styles.menulist_text} ${route === option.link ? `${Styles.menulist_text_active}` : ''}`}>
-                                    <p>
-                                        {option?.tabName}
-                                    </p>
-                                        {/* <ChevronDown style={{color:'black'}}/> */}
-                                    {/* <StyleClass nodeRef={btnRef1} selector=".expand" >
-                                        <p>
-                                            {option?.tabName}
-                                        </p>
-                                        <ChevronDown style={{ color: 'black' }} />
-                                        <Ripple />
-                                    </StyleClass> */}
+                                    {
+                                        option?.options && option?.options?.length > 0 ? (
+                                            <StyleClass nodeRef={btnRef1} selector=".expand"  enterClassName="hidden" enterActiveClassName="slidedown" leaveToClassName="hidden" leaveActiveClassName="slideup">
+                                                <a ref={btnRef1} className={Styles.nested_link}>
+                                                    <p>{option?.tabName}</p>
+                                                    <ChevronDown style={{ color: 'gray' }} />
+                                                </a>
+                                                <Ripple />
+                                            </StyleClass>
+                                        ) : (
+                                            <Link href={option.link}>
+                                                <p>
+                                                    {option?.tabName}
+                                                </p>
+                                            </Link>
+                                        )
+                                    }
                                 </div>
                             )}
                         </div>
-                        <div className='expand'>
-                            {/* {option?.options && option?.options?.length > 0 && sidebarOpenState && (
+                        {/* <div className={`${Styles.nested_sidebar_components} expand hidden`}>
+                            {option?.options && option?.options?.length > 0 && sidebarOpenState && (
                                 <div className={`${Styles.submenu_container}`} >
                                     {option?.options?.map((subOption: AppSidebarOptions, index: Key) => {
                                         return (
@@ -87,8 +93,8 @@ const OptionsComponent = ({ sidebarOpenState, menuList, sidebarSelected }: any) 
                                         )
                                     })}
                                 </div>
-                            )} */}
-                        </div>
+                            )}
+                        </div> */}
                     </div>
                 );
             })}

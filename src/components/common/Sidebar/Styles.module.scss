@@ -202,3 +202,23 @@
   margin-bottom: 5px;
   transition: all 0.1s ease-in-out;
 }
+
+.nested_link{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2px;
+  p{
+    color: grey;
+
+    &:hover{
+      color:var(--primary-color);
+    }
+  }
+}
+
+.nested_sidebar_components{
+  // visibility: hidden;
+  transition: all 0.1s ease-in-out;
+  overflow-y: hidden;
+}
