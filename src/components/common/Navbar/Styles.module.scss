@@ -14,15 +14,23 @@
     align-items: center;
     justify-content: center ;
     // border: 2px solid black;
+    outline: none;
+    border: none;
 
     input{
         width: 500px;
         padding: 1rem;
         background-color: var(--surface-100);
+        outline: none;
         border: none;
-       
+
         &:focus{
             outline: none;
+            border: none;
+        }
+        &:active{
+            outline: none;
+            border: none;
         }
     }
 }
@@ -68,13 +76,41 @@
 
     &:focus{
         outline: none !important;
+        border: none !important;
     }
     &:active{
         outline: none !important;
+        border: none !important;
     }
 }
 
 .UserImage{
     border-radius: 50%;
     margin-top: 5px;
+}
+
+.input_Filed{
+        outline: none;
+        background-color: yellow;
+        &:focus{
+            outline: none;
+            border: none;
+        }
+        &:active{
+            outline: none;
+            border: none;
+        }
+}
+
+.p-inputtext{
+    outline: none;
+    background-color: yellow;
+    &:focus{
+        outline: none;
+        border: none;
+    }
+    &:active{
+        outline: none;
+        border: none;
+    }
 }

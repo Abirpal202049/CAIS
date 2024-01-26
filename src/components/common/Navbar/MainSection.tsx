@@ -38,7 +38,9 @@ const MainSection = ({ }: Props) => {
         </div>
         {/* <span>Praveen Vasireddy</span> */}
         <Dropdown  value={selectedCity} onChange={(e) => setSelectedCity(e.value)} options={cities} optionLabel="name" placeholder='Praveen Vasireddy'
-          className={Styles.dropdown_size} />
+          className={Styles.dropdown_size} 
+          tooltip="user Info"
+          />
       </div>
 
     </div>
