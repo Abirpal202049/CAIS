@@ -892,6 +892,7 @@ $imagePreviewActionIconBorderRadius: 50% !default;
   color-scheme: light;
   --transition-duration: #{$transitionDuration};
   --border: 1px solid #{$dividerColor};
+  --border-light: 1px solid var(--surface-border);
   --border-verticalMargin: #{$dividerVerticalMargin};
   --border-verticalPadding: #{$dividerVerticalPadding};
   --border-horizontalMargin: #{$dividerHorizontalMargin};

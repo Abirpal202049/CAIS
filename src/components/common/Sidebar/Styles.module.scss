@@ -54,7 +54,7 @@
     transition: all 0.1s ease-in-out;
 
     &:hover {
-      color: blueviolet;
+      color: var(--primary-color);
     }
   }
   margin-left: 5px;
@@ -112,12 +112,15 @@
     text-decoration: none;
     font-weight: 500;
     // color: yellow;
+    &hover {
+      color: var(--primary-color);
+    }
   }
   transition: all 0.1s ease-in-out;
 }
 
 .menulist_text_active {
-  color: blueviolet;
+  color: var(--primary-color);
   transition: all 0.1s ease-in-out;
 }
 
@@ -132,7 +135,7 @@
 
 .icon_active {
   svg {
-    color: blueviolet;
+    color: var(--primary-color);
   }
 }
 
@@ -151,14 +154,14 @@
   align-self: flex-start;
 }
 .toggle_dot {
-  border: 2px solid blueviolet;
+  border: 2px solid var(--primary-color);
   width: 13px;
   height: 13px;
   border-radius: 50%;
   cursor: pointer;
 
   &:hover {
-    background-color: blueviolet;
+    background-color: var(--primary-color);
   }
 }
 
@@ -168,4 +171,20 @@
 
 .sidebar_div {
   transition: all 0.1s ease-in-out !important;
+}
+
+.submenu_container {
+  display: flex;
+  flex-direction: column;
+  margin-left: 20px;
+  margin-top: 10px;
+  transition: all 0.1s ease-in-out;
+}
+
+.submenu {
+  display: flex;
+  align-items: center;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  transition: all 0.1s ease-in-out;
 }

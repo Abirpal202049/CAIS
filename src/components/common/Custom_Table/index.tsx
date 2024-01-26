@@ -12,10 +12,12 @@ import { Search } from "@/data/svgr/Filters";
 
 type Props = {
   tableType: string;
-  select: boolean;
-  columnFilter: boolean;
   data: any;
   handleSwitch: any;
+  select?: boolean;
+  columnFilter?: boolean;
+  ScrollHeight?: string;
+  ResizableColumns?: boolean;
 };
 
 const defaultFilters: DataTableFilterMeta = {
@@ -29,8 +31,10 @@ type ColumnProps = {
 
 const Custom_Table: React.FC<Props> = ({
   tableType,
-  select,
-  columnFilter,
+  select = false,
+  columnFilter = false,
+  ScrollHeight,
+  ResizableColumns,
   data,
   handleSwitch,
 }) => {
@@ -106,8 +110,8 @@ const Custom_Table: React.FC<Props> = ({
           type="button"
           icon="pi pi-filter-slash"
           label="Clear"
-          outlined
           onClick={clearFilter}
+          size="small"
         />
       </div>
     );
@@ -156,12 +160,13 @@ const Custom_Table: React.FC<Props> = ({
         onSelectionChange={(e: any) => setSelectedItems(e.value)}
         scrollable
         showSelectAll
-        scrollHeight="calc(74vh - 100px)"
+        scrollHeight={ScrollHeight || "calc(74vh - 100px)"}
         className={styles[tableType]}
         tableStyle={{ minWidth: "50rem" }}
         emptyMessage="No Data found."
         globalFilter={globalFilterValue}
         globalFilterFields={visibleColumns.map((col) => col.field)}
+        resizableColumns={ResizableColumns || false}
       >
         {select && (
           <Column selectionMode="multiple" style={{ width: "3rem" }} />
@@ -183,7 +188,7 @@ const Custom_Table: React.FC<Props> = ({
                 bodyClassName={styles.tableClassName}
                 key={idx}
                 style={{
-                  // minWidth: "6rem",
+                  maxWidth: "18rem",
                   fontWeight: "500",
                   padding: "1rem",
                 }}
