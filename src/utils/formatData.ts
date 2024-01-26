@@ -12,3 +12,10 @@ export const formatDate = (date: string) => {
   // Replace space before single-digit day with an empty string
   return formattedDate.replace(/ (\d) /, " $1 ").trim();
 };
+
+export const formatPrice = (price: number) => {
+  return new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+  }).format(price);
+};

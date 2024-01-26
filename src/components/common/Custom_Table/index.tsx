@@ -9,6 +9,13 @@ import { FilterMatchMode } from "primereact/api";
 import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
 import { Search } from "@/data/svgr/Filters";
+import {
+  ChevronDown,
+  ChevronUp,
+  ChevronsDown,
+  ChevronsUp,
+  ChevronsUpDown,
+} from "lucide-react";
 
 type Props = {
   tableType: string;
@@ -134,7 +141,16 @@ const Custom_Table: React.FC<Props> = ({
       />
     </div>
   );
-
+  const customSortIcon = (options: any) => {
+    const order = options.sortOrder;
+    if (order === 0) return <ChevronsUpDown size={15} />;
+    else if (order === 1)
+      return (
+        <ChevronsDown size={15} style={{ color: "var(--primary-color)" }} />
+      );
+    else
+      return <ChevronsUp size={15} style={{ color: "var(--primary-color)" }} />;
+  };
   return (
     <div className={styles.customTableContainer}>
       <DataTable
@@ -144,9 +160,10 @@ const Custom_Table: React.FC<Props> = ({
         paginator
         rows={10}
         rowsPerPageOptions={[10, 25, 50]}
-        totalRecords={100}
+        // totalRecords={100}
         // onPage = {onPageChange}
         // selecting row with checkboxes from here
+        sortIcon={customSortIcon}
         selectionMode={select == true ? "multiple" : null}
         selection={selectedItems}
         onSelectionChange={(e: any) => setSelectedItems(e.value)}
@@ -169,14 +186,14 @@ const Custom_Table: React.FC<Props> = ({
               <Column
                 field={ele.field}
                 header={ele.header}
-                headerStyle={{
-                  color: "grey",
-                  padding: "1rem",
-                  fontWeight: "400",
-                  top: "0",
-                  zIndex: "2",
-                  backgroundColor: "#f8f9fa",
-                }}
+                headerClassName={styles.columnHeaderName}
+                // headerStyle={{
+                //   color: "grey",
+                //   padding: "1rem",
+                //   fontWeight: "400",
+                //   top: "0",
+                //   backgroundColor: "#f8f9fa",
+                // }}
                 bodyClassName={styles.columnClassName}
                 key={idx}
                 style={{

@@ -5,6 +5,9 @@
   width: auto;
   white-space: nowrap;
 
+  [class~="p-datatable-header"] {
+    background-color: transparent !important;
+  }
   .table_headerStyle {
     display: flex;
     align-items: center;
@@ -36,7 +39,7 @@
           position: absolute;
           top: 0;
           left: 0;
-          content: "Just looking like a wow";
+          content: "Filter Column by title";
           font-weight: 500;
           // color: var(--surface-d); please update  the --surface-f variable in _variables.scss
           color: rgba(65, 64, 64, 0.507);
@@ -45,6 +48,15 @@
     }
   }
 
+  .columnHeaderName {
+    color: var(--bluegray);
+    padding: 1rem;
+    font-weight: 400;
+    top: 0;
+    &:focus {
+      box-shadow: none;
+    }
+  }
   .columnClassName {
     border: var(--border);
     div {

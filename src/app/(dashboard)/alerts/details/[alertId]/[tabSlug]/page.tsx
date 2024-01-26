@@ -1,7 +1,7 @@
 "use client";
-import Custom_Tab from "@/components/common/Custom_Tab";
 import Custom_Table from "@/components/common/Custom_Table";
-import { formatDate } from "@/utils/formatData";
+import styles from "./tabSlug.module.scss";
+import { formatDate, formatPrice } from "@/utils/formatData";
 import axios from "axios";
 import React from "react";
 
@@ -11,33 +11,7 @@ type Props = {
   };
 };
 
-export default function AlertDetailsPage({ params }: Props) {
-  const tabsModel = [
-    {
-      label: "Alert Details",
-      value: "Overview",
-      count: 6,
-      redirect: "alert_details",
-    },
-    { label: "Position", value: "Position", redirect: "position" },
-    { label: "Trades", value: "Trades", redirect: "trades" },
-    {
-      label: "Historical Trades",
-      value: "Historical Trades",
-      redirect: "historical_trades",
-    },
-    { label: "Prior Alerts", value: "Prior Alerts", redirect: "prior_alerts" },
-    {
-      label: "Financial Advisor",
-      value: "Financial Advisor",
-      redirect: "financial_advisor",
-    },
-    {
-      label: "Other AML Related Alerts",
-      value: "Other AML Related Alerts",
-      redirect: "other_alerts",
-    },
-  ];
+export default function Page({ params }: Props) {
   return (
     <>
       {params.tabSlug === "alert_details" && <Alert_Details />}
@@ -64,6 +38,7 @@ function Alert_Details() {
   const handleSwitch = (data: any, field: any) => {
     switch (field) {
       case "create_date":
+      case "business_date":
         return <div>{formatDate(data.create_date)}</div>;
       default:
         return <div>{data[field]}</div>;
@@ -92,8 +67,13 @@ function Position() {
 
   const handleSwitch = (data: any, field: any) => {
     switch (field) {
-      case "create_date":
-        return <div>{formatDate(data.create_date)}</div>;
+      case "SYMBOL":
+        return <div className={`${styles.blue}`}>{data[field]}</div>;
+      case "BASE_CURR_PRICE":
+      case "BASE_CURR_VALUE":
+        return (
+          <div className={`${styles.green}`}>{formatPrice(data[field])}</div>
+        );
       default:
         return <div>{data[field]}</div>;
     }
