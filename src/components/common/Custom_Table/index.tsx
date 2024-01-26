@@ -12,35 +12,40 @@ import { Search } from "@/data/svgr/Filters";
 
 type Props = {
   tableType: string;
-  select: boolean;
-  columnFilter: boolean;
   data: any;
   handleSwitch: any;
+  select?: boolean;
+  columnFilter?: boolean;
+  ScrollHeight?: string;
+  ResizableColumns?: boolean;
 };
 
 const defaultFilters: DataTableFilterMeta = {
   global: { value: null, matchMode: FilterMatchMode.CONTAINS },
 };
 
+type ColumnProps = {
+  field: string;
+  header: string;
+};
+
 const Custom_Table: React.FC<Props> = ({
   tableType,
-  select,
-  columnFilter,
+  select = false,
+  columnFilter = false,
+  ScrollHeight,
+  ResizableColumns,
   data,
   handleSwitch,
 }) => {
-  console.log(data);
   const [selectedItems, setSelectedItems] = React.useState([]);
-  const [columns, setColumns] = React.useState<
-    { field: string; header: string }[]
-  >([]);
-  const [visibleColumns, setVisibleColumns] = React.useState<
-    { field: string; header: string }[]
-  >([]);
 
   // States for Filteration
   const [filters, setFilters] = useState<DataTableFilterMeta>(defaultFilters);
   const [globalFilterValue, setGlobalFilterValue] = useState<string>("");
+
+  const [columns, setColumns] = React.useState<ColumnProps[]>([]);
+  const [visibleColumns, setVisibleColumns] = React.useState<ColumnProps[]>([]);
 
   React.useEffect(() => {
     const dynamicColumns = Object.keys(data[0]).map((ele) => ({
@@ -105,8 +110,8 @@ const Custom_Table: React.FC<Props> = ({
           type="button"
           icon="pi pi-filter-slash"
           label="Clear"
-          outlined
           onClick={clearFilter}
+          size="small"
         />
       </div>
     );
@@ -147,12 +152,13 @@ const Custom_Table: React.FC<Props> = ({
         onSelectionChange={(e: any) => setSelectedItems(e.value)}
         scrollable
         showSelectAll
-        scrollHeight="calc(90vh - 100px)"
+        scrollHeight={ScrollHeight || "calc(74vh - 100px)"}
         className={styles[tableType]}
         tableStyle={{ minWidth: "50rem" }}
         emptyMessage="No Data found."
         globalFilter={globalFilterValue}
         globalFilterFields={visibleColumns.map((col) => col.field)}
+        resizableColumns={ResizableColumns || false}
       >
         {select && (
           <Column selectionMode="multiple" style={{ width: "3rem" }} />
@@ -174,7 +180,7 @@ const Custom_Table: React.FC<Props> = ({
                 bodyClassName={styles.columnClassName}
                 key={idx}
                 style={{
-                  // minWidth: "6rem",
+                  maxWidth: "18rem",
                   fontWeight: "500",
                   padding: "1rem",
                 }}

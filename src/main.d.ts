@@ -1,0 +1,1 @@
+// For Decleartion of global types

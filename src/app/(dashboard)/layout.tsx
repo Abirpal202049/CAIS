@@ -1,17 +1,25 @@
-import Link from "next/link";
 import { ReactNode } from "react";
-import styles from "./dashboard.module.scss";
 import SidebarMainComponent from "@/components/common/Sidebar/SidebarMainComponent";
+import WidthProvider from "@/components/Providers/widthProvider";
+import MainSection from "@/components/common/Navbar/MainSection";
+import styles from "./dashboard.module.scss";
 type Props = {
   children: ReactNode;
 };
 
 export default function DashboardLayout({ children }: Props) {
   return (
-    <div className={styles._dashboard_container_body}>
-      <SidebarMainComponent />
-      <h1>DashboardLayout</h1>
-      <div>{children}</div>
+    <div>
+      <WidthProvider>
+        <SidebarMainComponent />
+        {/* <h1>DashboardLayout</h1> */}
+        <div>
+          <MainSection />
+          <div className={styles._dashboard_background}>
+            {children}
+          </div>
+        </div>
+      </WidthProvider>
     </div>
   );
 }

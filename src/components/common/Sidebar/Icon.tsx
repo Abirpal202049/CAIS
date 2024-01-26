@@ -1,17 +1,7 @@
 import React from "react";
 import Styles from './Styles.module.scss'
+import { IconBtnProps } from "@/types/SidebarComponent";
 
-interface IconBtnProps {
-  iconName?: string;
-  width: Number;
-  height: Number;
-  alt?: string;
-  enableIcons: boolean;
-  activeOnHover: boolean;
-  icon:React.ReactNode,
-  link:string,
-  route:string,
-}
 
 export default function IconBtn({
   iconName,
