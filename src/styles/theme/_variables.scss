@@ -859,6 +859,11 @@ $imagePreviewActionIconBorderRadius: 50% !default;
   --surface-f: #{$shade000};
   --text-color: #{$shade900};
   --text-color-secondary: #{$shade600};
+  --text-color-muted: #{$shade400};
+  --text-color-error: #{$errorColor};
+  --text-color-success: var(--green);
+  --text-color-warning: #{$warningButtonActiveBorderColor};
+  --text-color-info: #{$infoButtonActiveBorderColor};
   --primary-color: #{$primaryColor};
   --primary-light: #{$primaryLightColor};
   --primary-dark: #{$primaryDarkColor};
@@ -913,6 +918,5 @@ $imagePreviewActionIconBorderRadius: 50% !default;
   --border-horizontalPadding: #{$dividerHorizontalPadding};
   --inline-spacing: 0.25rem;
   --disabled-opacity: 0.6;
-  --error-color: #{$errorMessageTextColor};
   --mask-bg: #{$maskBg};
 }

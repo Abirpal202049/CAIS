@@ -15,6 +15,11 @@ const nextConfig = {
   async redirects() {
     return [
       {
+        source: "/",
+        destination: "/login",
+        permanent: true,
+      },
+      {
         source: "/alerts/details/:alertId",
         destination: "/alerts/details/:alertId/alert_details",
         permanent: true,

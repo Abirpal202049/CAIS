@@ -1,3 +1,14 @@
+@layer tailwind-base, primereact, tailwind-utilities;
+
+@layer tailwind-base {
+  @tailwind base;
+}
+
+@layer tailwind-utilities {
+  @tailwind components;
+  @tailwind utilities;
+}
+
 :root {
   --font-size: 14px;
   --backround: var(--surface-100);
@@ -9,8 +20,8 @@
 }
 
 * {
-  padding: 0;
-  margin: 0;
+  // padding: 0;
+  // margin: 0;
   font-size: var(--font-size);
   line-height: 1.25rem;
   letter-spacing: 0.00938em;
@@ -44,6 +55,6 @@
   visibility: visible;
 }
 
-.hidden{
+.hidden {
   visibility: hidden;
 }
