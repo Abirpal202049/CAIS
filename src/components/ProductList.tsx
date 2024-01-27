@@ -3,8 +3,9 @@ import React, { Key, useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import { ProductService } from '@/data/ProductList';
 import { DataView } from 'primereact/dataview';
-import { DataTable } from 'primereact/datatable';
+import { DataTable, DataTableProps } from 'primereact/datatable';
 import { Column } from 'primereact/column';
+import { classNames } from 'primereact/utils';
 
 ProductList.propTypes = {}
 
@@ -39,10 +40,11 @@ function ProductList({ data }: any) {
         <div>
             <DataTable
                 value={products}
-                tableStyle={{ minWidth: "50rem" }}
+                tableStyle={{ minWidth: "30rem" }}
                 paginator
                 rows={5}
                 rowsPerPageOptions={[5, 10, 25]}
+                showGridlines
                 pt={{
                     root: {
                         className: "border border-[var(--primary-color)]"
@@ -60,7 +62,7 @@ function ProductList({ data }: any) {
                                 sortable
                                 pt={{
                                     headerCell: {
-                                        className: "!text-[var(--surface-500)] text-xs !pb-[.3rem] uppercase !shadow-none"
+                                        className: "!text-[var(--surface-500)] text-xs !pb-[.3rem] uppercase"
                                     },
                                     headerContent: {
                                         className: "justify-between"
