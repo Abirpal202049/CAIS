@@ -23,7 +23,7 @@ export interface IconBtnProps {
   alt?: string;
   enableIcons: boolean;
   activeOnHover: boolean;
-  icon: React.ReactNode;
+  icon: any;
   link: string;
   route: string;
 }
