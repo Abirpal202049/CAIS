@@ -37,7 +37,7 @@ const OptionsComponent = ({ sidebarOpenState, menuList, sidebarSelected }: any) 
                                 iconName={option.iconName}
                                 enableIcons={sidebarSelected === option.link}
                                 activeOnHover={true}
-                                icon={<option.icon />}
+                                icon={option.icon}
                                 link={option.link}
                                 route={route}
                             />
@@ -55,13 +55,13 @@ const OptionsComponent = ({ sidebarOpenState, menuList, sidebarSelected }: any) 
                                                 </StyleClass>
                                                 <ul className="list-none tab w-full ml-[-1.2rem] hidden overflow-y-hidden transition-all transition-duration-400 transition-ease-in-out">
                                                     <li className='flex gap-2 p-3'>
-                                                    <option.icon className={Styles.nestedIcon}/>
+                                                    {/* <homeSetting className={Styles.nestedIcon}/> */}
                                                         <a className=" flex align-items-center cursor-pointer  hover:surface-100 transition-duration-150 transition-colors w-full">
                                                             <span className="font-medium">View</span>
                                                         </a>
                                                     </li>
                                                     <li  className='flex gap-2 p-3'>
-                                                    <option.icon className={Styles.nestedIcon}/>
+                                                    {/* <option.icon className={Styles.nestedIcon}/> */}
                                                         <a className=" flex align-items-center cursor-pointer hover:surface-100 transition-duration-150 transition-colors w-full">
                                                             <span className="font-medium">Search</span>
                                                         </a>

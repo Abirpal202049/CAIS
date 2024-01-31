@@ -10,7 +10,7 @@ export default function IconBtn({
   alt,
   enableIcons,
   activeOnHover,
-  icon,
+  icon :IconComponent,
   link,
   route
 }: IconBtnProps) {
@@ -18,7 +18,7 @@ export default function IconBtn({
   return (
     <div className={`cursor-pointer ${Styles.icon_container} ${route==link?`${Styles.icon_active}`:''}`}>
       <div>
-        {icon}
+      {IconComponent && <IconComponent />}
       </div>
     </div>
   );
