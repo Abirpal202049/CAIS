@@ -1,0 +1,35 @@
+.menuBar {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+
+  .breadcrumb {
+    font-weight: 600;
+    border: 0;
+    li {
+      &:nth-child(1) {
+        display: none;
+      }
+      &:nth-child(4),
+      &:nth-child(5) {
+        color: var(--primary-color);
+      }
+    }
+  }
+
+  .menuButtons {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    padding: 0 1rem;
+
+    span {
+      cursor: pointer;
+      padding: 1rem;
+    }
+  }
+}
