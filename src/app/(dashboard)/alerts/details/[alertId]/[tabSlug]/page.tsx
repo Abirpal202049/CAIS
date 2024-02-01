@@ -1,9 +1,12 @@
 "use client";
 import Custom_Table from "@/components/common/Custom_Table";
 import styles from "./tabSlug.module.scss";
-import { formatDate, formatPrice } from "@/utils/formatData";
+import { formatDate, formatPrice, formatString } from "@/utils/formatData";
 import axios from "axios";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { ExternalLink } from "lucide-react";
+import { DataTable } from "primereact/datatable";
+import { Column } from "primereact/column";
 
 type Props = {
   params: {
@@ -26,32 +29,102 @@ export default function Page({ params }: Props) {
 }
 
 function Alert_Details() {
-  const [data, setData] = React.useState([{}]);
-  React.useEffect(() => {
-    (async () => {
-      const res = await axios.get("https://api.npoint.io/b4e5dbdf2e9ad517f981");
+  const [data, setData] = useState([{}]);
+  const [loading, setLoading] = useState(true);
 
-      setData(res.data.alerts);
-    })();
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await axios.get(
+          "https://api.npoint.io/c748243694692e1247ef"
+        );
+        console.log("8888----", res.data);
+
+        setData(res.data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
   }, []);
 
-  const handleSwitch = (data: any, field: any) => {
-    switch (field) {
-      case "create_date":
-      case "business_date":
-        return <div>{formatDate(data.create_date)}</div>;
-      default:
-        return <div>{data[field]}</div>;
-    }
-  };
+  const alertDetails = data?.alert_details ?? {};
+  const issueDetails = data?.issue_details ?? [];
+
   return (
-    <Custom_Table
-      tableType="alerts"
-      select={true}
-      columnFilter={true}
-      data={data}
-      handleSwitch={handleSwitch}
-    />
+    <div className={styles.alert_and_issue_details_wrapper}>
+      <div className={styles.alert_details}>
+        <span className={styles.heading}>Alert Details</span>
+        <span className={styles.alert_Details_description}>
+          {Object.keys(alertDetails).map((key, index) => (
+            <span key={index} className={styles.alert_Details_data}>
+              <span style={{ width: "40%", color: "var(--gray-500)" }}>
+                {formatString(key)}
+              </span>
+              <span>{data.alert_details[key]}</span>
+            </span>
+          ))}
+        </span>
+      </div>
+
+      <div className={styles.issue_details}>
+        <span className={styles.heading}>
+          <span>Issue Details</span>
+          <ExternalLink />
+        </span>
+
+        <span>
+          <span className={styles.issue_details_wrapper_heading}>
+            <span className={styles.issue_details_data}>
+              <span>Issue Type</span>
+            </span>
+
+            <span className={styles.issue_details_data}>
+              <span>Description</span>
+            </span>
+
+            <span className={styles.issue_details_data}>
+              <span>Total Score</span>
+            </span>
+          </span>
+          <span>
+            {issueDetails.map((issue: any, index: any) => (
+              <span key={index}>
+                <span className={styles.issue_details_wrapper}>
+                  <span className={styles.issue_details_data}>
+                    <span>{issue?.issue_type}</span>
+                  </span>
+
+                  <span className={styles.issue_details_data}>
+                    <span>{issue?.description}</span>
+                  </span>
+
+                  <span className={styles.issue_details_data}>
+                    <span>{issue?.score}</span>
+                  </span>
+                </span>
+              </span>
+            ))}
+          </span>
+        </span>
+
+        <span className={styles.issue_details_table}>
+          <DataTable
+            value={issueDetails.flatMap((issue: any) => issue.scenarios)}
+            showGridlines
+          >
+            <Column field="scenario" header="Scenario"></Column>
+            <Column field="description" header="Description"></Column>
+            <Column field="actual_value" header="Actual Value"></Column>
+            <Column field="threshold" header="Threshold"></Column>
+            <Column field="score" header="Score"></Column>
+          </DataTable>
+        </span>
+      </div>
+    </div>
   );
 }
 

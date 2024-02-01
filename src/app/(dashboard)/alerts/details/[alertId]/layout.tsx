@@ -72,7 +72,6 @@ export default function RootLayout({
         setSelectedTabIndex={setTabIndex}
       />
       {children}
-
       <Information data={data} loading={loading} />
     </>
   );
