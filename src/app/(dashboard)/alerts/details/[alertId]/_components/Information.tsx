@@ -81,7 +81,7 @@ const Information: React.FC<Props> = ({ data, loading }) => {
 
         <div className={styles.information_rightSide_wrapper}>
           <span className={styles.heading}>
-            <span>Information Request</span>
+            Information Request
             <span>
               <ExternalLink />
             </span>

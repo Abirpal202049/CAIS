@@ -7,6 +7,7 @@ import React, { useEffect, useState } from "react";
 import { ExternalLink } from "lucide-react";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
+import { Dialog } from "primereact/dialog";
 
 type Props = {
   params: {
@@ -31,6 +32,7 @@ export default function Page({ params }: Props) {
 function Alert_Details() {
   const [data, setData] = useState([{}]);
   const [loading, setLoading] = useState(true);
+  const [visible, setVisible] = React.useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -72,21 +74,31 @@ function Alert_Details() {
 
       <div className={styles.issue_details}>
         <span className={styles.heading}>
-          <span>Issue Details</span>
-          <ExternalLink />
+          Issue Details
+          <span>
+            <ExternalLink onClick={() => setVisible(true)} />
+            <Dialog
+              header="Alert and Issue Details"
+              visible={visible}
+              style={{ width: "80%" }}
+              onHide={() => setVisible(false)}
+            >
+              <Alert_Details />
+            </Dialog>
+          </span>
         </span>
 
         <span>
           <span className={styles.issue_details_wrapper_heading}>
-            <span className={styles.issue_details_data}>
+            <span className={styles.issue_details_data_heading}>
               <span>Issue Type</span>
             </span>
 
-            <span className={styles.issue_details_data}>
+            <span className={styles.issue_details_data_heading}>
               <span>Description</span>
             </span>
 
-            <span className={styles.issue_details_data}>
+            <span className={styles.issue_details_data_heading}>
               <span>Total Score</span>
             </span>
           </span>

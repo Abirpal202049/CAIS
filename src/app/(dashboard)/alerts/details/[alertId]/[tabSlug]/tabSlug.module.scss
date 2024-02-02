@@ -80,10 +80,11 @@
   gap: 2rem;
 }
 
-.issue_details_wrapper_heading {
+.issue_details_data_heading {
   font-size: medium;
   font-weight: 600;
   color: black;
+  padding-bottom: 2rem;
 }
 
 .issue_details_data {
@@ -101,7 +102,7 @@
 .heading {
   display: flex;
   justify-content: space-between;
-  font-size: medium;
+  font-size: large;
   font-weight: 600;
   padding-bottom: 2rem;
 }
