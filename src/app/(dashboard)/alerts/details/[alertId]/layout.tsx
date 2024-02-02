@@ -2,8 +2,17 @@
 import React, { useEffect, useState } from "react";
 import Custom_Tab from "@/components/common/Custom_Tab";
 import Information from "./_components/Information";
+import styles from "./alertId.module.scss";
 import { usePathname } from "next/navigation";
 import axios from "axios";
+import { BreadCrumb } from "primereact/breadcrumb";
+import {
+  FilePlus,
+  Paperclip,
+  Users,
+  History,
+  MoreHorizontal,
+} from "lucide-react";
 
 export default function RootLayout({
   children,
@@ -66,14 +75,45 @@ export default function RootLayout({
   ];
   return (
     <>
+      <Menu alertId={pathName.split("/")[3]} />
       <Custom_Tab
         TabsModel={tabsModel}
         selectedTabIndex={tabIndex}
         setSelectedTabIndex={setTabIndex}
       />
       {children}
-
       <Information data={data} loading={loading} />
     </>
   );
 }
+
+const Menu = ({ alertId }: { alertId: string }) => {
+  const items = [
+    { label: "ALERTS", url: "/alerts/details" },
+    { label: "ALERT ID " + alertId },
+    { label: "" },
+  ];
+
+  return (
+    <div className={styles.menuBar}>
+      <BreadCrumb model={items} className={styles.breadcrumb} />
+      <div className={styles.menuButtons}>
+        <span>
+          <Paperclip />
+        </span>
+        <span>
+          <FilePlus />
+        </span>
+        <span>
+          <Users />
+        </span>
+        <span>
+          <History />
+        </span>
+        <span>
+          <MoreHorizontal />
+        </span>
+      </div>
+    </div>
+  );
+};

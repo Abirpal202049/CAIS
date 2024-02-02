@@ -1,56 +1,60 @@
-.information_wrapper {
+.page_wrapper {
     display: flex;
+    flex-direction: column;
     width: auto;
-    height: auto;
-    padding: 2rem;
+    // height: auto;
+    padding: 2rem 0rem;
     gap: 1rem;
 
-    .information_leftSide_wrapper {
+    .information_wrapper {
         display: flex;
-        flex-direction: column;
+        flex-direction: row;
         gap: 1rem;
-        width: 100%;
-    }
 
-    .wrapper_left {
-        display: flex;
-        padding: 1rem;
-        flex-direction: column;
-        border: 1px solid var(--gray-300);
-        border-radius: 0.3rem;
-    }
-
-    .information_rightSide_wrapper {
-        display: flex;
-        flex-direction: column;
-        width: 50%;
-        height: 100vh;
-        padding: 1rem;
-        border: 1px solid var(--gray-300);
-        border-radius: 0.3rem;
-    }
-
-    .account,
-    .information_request {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        font-size: 5rem !important;
-        font-weight: 800;
-    }
-
-    .countries_and_names {
-        display: flex;
-        // justify-content: space-between;
-        align-items: center;
-        padding-top: 0.25rem;
-
-        .countries,
-        .countries_name {
+        .information_leftSide_wrapper {
             display: flex;
             flex-direction: column;
-            justify-content: start;
             gap: 1rem;
+            width: 100%;
+        }
+
+        .information_rightSide_wrapper {
+            display: flex;
+            flex-direction: column;
+            width: 50%;
+            padding: 1rem;
+            border: 1px solid var(--gray-300);
+            border-radius: 0.3rem;
         }
     }
+}
+
+.countries_and_names {
+    display: flex;
+    align-items: center;
+    padding-top: 0.25rem;
+    gap: 2rem;
+
+    .countries_name {
+        display: flex;
+        flex-direction: column;
+        justify-content: start;
+        gap: 1rem;
+    }
+}
+
+.heading {
+    display: flex;
+    justify-content: space-between;
+    font-size: medium;
+    font-weight: 600;
+    padding-bottom: 1rem;
+}
+
+.wrapper_left {
+    display: flex;
+    padding: 1rem;
+    flex-direction: column;
+    border: 1px solid var(--gray-300);
+    border-radius: 0.3rem;
 }

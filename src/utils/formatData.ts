@@ -19,3 +19,18 @@ export const formatPrice = (price: number) => {
     currency: "USD",
   }).format(price);
 };
+
+export function formatString(data: any) {
+  if (!data) return;
+  var words = data.split("_");
+
+  // Capitalize the first letter of each word
+  var formattedWords = words.map(function (words: string) {
+    return words.charAt(0).toUpperCase() + words.slice(1);
+  });
+
+  // Join the words with spaces
+  var formattedString = formattedWords.join(" ");
+
+  return formattedString;
+}
