@@ -63,7 +63,7 @@ function Alert_Details() {
         <span className={styles.alert_Details_description}>
           {Object.keys(alertDetails).map((key, index) => (
             <span key={index} className={styles.alert_Details_data}>
-              <span style={{ width: "40%", color: "var(--gray-500)" }}>
+              <span style={{ width: "60%", color: "var(--gray-500)" }}>
                 {formatString(key)}
               </span>
               <span>{data.alert_details[key]}</span>
