@@ -14,7 +14,6 @@ const Information: React.FC<Props> = ({ data, loading }) => {
   console.log("loading", loading);
   console.log("data$$$$$$", data);
   const [tabIndex, setTabIndex] = React.useState(0);
-  const [visible, setVisible] = React.useState(false);
   const tabsModel = [
     {
       label: "Communication",
@@ -35,6 +34,8 @@ const Information: React.FC<Props> = ({ data, loading }) => {
   };
 
   const CommonComponent: React.FC<CommonComponentProps> = ({ items, type }) => {
+    const [visible, setVisible] = React.useState(false);
+
     return (
       <div className={styles.wrapper_left}>
         {type && (
@@ -49,7 +50,8 @@ const Information: React.FC<Props> = ({ data, loading }) => {
               <Dialog
                 header={formatString(items)}
                 visible={visible}
-                style={{ width: "50%" }}
+                draggable={false}
+                style={{ width: "33%" }}
                 onHide={() => setVisible(false)}
               >
                 <CommonComponent items={items} type={false} />
