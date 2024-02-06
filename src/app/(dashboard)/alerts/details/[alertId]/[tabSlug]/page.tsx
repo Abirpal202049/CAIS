@@ -5,9 +5,8 @@ import { formatDate, formatPrice, formatString } from "@/utils/formatData";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Expand } from "lucide-react";
-import { DataTable } from "primereact/datatable";
-import { Column } from "primereact/column";
 import { Dialog } from "primereact/dialog";
+import IssueDetails from "../_components/IssueDetails";
 
 type Props = {
   params: {
@@ -40,7 +39,7 @@ function Alert_Details() {
         const res = await axios.get(
           "https://api.npoint.io/c748243694692e1247ef"
         );
-        console.log("8888----", res.data);
+        console.log("response data", res.data);
 
         setData(res.data);
       } catch (error) {
@@ -54,92 +53,52 @@ function Alert_Details() {
   }, []);
 
   const alertDetails = data?.alert_details ?? {};
-  const issueDetails = data?.issue_details ?? [];
 
   return (
-    <div className={styles.alert_and_issue_details_wrapper}>
-      <div className={styles.alert_details}>
-        <span className={styles.heading}>Alert Details</span>
-        <span className={styles.alert_Details_description}>
-          {Object.keys(alertDetails).map((key, index) => (
-            <span key={index} className={styles.alert_Details_data}>
-              <span style={{ width: "60%", color: "var(--gray-500)" }}>
-                {formatString(key)}
-              </span>
-              <span>{data.alert_details[key]}</span>
-            </span>
-          ))}
-        </span>
-      </div>
+    <>
+      {!loading && (
+        // alert_and_issue_details_wrapper
+        <div className={styles.alert_and_issue_details_wrapper}>
+          {/* Alert details  */}
+          <div className={styles.alert_details}>
+            <span className={styles.heading}>Alert Details</span>
 
-      <div className={styles.issue_details}>
-        <span className={styles.heading}>
-          Issue Details
-          <span>
-            <Expand
-              onClick={() => setVisible(true)}
-              style={{ cursor: "pointer" }}
-            />
-            <Dialog
-              header="Alert and Issue Details"
-              visible={visible}
-              style={{ width: "80%" }}
-              onHide={() => setVisible(false)}
-            >
-              <Alert_Details />
-            </Dialog>
-          </span>
-        </span>
-
-        <span>
-          <span className={styles.issue_details_wrapper_heading}>
-            <span className={styles.issue_details_data_heading}>
-              <span>Issue Type</span>
-            </span>
-
-            <span className={styles.issue_details_data_heading}>
-              <span>Description</span>
-            </span>
-
-            <span className={styles.issue_details_data_heading}>
-              <span>Total Score</span>
-            </span>
-          </span>
-          <span>
-            {issueDetails.map((issue: any, index: any) => (
-              <span key={index}>
-                <span className={styles.issue_details_wrapper}>
-                  <span className={styles.issue_details_data}>
-                    <span>{issue?.issue_type}</span>
+            <span className={styles.alert_Details_description}>
+              {Object.keys(alertDetails).map((key, index) => (
+                <span key={index} className={styles.alert_Details_data}>
+                  <span style={{ width: "60%", color: "var(--gray-500)" }}>
+                    {formatString(key)}
                   </span>
-
-                  <span className={styles.issue_details_data}>
-                    <span>{issue?.description}</span>
-                  </span>
-
-                  <span className={styles.issue_details_data}>
-                    <span>{issue?.score}</span>
-                  </span>
+                  <span>{data.alert_details[key]}</span>
                 </span>
-              </span>
-            ))}
-          </span>
-        </span>
+              ))}
+            </span>
+          </div>
 
-        <span className={styles.issue_details_table}>
-          <DataTable
-            value={issueDetails.flatMap((issue: any) => issue.scenarios)}
-            showGridlines
-          >
-            <Column field="scenario" header="Scenario"></Column>
-            <Column field="description" header="Description"></Column>
-            <Column field="actual_value" header="Actual Value"></Column>
-            <Column field="threshold" header="Threshold"></Column>
-            <Column field="score" header="Score"></Column>
-          </DataTable>
-        </span>
-      </div>
-    </div>
+          {/* Issue details */}
+          <div className={styles.issue_details}>
+            <span className={styles.heading}>
+              Issue Details
+              <span>
+                <Expand
+                  onClick={() => setVisible(true)}
+                  style={{ cursor: "pointer" }}
+                />
+                <Dialog
+                  header="Issue Details"
+                  visible={visible}
+                  draggable={false}
+                  onHide={() => setVisible(false)}
+                >
+                  <IssueDetails />
+                </Dialog>
+              </span>
+            </span>
+            <IssueDetails />
+          </div>
+        </div>
+      )}
+    </>
   );
 }
 

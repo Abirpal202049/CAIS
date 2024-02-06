@@ -11,8 +11,6 @@ type Props = {
 };
 
 const Information: React.FC<Props> = ({ data, loading }) => {
-  console.log("loading", loading);
-  console.log("data$$$$$$", data);
   const [tabIndex, setTabIndex] = React.useState(0);
   const tabsModel = [
     {
@@ -37,6 +35,7 @@ const Information: React.FC<Props> = ({ data, loading }) => {
     const [visible, setVisible] = React.useState(false);
 
     return (
+      //Inside left side wrapper
       <div className={styles.wrapper_left}>
         {type && (
           <span className={styles.heading}>
@@ -51,7 +50,7 @@ const Information: React.FC<Props> = ({ data, loading }) => {
                 header={formatString(items)}
                 visible={visible}
                 draggable={false}
-                style={{ width: "33%" }}
+                style={{ width: "30%" }}
                 onHide={() => setVisible(false)}
               >
                 <CommonComponent items={items} type={false} />
@@ -60,9 +59,10 @@ const Information: React.FC<Props> = ({ data, loading }) => {
           </span>
         )}
 
+        {/* description of the left side of alert details */}
         {Object.keys(filteredData[items])?.map((key: string, index: number) => (
-          <span className={styles.description_names} key={index}>
-            <span style={{ width: "50%", color: "var(--gray-500)" }}>
+          <span className={styles.description} key={index}>
+            <span className={styles.description_names}>
               {formatString(key)}
             </span>
             <span className={styles.description_values}>
@@ -76,30 +76,30 @@ const Information: React.FC<Props> = ({ data, loading }) => {
 
   return (
     <div className={styles.page_wrapper}>
-      <div className={styles.information_wrapper}>
-        <div className={styles.information_leftSide_wrapper}>
-          {!loading &&
-            Object.keys(filteredData)?.map((items: string, idx: number) => (
-              <CommonComponent items={items} key={idx} type={true} />
-            ))}
-        </div>
+      {/* Alert details left side wrapper */}
+      <div className={styles.information_leftSide_wrapper}>
+        {!loading &&
+          Object.keys(filteredData)?.map((items: string, idx: number) => (
+            <CommonComponent items={items} key={idx} type={true} />
+          ))}
+      </div>
 
-        <div className={styles.information_rightSide_wrapper}>
-          <span className={styles.heading}>
-            Information Request
-            <span>
-              <Expand style={{ cursor: "pointer" }} />
-            </span>
-          </span>
+      {/* Alert details right side wrapper */}
+      <div className={styles.information_rightSide_wrapper}>
+        <span className={styles.heading}>
+          Information Request
           <span>
-            <Custom_Tab
-              TabsModel={tabsModel}
-              selectedTabIndex={tabIndex}
-              setSelectedTabIndex={setTabIndex}
-            />
+            <Expand style={{ cursor: "pointer" }} />
           </span>
-          <span></span>
-        </div>
+        </span>
+        <span>
+          <Custom_Tab
+            TabsModel={tabsModel}
+            selectedTabIndex={tabIndex}
+            setSelectedTabIndex={setTabIndex}
+          />
+        </span>
+        <span></span>
       </div>
     </div>
   );

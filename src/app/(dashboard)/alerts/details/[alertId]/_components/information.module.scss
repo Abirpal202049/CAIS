@@ -1,63 +1,80 @@
 .page_wrapper {
     display: flex;
-    flex-direction: column;
-    width: auto;
-    // height: auto;
+    flex-direction: row;
     padding: 2rem 0rem;
     gap: 1rem;
-
-    .information_wrapper {
-        display: flex;
-        flex-direction: row;
-        gap: 1rem;
-
-        .information_leftSide_wrapper {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: start;
-            gap: 2rem;
-            width: 100%;
-        }
-
-        .information_rightSide_wrapper {
-            display: flex;
-            flex-direction: column;
-            width: 50%;
-            height: 100vh;
-            padding: 1rem;
-            border: 1px solid var(--gray-300);
-            border-radius: 0.3rem;
-        }
-    }
+}
+.information_leftSide_wrapper {
+    display: grid;
+    width: 100%;
+    grid-template-columns: 0.5fr 0.5fr;
+    justify-content: start;
+    gap: 1rem;
 }
 
-.description_names {
+.information_rightSide_wrapper {
+    flex: 1;
+    min-width: 500px;
+    padding: 1rem;
+    border: 1px solid var(--gray-300);
+    border-radius: 0.3rem;
+}
+
+.description {
     display: flex;
     align-items: center;
-    padding-top: 0.35rem;
     gap: 2rem;
+    padding-top: 0.35rem;
+
+    .description_names {
+        width: 40%;
+        color: var(--gray-500);
+    }
 
     .description_values {
         display: flex;
         flex-direction: column;
         justify-content: start;
-        width: 50%;
     }
 }
-
+.wrapper_left {
+    display: flex;
+    min-height: 280px;
+    padding: 1rem;
+    flex-direction: column;
+    border: 1px solid var(--gray-300);
+    border-radius: 0.3rem;
+}
 .heading {
     display: flex;
     justify-content: space-between;
     font-size: medium;
     font-weight: 600;
-    padding-bottom: 1rem;
+    padding-bottom: 0.75rem;
 }
 
-.wrapper_left {
+.issue_details_wrapper,
+.issue_details_wrapper_heading {
     display: flex;
-    padding: 1rem;
-    width: 65vh;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 2rem;
+}
+
+.issue_details_data_heading {
+    font-size: medium;
+    font-weight: 600;
+    color: black;
+}
+
+.issue_details_data {
+    display: flex;
     flex-direction: column;
-    border: 1px solid var(--gray-300);
-    border-radius: 0.3rem;
+    padding: 1rem 0;
+    color: #3203c5;
+}
+
+.issue_details_table {
+    display: flex;
+    flex-direction: column;
 }
