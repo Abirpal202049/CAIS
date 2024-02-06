@@ -13,8 +13,9 @@
 
         .information_leftSide_wrapper {
             display: flex;
-            flex-direction: column;
-            gap: 1rem;
+            flex-wrap: wrap;
+            justify-content: start;
+            gap: 2rem;
             width: 100%;
         }
 
@@ -22,6 +23,7 @@
             display: flex;
             flex-direction: column;
             width: 50%;
+            height: 100vh;
             padding: 1rem;
             border: 1px solid var(--gray-300);
             border-radius: 0.3rem;
@@ -29,17 +31,17 @@
     }
 }
 
-.countries_and_names {
+.description_names {
     display: flex;
     align-items: center;
-    padding-top: 0.25rem;
+    padding-top: 0.35rem;
     gap: 2rem;
 
-    .countries_name {
+    .description_values {
         display: flex;
         flex-direction: column;
         justify-content: start;
-        gap: 1rem;
+        width: 50%;
     }
 }
 
@@ -54,6 +56,7 @@
 .wrapper_left {
     display: flex;
     padding: 1rem;
+    width: 65vh;
     flex-direction: column;
     border: 1px solid var(--gray-300);
     border-radius: 0.3rem;

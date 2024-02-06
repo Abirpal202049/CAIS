@@ -4,7 +4,7 @@ import styles from "./tabSlug.module.scss";
 import { formatDate, formatPrice, formatString } from "@/utils/formatData";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { ExternalLink } from "lucide-react";
+import { Expand } from "lucide-react";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import { Dialog } from "primereact/dialog";
@@ -76,7 +76,10 @@ function Alert_Details() {
         <span className={styles.heading}>
           Issue Details
           <span>
-            <ExternalLink onClick={() => setVisible(true)} />
+            <Expand
+              onClick={() => setVisible(true)}
+              style={{ cursor: "pointer" }}
+            />
             <Dialog
               header="Alert and Issue Details"
               visible={visible}

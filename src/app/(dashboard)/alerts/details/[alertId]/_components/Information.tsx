@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "./information.module.scss";
 import Custom_Tab from "@/components/common/Custom_Tab";
-import { ExternalLink } from "lucide-react";
+import { Expand } from "lucide-react";
 import { formatString } from "@/utils/formatData";
 import { Dialog } from "primereact/dialog";
 
@@ -42,7 +42,10 @@ const Information: React.FC<Props> = ({ data, loading }) => {
             {formatString(items)}
 
             <span>
-              <ExternalLink onClick={() => setVisible(true)} />
+              <Expand
+                onClick={() => setVisible(true)}
+                style={{ cursor: "pointer" }}
+              />
               <Dialog
                 header={formatString(items)}
                 visible={visible}
@@ -56,11 +59,11 @@ const Information: React.FC<Props> = ({ data, loading }) => {
         )}
 
         {Object.keys(filteredData[items])?.map((key: string, index: number) => (
-          <span className={styles.countries_and_names} key={index}>
-            <span style={{ width: "20%", color: "var(--gray-500)" }}>
+          <span className={styles.description_names} key={index}>
+            <span style={{ width: "50%", color: "var(--gray-500)" }}>
               {formatString(key)}
             </span>
-            <span className={styles.countries_name}>
+            <span className={styles.description_values}>
               {filteredData[items][key]}
             </span>
           </span>
@@ -83,10 +86,10 @@ const Information: React.FC<Props> = ({ data, loading }) => {
           <span className={styles.heading}>
             Information Request
             <span>
-              <ExternalLink />
+              <Expand style={{ cursor: "pointer" }} />
             </span>
           </span>
-          <span style={{ height: "auto" }}>
+          <span>
             <Custom_Tab
               TabsModel={tabsModel}
               selectedTabIndex={tabIndex}
