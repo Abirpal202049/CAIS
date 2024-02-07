@@ -7,7 +7,7 @@ import { Dialog } from "primereact/dialog";
 import { Expand } from "lucide-react";
 
 const IssueDetails = () => {
-  const [data, setData] = useState([{}]);
+  const [data, setData] = useState<{ [key: string]: any }>([{}]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {

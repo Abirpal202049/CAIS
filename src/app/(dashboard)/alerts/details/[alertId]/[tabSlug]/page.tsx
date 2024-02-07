@@ -29,7 +29,7 @@ export default function Page({ params }: Props) {
 }
 
 function Alert_Details() {
-  const [data, setData] = useState([{}]);
+  const [data, setData] = useState<{ [key: string]: any }>({});
   const [loading, setLoading] = useState(true);
   const [visible, setVisible] = React.useState(false);
 
@@ -52,7 +52,7 @@ function Alert_Details() {
     fetchData();
   }, []);
 
-  const alertDetails = data?.alert_details ?? {};
+  const alertDetails = "alert_details" in data ? data.alert_details : {};
 
   return (
     <>
@@ -64,14 +64,16 @@ function Alert_Details() {
             <span className={styles.heading}>Alert Details</span>
 
             <span className={styles.alert_Details_description}>
-              {Object.keys(alertDetails).map((key, index) => (
-                <span key={index} className={styles.alert_Details_data}>
-                  <span style={{ width: "60%", color: "var(--gray-500)" }}>
-                    {formatString(key)}
+              {alertDetails &&
+                Object.keys(alertDetails).length &&
+                Object.keys(alertDetails).map((ele, index) => (
+                  <span key={index} className={styles.alert_Details_data}>
+                    <span style={{ width: "60%", color: "var(--gray-500)" }}>
+                      {formatString(ele)}
+                    </span>
+                    <span>{data.alert_details[ele]}</span>
                   </span>
-                  <span>{data.alert_details[key]}</span>
-                </span>
-              ))}
+                ))}
             </span>
           </div>
 
