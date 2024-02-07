@@ -21,7 +21,7 @@ const LogoVisibilityComponent = ({ sidebarOpenState, logoVisibility,onClickTab,o
         <div>
             {logoVisibility && (
                 <div
-                    className={Styles.sidebar_logo_visibility}
+                    className={`${Styles.sidebar_logo_visibility}`}
                     style={{
                         width: sidebarOpenState ? "100%" : "60px",
                     }}
@@ -31,12 +31,13 @@ const LogoVisibilityComponent = ({ sidebarOpenState, logoVisibility,onClickTab,o
                             <Link href="/alerts">
                                 <Image
                                     src="/CaisFullLogo.svg"
-                                    width={150}
+                                    width={100}
                                     height={50}
                                     alt="Logo"
+                                    className='ml-5'
                                 />
                             </Link>
-                            <div className={Styles.toggle_dot_container}>
+                            <div >
                                 <div onClick={handleToggle} className={`${onToggle ? `${Styles.toggle_dot_open}` : ''} ${Styles.toggle_dot}`}>
                                 </div>
                             </div>

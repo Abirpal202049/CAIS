@@ -128,7 +128,6 @@ function Position() {
   return (
     <Custom_Table
       tableType="alerts"
-      select={true}
       columnFilter={true}
       data={data}
       handleSwitch={handleSwitch}
@@ -157,6 +156,28 @@ function Trades() {
         );
       case "EXECUTION_LOCAL_DATE_TIME":
         return <div>{data[field].split(" ")[0]}</div>;
+      case "DIRECTION_CD":
+        return (
+          <div
+            className={`${
+              data[field] === "B" ? "text-success" : "text-red-800"
+            }`}
+          >
+            {data[field]}
+          </div>
+          // <div className={`${data[field] === "B" ? styles.green : styles.red}`}>
+          //   {data[field]}
+          // </div>
+        );
+      case "BASE_CURR_AMOUNT":
+      case "ORIG_CURR_AMOUNT":
+      case "BASE_CURR_NET_AMOUNT":
+      case "BASE_CURR_TRADE_PRICE":
+        return (
+          <div className={`${styles.green}`}>{formatPrice(data[field])}</div>
+        );
+      case "EXECUTION_LOCAL_DATE_TIME":
+        return <div>{formatDate(data[field])}</div>;
       default:
         return <div>{data[field]}</div>;
     }
@@ -164,7 +185,6 @@ function Trades() {
   return (
     <Custom_Table
       tableType="alerts"
-      select={true}
       columnFilter={true}
       data={data}
       handleSwitch={handleSwitch}
@@ -193,7 +213,6 @@ function Historical_Trades() {
   return (
     <Custom_Table
       tableType="alerts"
-      select={true}
       columnFilter={true}
       data={data}
       handleSwitch={handleSwitch}
@@ -222,7 +241,6 @@ function Financial_Advisors() {
   return (
     <Custom_Table
       tableType="alerts"
-      select={true}
       columnFilter={true}
       data={data}
       handleSwitch={handleSwitch}

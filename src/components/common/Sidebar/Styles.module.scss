@@ -33,8 +33,8 @@
   align-items: center;
   padding: 12px;
   // border: 2px solid rgba(0,0,0);
+  height: 5rem;
   transition: all 0.1s ease-in-out;
-  
 }
 .sidebar_logo {
   display: flex;
@@ -164,9 +164,7 @@
   align-self: flex-end;
 }
 
-.toggle_dot_container {
-  align-self: flex-start;
-}
+
 .toggle_dot {
   border: 2px solid var(--primary-color);
   width: 13px;
@@ -221,4 +219,8 @@
   // visibility: hidden;
   transition: all 0.1s ease-in-out;
   overflow-y: hidden;
+}
+
+.nestedIcon{
+    width: 40px;
 }

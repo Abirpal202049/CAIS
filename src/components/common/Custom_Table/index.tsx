@@ -3,18 +3,19 @@ import React, { useState } from "react";
 import { DataTable, DataTableFilterMeta } from "primereact/datatable";
 import { Column } from "primereact/column";
 import { MultiSelect, MultiSelectChangeEvent } from "primereact/multiselect";
+import { FilterMatchMode } from "primereact/api";
+import { ProgressSpinner } from "primereact/progressspinner";
+import { Search } from "@/data/svgr/Filters";
 
 import styles from "./custom_table.module.scss";
-import { FilterMatchMode } from "primereact/api";
-import { Button } from "primereact/button";
-import { InputText } from "primereact/inputtext";
-import { Search } from "@/data/svgr/Filters";
+
+import { saveAs } from "file-saver";
+
 import {
-  ChevronDown,
-  ChevronUp,
   ChevronsDown,
   ChevronsUp,
   ChevronsUpDown,
+  XCircle,
 } from "lucide-react";
 
 type Props = {
@@ -25,6 +26,7 @@ type Props = {
   columnFilter?: boolean;
   ScrollHeight?: string;
   ResizableColumns?: boolean;
+  exportable?: boolean;
 };
 
 const defaultFilters: DataTableFilterMeta = {
@@ -34,6 +36,35 @@ const defaultFilters: DataTableFilterMeta = {
 type ColumnProps = {
   field: string;
   header: string;
+};
+
+const exportCSV = (dt: any, selectionOnly: boolean) => {
+  dt.current.exportCSV({ selectionOnly });
+};
+
+//Exporting table logic start here
+const exportExcel = (data: any) => {
+  import("xlsx").then((xlsx) => {
+    const worksheet = xlsx.utils.json_to_sheet(data);
+    const workbook = { Sheets: { data: worksheet }, SheetNames: ["data"] };
+    const excelBuffer = xlsx.write(workbook, {
+      bookType: "xlsx",
+      type: "array",
+    });
+
+    saveAsExcelFile(excelBuffer, "products");
+  });
+};
+
+const saveAsExcelFile = (buffer: any, fileName: string) => {
+  let EXCEL_TYPE =
+    "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8";
+  let EXCEL_EXTENSION = ".xlsx";
+  const data = new Blob([buffer], {
+    type: EXCEL_TYPE,
+  });
+
+  saveAs(data, fileName + "_export_" + new Date().getTime() + EXCEL_EXTENSION);
 };
 
 const Custom_Table: React.FC<Props> = ({
@@ -54,6 +85,9 @@ const Custom_Table: React.FC<Props> = ({
   const [columns, setColumns] = React.useState<ColumnProps[]>([]);
   const [visibleColumns, setVisibleColumns] = React.useState<ColumnProps[]>([]);
 
+  const [loading, setLoading] = React.useState(true);
+
+  const dtRef = React.useRef(null);
   React.useEffect(() => {
     const dynamicColumns = Object.keys(data[0]).map((ele) => ({
       field: ele,
@@ -64,6 +98,9 @@ const Custom_Table: React.FC<Props> = ({
     }));
     setColumns(dynamicColumns);
     setVisibleColumns(dynamicColumns);
+    setTimeout(() => {
+      setLoading(false);
+    }, 1000);
   }, [data]);
 
   const columnBody = (data: any, options: any) => {
@@ -105,21 +142,22 @@ const Custom_Table: React.FC<Props> = ({
   const globalSearch = () => {
     return (
       <div className={styles.table_header_filter}>
-        <span className="p-input-icon-left">
+        <span className="flex justify-between items-center border rounded-lg border-[--surface-400] p-2">
           <Search />
-          <InputText
+          <input
             value={globalFilterValue}
             onChange={onGlobalFilterChange}
             placeholder="Search"
+            className="outline-0 placeholder:text-muted focus:outline-0 px-1"
+          />
+          <XCircle
+            size={20}
+            className={`text-muted cursor-pointer ${
+              globalFilterValue.length === 0 ? "opacity-0" : ""
+            }`}
+            onClick={clearFilter}
           />
         </span>
-        <Button
-          type="button"
-          icon="pi pi-filter-slash"
-          label="Clear"
-          onClick={clearFilter}
-          size="small"
-        />
       </div>
     );
   };
@@ -141,73 +179,71 @@ const Custom_Table: React.FC<Props> = ({
       />
     </div>
   );
-
+  // Custom Sort Icon
   const customSortIcon = (options: any) => {
     const order = options.sortOrder;
-    if (order === 0) return <ChevronsUpDown size={15} />;
+    if (order === 0) return <ChevronsUpDown size={15} />; // not sorted
     else if (order === 1)
       return (
-        <ChevronsDown size={15} style={{ color: "var(--primary-color)" }} />
+        <ChevronsDown size={15} style={{ color: "var(--primary-color)" }} /> // ascending
       );
     else
-      return <ChevronsUp size={15} style={{ color: "var(--primary-color)" }} />;
+      return <ChevronsUp size={15} style={{ color: "var(--primary-color)" }} />; // descending
   };
+
   return (
     <div className={styles.customTableContainer}>
-      <DataTable
-        value={data.slice(0, 100)}
-        header={tableHeader}
-        // pagination from here
-        paginator
-        rows={10}
-        rowsPerPageOptions={[10, 25, 50]}
-        // totalRecords={100}
-        // onPage = {onPageChange}
-        // selecting row with checkboxes from here
-        sortIcon={customSortIcon}
-        selectionMode={select == true ? "multiple" : null}
-        selection={selectedItems}
-        onSelectionChange={(e: any) => setSelectedItems(e.value)}
-        scrollable
-        showSelectAll
-        scrollHeight={ScrollHeight || "calc(74vh - 100px)"}
-        className={styles[tableType]}
-        tableStyle={{ minWidth: "50rem" }}
-        emptyMessage="No Data found."
-        globalFilter={globalFilterValue}
-        globalFilterFields={visibleColumns.map((col) => col.field)}
-        resizableColumns={ResizableColumns || false}
-      >
-        {select && (
-          <Column selectionMode="multiple" style={{ width: "3rem" }} />
-        )}
-        {data &&
-          visibleColumns.map((ele, idx) => {
-            return (
-              <Column
-                field={ele.field}
-                header={ele.header}
-                headerClassName={styles.columnHeaderName}
-                // headerStyle={{
-                //   color: "grey",
-                //   padding: "1rem",
-                //   fontWeight: "400",
-                //   top: "0",
-                //   backgroundColor: "#f8f9fa",
-                // }}
-                bodyClassName={styles.columnClassName}
-                key={idx}
-                style={{
-                  maxWidth: "18rem",
-                  fontWeight: "500",
-                  padding: "1rem",
-                }}
-                body={columnBody}
-                sortable
-              />
-            );
-          })}
-      </DataTable>
+      {loading && <ProgressSpinner />}
+      <div className={`${loading ? "hidden" : ""}`}>
+        <DataTable
+          ref={dtRef}
+          value={data}
+          header={tableHeader}
+          // pagination from here
+          paginator
+          rows={10}
+          rowsPerPageOptions={[10, 25, 50]}
+          // totalRecords={100}
+          // onPage = {onPageChange}
+          // selecting row with checkboxes from here
+          sortIcon={customSortIcon}
+          selectionMode={select == true ? "multiple" : null}
+          selection={selectedItems}
+          onSelectionChange={(e: any) => setSelectedItems(e.value)}
+          scrollable
+          showSelectAll
+          scrollHeight={ScrollHeight || "calc(74vh - 100px)"}
+          className={styles.customTable}
+          tableStyle={{ minWidth: "50rem" }}
+          emptyMessage="No Data found."
+          globalFilter={globalFilterValue}
+          globalFilterFields={visibleColumns.map((col) => col.field)}
+          resizableColumns={ResizableColumns || false}
+        >
+          {select && (
+            <Column selectionMode="multiple" style={{ width: "3rem" }} />
+          )}
+          {data &&
+            visibleColumns.map((ele, idx) => {
+              return (
+                <Column
+                  field={ele.field}
+                  header={ele.header}
+                  headerClassName={styles.columnHeaderName}
+                  bodyClassName={styles.columnClassName}
+                  key={idx}
+                  style={{
+                    maxWidth: "18rem",
+                    fontWeight: "500",
+                    padding: "1rem",
+                  }}
+                  body={columnBody}
+                  sortable
+                />
+              );
+            })}
+        </DataTable>
+      </div>
     </div>
   );
 };

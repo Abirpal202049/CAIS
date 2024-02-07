@@ -5,6 +5,19 @@
   width: auto;
   white-space: nowrap;
 
+  .customTable {
+    opacity: 0;
+    // animation: fadeIn 1s ease forwards;
+    animation: fadeIn 1s ease-in forwards;
+  }
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
   [class~="p-datatable-header"] {
     background-color: transparent !important;
   }
@@ -42,7 +55,7 @@
           content: "Filter Column by title";
           font-weight: 500;
           // color: var(--surface-d); please update  the --surface-f variable in _variables.scss
-          color: rgba(65, 64, 64, 0.507);
+          color: var(--surface-400);
         }
       }
     }
