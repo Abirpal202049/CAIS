@@ -100,7 +100,7 @@ const Custom_Table: React.FC<Props> = ({
     setVisibleColumns(dynamicColumns);
     setTimeout(() => {
       setLoading(false);
-    }, 1000);
+    }, 1500);
   }, [data]);
 
   const columnBody = (data: any, options: any) => {
@@ -193,7 +193,7 @@ const Custom_Table: React.FC<Props> = ({
 
   return (
     <div className={styles.customTableContainer}>
-      {loading && <ProgressSpinner />}
+      {loading && <ProgressSpinner className={`h-[calc(100vh-150px)]`} />}
       <div className={`${loading ? "hidden" : ""}`}>
         <DataTable
           ref={dtRef}
