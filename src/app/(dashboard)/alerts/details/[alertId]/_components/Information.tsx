@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "./information.module.scss";
 import Custom_Tab from "@/components/common/Custom_Tab";
-import { ExternalLink } from "lucide-react";
+import { Expand } from "lucide-react";
 import { formatString } from "@/utils/formatData";
 import { Dialog } from "primereact/dialog";
 
@@ -11,10 +11,7 @@ type Props = {
 };
 
 const Information: React.FC<Props> = ({ data, loading }) => {
-  console.log("loading", loading);
-  console.log("data$$$$$$", data);
   const [tabIndex, setTabIndex] = React.useState(0);
-  const [visible, setVisible] = React.useState(false);
   const tabsModel = [
     {
       label: "Communication",
@@ -35,18 +32,25 @@ const Information: React.FC<Props> = ({ data, loading }) => {
   };
 
   const CommonComponent: React.FC<CommonComponentProps> = ({ items, type }) => {
+    const [visible, setVisible] = React.useState(false);
+
     return (
+      //Inside left side wrapper
       <div className={styles.wrapper_left}>
         {type && (
           <span className={styles.heading}>
             {formatString(items)}
 
             <span>
-              <ExternalLink onClick={() => setVisible(true)} />
+              <Expand
+                onClick={() => setVisible(true)}
+                style={{ cursor: "pointer" }}
+              />
               <Dialog
                 header={formatString(items)}
                 visible={visible}
-                style={{ width: "50%" }}
+                draggable={false}
+                style={{ width: "30%" }}
                 onHide={() => setVisible(false)}
               >
                 <CommonComponent items={items} type={false} />
@@ -55,12 +59,13 @@ const Information: React.FC<Props> = ({ data, loading }) => {
           </span>
         )}
 
+        {/* description of the left side of alert details */}
         {Object.keys(filteredData[items])?.map((key: string, index: number) => (
-          <span className={styles.countries_and_names} key={index}>
-            <span style={{ width: "20%", color: "var(--gray-500)" }}>
+          <span className={styles.description} key={index}>
+            <span className={styles.description_names}>
               {formatString(key)}
             </span>
-            <span className={styles.countries_name}>
+            <span className={styles.description_values}>
               {filteredData[items][key]}
             </span>
           </span>
@@ -71,30 +76,30 @@ const Information: React.FC<Props> = ({ data, loading }) => {
 
   return (
     <div className={styles.page_wrapper}>
-      <div className={styles.information_wrapper}>
-        <div className={styles.information_leftSide_wrapper}>
-          {!loading &&
-            Object.keys(filteredData)?.map((items: string, idx: number) => (
-              <CommonComponent items={items} key={idx} type={true} />
-            ))}
-        </div>
+      {/* Alert details left side wrapper */}
+      <div className={styles.information_leftSide_wrapper}>
+        {!loading &&
+          Object.keys(filteredData)?.map((items: string, idx: number) => (
+            <CommonComponent items={items} key={idx} type={true} />
+          ))}
+      </div>
 
-        <div className={styles.information_rightSide_wrapper}>
-          <span className={styles.heading}>
-            Information Request
-            <span>
-              <ExternalLink />
-            </span>
+      {/* Alert details right side wrapper */}
+      <div className={styles.information_rightSide_wrapper}>
+        <span className={styles.heading}>
+          Information Request
+          <span>
+            <Expand style={{ cursor: "pointer" }} />
           </span>
-          <span style={{ height: "auto" }}>
-            <Custom_Tab
-              TabsModel={tabsModel}
-              selectedTabIndex={tabIndex}
-              setSelectedTabIndex={setTabIndex}
-            />
-          </span>
-          <span></span>
-        </div>
+        </span>
+        <span>
+          <Custom_Tab
+            TabsModel={tabsModel}
+            selectedTabIndex={tabIndex}
+            setSelectedTabIndex={setTabIndex}
+          />
+        </span>
+        <span></span>
       </div>
     </div>
   );

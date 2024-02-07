@@ -64,45 +64,18 @@
   }
 }
 
-.issue_details {
-  padding: 0rem 2rem;
-  width: 100%;
-  display: flex;
-  overflow: scroll;
-  flex-direction: column;
-}
-
-.issue_details_wrapper,
-.issue_details_wrapper_heading {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  gap: 2rem;
-}
-
-.issue_details_data_heading {
-  font-size: medium;
-  font-weight: 600;
-  color: black;
-  padding-bottom: 2rem;
-}
-
-.issue_details_data {
-  display: flex;
-  flex-direction: column;
-  padding-bottom: 1rem;
-  color: #3203c5;
-}
-
-.issue_details_table {
-  display: flex;
-  flex-direction: column;
-}
-
 .heading {
   display: flex;
   justify-content: space-between;
   font-size: large;
   font-weight: 600;
   padding-bottom: 2rem;
+}
+
+.issue_details {
+  padding: 0rem 1rem;
+  width: 100%;
+  display: flex;
+  overflow: scroll;
+  flex-direction: column;
 }
