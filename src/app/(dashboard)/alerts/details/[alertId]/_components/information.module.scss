@@ -24,7 +24,8 @@
     display: flex;
     align-items: center;
     gap: 2rem;
-    padding-top: 0.35rem;
+    padding: 0.35rem 0rem;
+    font-size: medium;
 
     .description_names {
         width: 40%;
@@ -48,9 +49,9 @@
 .heading {
     display: flex;
     justify-content: space-between;
-    font-size: medium;
+    font-size: large;
     font-weight: 600;
-    padding-bottom: 0.75rem;
+    padding-bottom: 2rem;
 }
 
 .issue_details_wrapper,
