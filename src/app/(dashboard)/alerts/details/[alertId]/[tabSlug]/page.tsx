@@ -4,10 +4,9 @@ import styles from "./tabSlug.module.scss";
 import { formatDate, formatPrice, formatString } from "@/utils/formatData";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { ExternalLink } from "lucide-react";
-import { DataTable } from "primereact/datatable";
-import { Column } from "primereact/column";
+import { Expand } from "lucide-react";
 import { Dialog } from "primereact/dialog";
+import IssueDetails from "../_components/IssueDetails";
 
 type Props = {
   params: {
@@ -30,7 +29,7 @@ export default function Page({ params }: Props) {
 }
 
 function Alert_Details() {
-  const [data, setData] = useState([{}]);
+  const [data, setData] = useState<{ [key: string]: any }>({});
   const [loading, setLoading] = useState(true);
   const [visible, setVisible] = React.useState(false);
 
@@ -40,7 +39,7 @@ function Alert_Details() {
         const res = await axios.get(
           "https://api.npoint.io/c748243694692e1247ef"
         );
-        console.log("8888----", res.data);
+        console.log("response data", res.data);
 
         setData(res.data);
       } catch (error) {
@@ -53,90 +52,55 @@ function Alert_Details() {
     fetchData();
   }, []);
 
-  const alertDetails = data?.alert_details ?? {};
-  const issueDetails = data?.issue_details ?? [];
+  const alertDetails = "alert_details" in data ? data.alert_details : {};
 
   return (
-    <div className={styles.alert_and_issue_details_wrapper}>
-      <div className={styles.alert_details}>
-        <span className={styles.heading}>Alert Details</span>
-        <span className={styles.alert_Details_description}>
-          {Object.keys(alertDetails).map((key, index) => (
-            <span key={index} className={styles.alert_Details_data}>
-              <span style={{ width: "60%", color: "var(--gray-500)" }}>
-                {formatString(key)}
+    <>
+      {!loading && (
+        // alert_and_issue_details_wrapper
+        <div className={styles.alert_and_issue_details_wrapper}>
+          {/* Alert details  */}
+          <div className={styles.alert_details}>
+            <span className={styles.heading}>Alert Details</span>
+
+            <span className={styles.alert_Details_description}>
+              {alertDetails &&
+                Object.keys(alertDetails).length &&
+                Object.keys(alertDetails).map((ele, index) => (
+                  <span key={index} className={styles.alert_Details_data}>
+                    <span style={{ width: "60%", color: "var(--gray-500)" }}>
+                      {formatString(ele)}
+                    </span>
+                    <span>{data.alert_details[ele]}</span>
+                  </span>
+                ))}
+            </span>
+          </div>
+
+          {/* Issue details */}
+          <div className={styles.issue_details}>
+            <span className={styles.heading}>
+              Issue Details
+              <span>
+                <Expand
+                  onClick={() => setVisible(true)}
+                  style={{ cursor: "pointer" }}
+                />
+                <Dialog
+                  header="Issue Details"
+                  visible={visible}
+                  draggable={false}
+                  onHide={() => setVisible(false)}
+                >
+                  <IssueDetails />
+                </Dialog>
               </span>
-              <span>{data.alert_details[key]}</span>
             </span>
-          ))}
-        </span>
-      </div>
-
-      <div className={styles.issue_details}>
-        <span className={styles.heading}>
-          Issue Details
-          <span>
-            <ExternalLink onClick={() => setVisible(true)} />
-            <Dialog
-              header="Alert and Issue Details"
-              visible={visible}
-              style={{ width: "80%" }}
-              onHide={() => setVisible(false)}
-            >
-              <Alert_Details />
-            </Dialog>
-          </span>
-        </span>
-
-        <span>
-          <span className={styles.issue_details_wrapper_heading}>
-            <span className={styles.issue_details_data_heading}>
-              <span>Issue Type</span>
-            </span>
-
-            <span className={styles.issue_details_data_heading}>
-              <span>Description</span>
-            </span>
-
-            <span className={styles.issue_details_data_heading}>
-              <span>Total Score</span>
-            </span>
-          </span>
-          <span>
-            {issueDetails.map((issue: any, index: any) => (
-              <span key={index}>
-                <span className={styles.issue_details_wrapper}>
-                  <span className={styles.issue_details_data}>
-                    <span>{issue?.issue_type}</span>
-                  </span>
-
-                  <span className={styles.issue_details_data}>
-                    <span>{issue?.description}</span>
-                  </span>
-
-                  <span className={styles.issue_details_data}>
-                    <span>{issue?.score}</span>
-                  </span>
-                </span>
-              </span>
-            ))}
-          </span>
-        </span>
-
-        <span className={styles.issue_details_table}>
-          <DataTable
-            value={issueDetails.flatMap((issue: any) => issue.scenarios)}
-            showGridlines
-          >
-            <Column field="scenario" header="Scenario"></Column>
-            <Column field="description" header="Description"></Column>
-            <Column field="actual_value" header="Actual Value"></Column>
-            <Column field="threshold" header="Threshold"></Column>
-            <Column field="score" header="Score"></Column>
-          </DataTable>
-        </span>
-      </div>
-    </div>
+            <IssueDetails />
+          </div>
+        </div>
+      )}
+    </>
   );
 }
 
@@ -166,7 +130,6 @@ function Position() {
   return (
     <Custom_Table
       tableType="alerts"
-      select={true}
       columnFilter={true}
       data={data}
       handleSwitch={handleSwitch}
@@ -195,6 +158,28 @@ function Trades() {
         );
       case "EXECUTION_LOCAL_DATE_TIME":
         return <div>{data[field].split(" ")[0]}</div>;
+      case "DIRECTION_CD":
+        return (
+          <div
+            className={`${
+              data[field] === "B" ? "text-success" : "text-red-800"
+            }`}
+          >
+            {data[field]}
+          </div>
+          // <div className={`${data[field] === "B" ? styles.green : styles.red}`}>
+          //   {data[field]}
+          // </div>
+        );
+      case "BASE_CURR_AMOUNT":
+      case "ORIG_CURR_AMOUNT":
+      case "BASE_CURR_NET_AMOUNT":
+      case "BASE_CURR_TRADE_PRICE":
+        return (
+          <div className={`${styles.green}`}>{formatPrice(data[field])}</div>
+        );
+      case "EXECUTION_LOCAL_DATE_TIME":
+        return <div>{formatDate(data[field])}</div>;
       default:
         return <div>{data[field]}</div>;
     }
@@ -202,7 +187,6 @@ function Trades() {
   return (
     <Custom_Table
       tableType="alerts"
-      select={true}
       columnFilter={true}
       data={data}
       handleSwitch={handleSwitch}
@@ -231,7 +215,6 @@ function Historical_Trades() {
   return (
     <Custom_Table
       tableType="alerts"
-      select={true}
       columnFilter={true}
       data={data}
       handleSwitch={handleSwitch}
@@ -260,7 +243,6 @@ function Financial_Advisors() {
   return (
     <Custom_Table
       tableType="alerts"
-      select={true}
       columnFilter={true}
       data={data}
       handleSwitch={handleSwitch}
