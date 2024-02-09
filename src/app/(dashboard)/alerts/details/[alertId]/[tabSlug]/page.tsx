@@ -129,10 +129,13 @@ function Position() {
   };
   return (
     <Custom_Table
-      tableType="alerts"
-      columnFilter={true}
+      tableHeading="Position"
+      columnFilter
       data={data}
       handleSwitch={handleSwitch}
+      ResizableColumns
+      expandable
+      exportable
     />
   );
 }
@@ -186,10 +189,13 @@ function Trades() {
   };
   return (
     <Custom_Table
-      tableType="alerts"
-      columnFilter={true}
+      tableHeading="Trades"
+      columnFilter
       data={data}
       handleSwitch={handleSwitch}
+      ResizableColumns
+      expandable
+      exportable
     />
   );
 }
@@ -214,10 +220,13 @@ function Historical_Trades() {
   };
   return (
     <Custom_Table
-      tableType="alerts"
-      columnFilter={true}
+      tableHeading="Historical_Trades"
+      columnFilter
       data={data}
       handleSwitch={handleSwitch}
+      ResizableColumns
+      expandable
+      exportable
     />
   );
 }
@@ -242,10 +251,13 @@ function Financial_Advisors() {
   };
   return (
     <Custom_Table
-      tableType="alerts"
-      columnFilter={true}
+      tableHeading="Financial Advisors"
+      columnFilter
       data={data}
       handleSwitch={handleSwitch}
+      ResizableColumns
+      expandable
+      exportable
     />
   );
 }

@@ -119,13 +119,16 @@ const AlertSummary = () => {
 
       {/*  Custom Table */}
       <Custom_Table
-        tableType="alerts"
-        columnFilter={true}
+        tableHeading={
+          tabIndex < tabsModel.length ? tabsModel[tabIndex].label : ""
+        }
+        columnFilter
         data={data}
         handleSwitch={handleSwitch}
         ScrollHeight="calc(100vh - 300px)"
-        ResizableColumns={true}
-        select={true}
+        ResizableColumns
+        select
+        exportable
       />
     </div>
   );
