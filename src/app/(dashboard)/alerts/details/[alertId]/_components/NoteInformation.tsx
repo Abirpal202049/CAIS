@@ -2,12 +2,14 @@ import Custom_Tab from "@/components/common/Custom_Tab";
 import { ArrowUpNarrowWide, ChevronDown, Plus, XCircle } from "lucide-react";
 import { Button } from "primereact/button";
 import { Dialog } from "primereact/dialog";
+import { Editor } from "primereact/editor";
 import React, { useState } from "react";
 import NewWindow from "react-new-window";
 
 const NoteInformation = () => {
   const [tabIndex, setTabIndex] = useState(0);
   const [visible, setVisible] = useState(false);
+  const [text, setText] = useState("");
 
   const tabsModel = [
     {
@@ -46,29 +48,6 @@ const NoteInformation = () => {
     color: "var(--surface-900)",
   };
 
-  const AddNotes = () => {
-    return (
-      <>
-        <Dialog
-          header="Header"
-          visible={visible}
-          style={{ width: "50vw" }}
-          onHide={() => setVisible(false)}
-        >
-          <p className="m-0">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-            aliquip ex ea commodo consequat. Duis aute irure dolor in
-            reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-            pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-            culpa qui officia deserunt mollit anim id est laborum.
-          </p>
-        </Dialog>
-      </>
-    );
-  };
-
   return (
     <>
       <NewWindow
@@ -101,13 +80,13 @@ const NoteInformation = () => {
             </span>
 
             <span className="flex justify-center items-center gap-3">
-              <span className="flex justify-center items-center border border-surface-300 rounded-lg px-2 py-1 font-primary gap-2">
+              <span className="flex justify-center items-center border border-surface-300 rounded-lg px-2 py-1 font-primary gap-2 cursor-pointer">
                 <span>Sort</span>
                 <span>
                   <ChevronDown width={20} />
                 </span>
               </span>
-              <span className="border border-surface-300 rounded-lg gap-2">
+              <span className="border border-surface-300 rounded-lg gap-2 cursor-pointer">
                 <ArrowUpNarrowWide height={25} className="p-1" color="blue" />
               </span>
             </span>
@@ -118,7 +97,7 @@ const NoteInformation = () => {
               onClick={() => {
                 setVisible(true);
               }}
-              className="flex justify-center items-center border border-surface-300 rounded-lg gap-3 w-36 py-1 px-2"
+              className="flex justify-center items-center border border-surface-300 rounded-lg gap-3 w-36 py-1 px-2 cursor-pointer"
             >
               <span>
                 <Plus width={20} color="var(--surface-400)" />
@@ -154,16 +133,48 @@ const NoteInformation = () => {
         </div>
       </NewWindow>
 
-      <Dialog
-        header="Add Note"
-        visible={visible}
-        onHide={() => {
-          setVisible(false);
-        }}
-        style={{ width: "50vw", zIndex: 10000 }}
-      >
-        <p>This is the dialog content for adding a note.</p>
-      </Dialog>
+      <>
+        <Dialog
+          header="Add Note"
+          visible={visible}
+          draggable={false}
+          onHide={() => {
+            setVisible(false);
+          }}
+          style={{ width: "46%" }}
+          onClick={(e) => {
+            e.stopPropagation();
+          }}
+        >
+          <div className="flex flex-col gap-3">
+            <span className="text-surface-500 font-primary ">
+              Alert # 121091
+            </span>
+
+            <span className="font-bold font-primary ">Note</span>
+
+            <span>
+              <Editor
+                value={text}
+                onTextChange={(e: any) => {
+                  setText(e.htmlValue);
+                }}
+                style={{ height: "200px" }}
+              />
+            </span>
+
+            <div className="flex items-center gap-5 border-t-2 border-surface-200">
+              <Button
+                label="Cancel"
+                outlined
+                className="w-32 mt-3"
+                style={buttonStyle}
+              />
+              <Button label="Add Note" className="w-32 mt-3" />
+            </div>
+          </div>
+        </Dialog>
+      </>
     </>
   );
 };
