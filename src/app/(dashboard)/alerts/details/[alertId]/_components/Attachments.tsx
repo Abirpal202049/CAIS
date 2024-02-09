@@ -1,5 +1,12 @@
-import Custom_Table from "@/components/common/Custom_Table";
-import { AlignJustify, LayoutGrid, Plus, Search, Upload } from "lucide-react";
+import {
+  AlignJustify,
+  ArrowUp,
+  File,
+  LayoutGrid,
+  Plus,
+  Search,
+  Upload,
+} from "lucide-react";
 import { Button } from "primereact/button";
 import { Column } from "primereact/column";
 import { DataTable } from "primereact/datatable";
@@ -8,18 +15,89 @@ import React from "react";
 import NewWindow from "react-new-window";
 
 const Attachments = () => {
-  const tabsModel = [
-    {
-      label: "Alert Notes",
-      value: "Alert Note",
-      count: 13,
-    },
-    { label: "Account Notes", value: "Account Notes", count: 1 },
-  ];
-
   const buttonStyle = {
     borderColor: "var(--surface-400)",
     color: "var(--surface-900)",
+  };
+
+  const columnBody = [
+    {
+      id: "1",
+      name: "dummy text of the printing and types...",
+      fileRype: "DOC",
+      fileSize: "146 KB",
+    },
+    {
+      id: "2",
+      name: "dummy text of the printing and types...",
+      fileRype: "PNG",
+      fileSize: "122 KB",
+    },
+    {
+      id: "3",
+      name: "dummy text of the printing and types...",
+      fileRype: "JPG",
+      fileSize: "256 KB",
+    },
+    {
+      id: "4",
+      name: "dummy text of the printing and types...",
+      fileRype: "PDF",
+      fileSize: "125 KB",
+    },
+    {
+      id: "5",
+      name: "Unknown.dat",
+      fileRype: "-",
+      fileSize: "2 KB",
+    },
+    {
+      id: "6",
+      name: "Unknown.dat",
+      fileRype: "-",
+      fileSize: "5 KB",
+    },
+    {
+      id: "7",
+      name: "Unknown.dat",
+      fileRype: "-",
+      fileSize: "10 KB",
+    },
+    {
+      id: "8",
+      name: "Unknown.dat",
+      fileRype: "-",
+      fileSize: "12 KB",
+    },
+  ];
+
+  const nameBodyTemplate = (columnBody: any) => {
+    return (
+      <div className="flex items-center">
+        <span className="mr-2">
+          <File width={20} color="var(--surface-400)" />
+        </span>
+        <span>{columnBody?.name}</span>
+      </div>
+    );
+  };
+
+  const fileTypeHeader = () => {
+    return (
+      <div className="flex justify-center items-center gap-2">
+        <span>FILE TYPE</span>
+        <ArrowUp width={20} color="var(--surface-500)" />
+      </div>
+    );
+  };
+
+  const fileSizeHeader = () => {
+    return (
+      <div className="flex justify-center items-center gap-2">
+        <span>FILE SIZE</span>
+        <ArrowUp width={20} color="var(--surface-500)" />
+      </div>
+    );
   };
 
   return (
@@ -63,16 +141,19 @@ const Attachments = () => {
               <InputText
                 placeholder="Search by name or file type..."
                 size={45}
-                style={{ backgroundColor: "var(--surface-200)" }}
+                style={{
+                  backgroundColor: "var(--surface-100)",
+                  border: "none",
+                }}
               />
             </span>
 
             <span className="flex items-center gap-4 border-l-2 pl-6 border-surface-300">
               <span>view:</span>
-              <span className="bg-surface-400 p-1 surface-300 rounded-lg">
+              <span className="bg-surface-400 p-1 rounded-lg">
                 <AlignJustify width={22} strokeWidth={3} />
               </span>
-              <span className="bg-surface-300 p-1 surface-300 rounded-lg">
+              <span className="bg-surface-300 p-1 rounded-lg">
                 <LayoutGrid
                   width={20}
                   fill="var(--surface-500)"
@@ -82,20 +163,12 @@ const Attachments = () => {
             </span>
           </div>
 
-          <div>
-            <DataTable value={tabsModel}>
-              <Column field="Name" header="Name"></Column>
-              <Column field="File" header="File Type"></Column>
-              <Column field="file" header="File size"></Column>
+          <div className="flex border border-surface-300 rounded-lg">
+            <DataTable value={columnBody}>
+              <Column field="name" header="NAME" body={nameBodyTemplate} />
+              <Column field="fileRype" header={fileTypeHeader}></Column>
+              <Column field="fileSize" header={fileSizeHeader}></Column>
             </DataTable>
-            {/* <Custom_Table
-              tableType="alerts"
-              columnFilter={false}
-              data={tabsModel}
-              handleSwitch={() => {
-                console.log("hello");
-              }}
-            /> */}
           </div>
 
           <div className="flex items-center gap-5">
