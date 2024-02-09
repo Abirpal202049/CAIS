@@ -46,9 +46,27 @@ const NoteInformation = () => {
     color: "var(--surface-900)",
   };
 
-  const handleNewWindowClick = (event: any) => {
-    // Stop event propagation to prevent the new window from closing
-    event.stopPropagation();
+  const AddNotes = () => {
+    return (
+      <>
+        <Dialog
+          header="Header"
+          visible={visible}
+          style={{ width: "50vw" }}
+          onHide={() => setVisible(false)}
+        >
+          <p className="m-0">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
+            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+            aliquip ex ea commodo consequat. Duis aute irure dolor in
+            reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+            pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
+            culpa qui officia deserunt mollit anim id est laborum.
+          </p>
+        </Dialog>
+      </>
+    );
   };
 
   return (
@@ -61,7 +79,10 @@ const NoteInformation = () => {
       >
         <div
           className="flex flex-col justify-center p-5 gap-5"
-          onClick={handleNewWindowClick}
+          // Stop event propagation to prevent the new window from closing
+          onClick={(e) => {
+            e.stopPropagation();
+          }}
         >
           <div className="flex flex-col gap-3">
             <span className="font-bold text-2xl">Notes Information</span>
@@ -93,7 +114,12 @@ const NoteInformation = () => {
           </div>
 
           <div className="flex flex-col border-2 border-surface-200 rounded-lg w-full h-auto p-5 gap-5">
-            <span className="flex justify-center items-center border border-surface-300 rounded-lg gap-3 w-36 py-1 px-2">
+            <span
+              onClick={() => {
+                setVisible(true);
+              }}
+              className="flex justify-center items-center border border-surface-300 rounded-lg gap-3 w-36 py-1 px-2"
+            >
               <span>
                 <Plus width={20} color="var(--surface-400)" />
               </span>
@@ -127,6 +153,17 @@ const NoteInformation = () => {
           </div>
         </div>
       </NewWindow>
+
+      <Dialog
+        header="Add Note"
+        visible={visible}
+        onHide={() => {
+          setVisible(false);
+        }}
+        style={{ width: "50vw", zIndex: 10000 }}
+      >
+        <p>This is the dialog content for adding a note.</p>
+      </Dialog>
     </>
   );
 };

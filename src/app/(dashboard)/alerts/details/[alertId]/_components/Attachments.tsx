@@ -100,11 +100,6 @@ const Attachments = () => {
     );
   };
 
-  const handleNewWindowClick = (event: any) => {
-    // Stop event propagation to prevent the new window from closing
-    event.stopPropagation();
-  };
-
   return (
     <>
       <NewWindow
@@ -115,7 +110,10 @@ const Attachments = () => {
       >
         <div
           className="flex flex-col justify-center p-5 gap-6"
-          onClick={handleNewWindowClick}
+          // Stop event propagation to prevent the new window from closing
+          onClick={(e) => {
+            e.stopPropagation();
+          }}
         >
           <div className="flex flex-col gap-3">
             <span className="font-bold text-4xl ">List of Attachments</span>
