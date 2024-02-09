@@ -13,6 +13,8 @@ import {
   History,
   MoreHorizontal,
 } from "lucide-react";
+import NoteInformation from "./_components/NoteInformation";
+import Attachments from "./_components/Attachments";
 
 export default function RootLayout({
   children,
@@ -88,6 +90,9 @@ export default function RootLayout({
 }
 
 const Menu = ({ alertId }: { alertId: string }) => {
+  const [isNoteInfoOpen, setIsNoteInfoOpen] = useState(false);
+  const [isAttachmentOpen, setIsAttachmentOpen] = useState(false);
+
   const items = [
     { label: "ALERTS", url: "/alerts/details" },
     { label: "ALERT ID " + alertId },
@@ -98,11 +103,21 @@ const Menu = ({ alertId }: { alertId: string }) => {
     <div className={styles.menuBar}>
       <BreadCrumb model={items} className={styles.breadcrumb} />
       <div className={styles.menuButtons}>
-        <span>
+        <span
+          onClick={() => {
+            setIsAttachmentOpen(!isAttachmentOpen);
+          }}
+        >
           <Paperclip />
+          {isAttachmentOpen && <Attachments />}
         </span>
-        <span>
+        <span
+          onClick={() => {
+            setIsNoteInfoOpen(!isNoteInfoOpen);
+          }}
+        >
           <FilePlus />
+          {isNoteInfoOpen && <NoteInformation />}
         </span>
         <span>
           <Users />
