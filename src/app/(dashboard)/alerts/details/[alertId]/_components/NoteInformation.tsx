@@ -131,50 +131,54 @@ const NoteInformation = () => {
             <Button label="Finish" className="w-32" />
           </div>
         </div>
+
+        <div>
+          {visible && (
+            <Dialog
+              header="Add Note"
+              visible={visible}
+              draggable={false}
+              onHide={() => {
+                setVisible(false);
+              }}
+              style={{
+                width: "46%",
+              }}
+              onClick={(e) => {
+                e.stopPropagation();
+              }}
+            >
+              <div className="flex flex-col gap-3">
+                <span className="text-surface-500 font-primary ">
+                  Alert # 121091
+                </span>
+
+                <span className="font-bold font-primary ">Note</span>
+
+                <span>
+                  <Editor
+                    value={text}
+                    onTextChange={(e: any) => {
+                      setText(e.htmlValue);
+                    }}
+                    style={{ height: "200px" }}
+                  />
+                </span>
+
+                <div className="flex items-center gap-5 border-t-2 border-surface-200">
+                  <Button
+                    label="Cancel"
+                    outlined
+                    className="w-32 mt-3"
+                    style={buttonStyle}
+                  />
+                  <Button label="Add Note" className="w-32 mt-3" />
+                </div>
+              </div>
+            </Dialog>
+          )}
+        </div>
       </NewWindow>
-
-      <>
-        <Dialog
-          header="Add Note"
-          visible={visible}
-          draggable={false}
-          onHide={() => {
-            setVisible(false);
-          }}
-          style={{ width: "46%" }}
-          onClick={(e) => {
-            e.stopPropagation();
-          }}
-        >
-          <div className="flex flex-col gap-3">
-            <span className="text-surface-500 font-primary ">
-              Alert # 121091
-            </span>
-
-            <span className="font-bold font-primary ">Note</span>
-
-            <span>
-              <Editor
-                value={text}
-                onTextChange={(e: any) => {
-                  setText(e.htmlValue);
-                }}
-                style={{ height: "200px" }}
-              />
-            </span>
-
-            <div className="flex items-center gap-5 border-t-2 border-surface-200">
-              <Button
-                label="Cancel"
-                outlined
-                className="w-32 mt-3"
-                style={buttonStyle}
-              />
-              <Button label="Add Note" className="w-32 mt-3" />
-            </div>
-          </div>
-        </Dialog>
-      </>
     </>
   );
 };

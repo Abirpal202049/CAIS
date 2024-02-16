@@ -11,10 +11,13 @@ import { Button } from "primereact/button";
 import { Column } from "primereact/column";
 import { DataTable } from "primereact/datatable";
 import { InputText } from "primereact/inputtext";
-import React from "react";
+import React, { useState } from "react";
 import NewWindow from "react-new-window";
+import UploadFile from "@/app/(dashboard)/alerts/details/[alertId]/_components/Upload";
 
 const Attachments = () => {
+  const [showUpload, setShowUpload] = useState(false);
+
   const buttonStyle = {
     borderColor: "var(--surface-400)",
     color: "var(--surface-900)",
@@ -136,10 +139,18 @@ const Attachments = () => {
               outlined
               className="w-32 gap-2 h-10"
               style={buttonStyle}
+              onClick={() => {
+                setShowUpload(true);
+              }}
             >
               <Upload width={20} color="var(--surface-400)" />
             </Button>
           </div>
+          {showUpload && (
+            <span>
+              <UploadFile setShowUpload={setShowUpload} />
+            </span>
+          )}
 
           <div className="flex items-center justify-between">
             <span className="p-input-icon-left ">
