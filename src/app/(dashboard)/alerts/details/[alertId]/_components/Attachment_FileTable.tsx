@@ -68,7 +68,7 @@ const Attachment_Files = () => {
     },
   ];
 
-  const renderFileIcon = (fileType, size = 25) => {
+  const renderFileIcon = (fileType: any, size = 25) => {
     switch (fileType) {
       case "DOC":
         return <FileDoc width={size} height={size} />;
@@ -83,7 +83,7 @@ const Attachment_Files = () => {
     }
   };
 
-  const nameBodyTemplate = (columnBody) => {
+  const nameBodyTemplate = (columnBody: any) => {
     return (
       <div className="flex items-center">
         <span className="mr-2 ">{renderFileIcon(columnBody.fileType)}</span>
