@@ -3,8 +3,6 @@ import { Column } from "primereact/column";
 import { DataTable } from "primereact/datatable";
 import React, { useEffect, useState } from "react";
 import styles from "./information.module.scss";
-import { Dialog } from "primereact/dialog";
-import { Expand } from "lucide-react";
 
 const IssueDetails = () => {
   const [data, setData] = useState<{ [key: string]: any }>([{}]);
