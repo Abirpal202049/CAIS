@@ -21,25 +21,22 @@ const OptionsComponent = ({
 
   return (
     <div
-      className={`${
-        sidebarOpenState
-          ? `${Styles.sidebar_menu_container_open}`
-          : `${Styles.sidebar_menu_container_close}`
-      } ${Styles.sidebar_menu_container}`}
+      className={`${sidebarOpenState
+        ? `${Styles.sidebar_menu_container_open}`
+        : `${Styles.sidebar_menu_container_close}`
+        } ${Styles.sidebar_menu_container}`}
     >
       {menuList?.map((option: AppSidebarOptions, index: Key) => {
         return (
           <div key={index}>
             <div
-              className={` ${
-                !sidebarOpenState
-                  ? `${Styles.sidebar_menu}`
-                  : `${Styles.sidebar_menu_open}`
-              } ${sidebarSelected === option.link && "surface-200"} ${
-                sidebarOpenState
+              className={` ${!sidebarOpenState
+                ? `${Styles.sidebar_menu}`
+                : `${Styles.sidebar_menu_open}`
+                } ${sidebarSelected === option.link && "surface-200"} ${sidebarOpenState
                   ? `${Styles.menulist_open}`
                   : `${Styles.menulist_close}`
-              }`}
+                }`}
             >
               <IconBtn
                 alt={option.tabName}
@@ -54,39 +51,48 @@ const OptionsComponent = ({
               />
               {sidebarOpenState && (
                 <div
-                  className={`${Styles.menulist_text} ${
-                    route === option.link
-                      ? `${Styles.menulist_text_active}`
-                      : ""
-                  }`}
+                  className={`${Styles.menulist_text} ${route === option.link
+                    ? `${Styles.menulist_text_active}`
+                    : ""
+                    }`}
                 >
                   {option?.options && option?.options?.length > 0 ? (
-                    <div>
+                    <div className="p-[3px] ml-[-5px]">
                       <StyleClass
                         nodeRef={btnRef3}
                         selector=".tab"
                         enterClassName="hidden"
                         leaveToClassName="hidden"
                       >
-                        <a ref={btnRef3} className="flex gap-2">
-                          <span className="font-medium">Revenue</span>
+                        <a ref={btnRef3} className="flex gap-2 ">
+                          <span className="font-medium">{option?.tabName}</span>
                           <ChevronDown style={{ color: "gray" }} size={20} />
                           <Ripple />
                         </a>
                       </StyleClass>
-                      <ul className="list-none tab w-full ml-[-1.2rem] hidden overflow-y-hidden transition-all transition-duration-400 transition-ease-in-out">
-                        <li className="flex gap-2 p-3">
-                          {/* <homeSetting className={Styles.nestedIcon}/> */}
-                          <a className=" flex align-items-center cursor-pointer  hover:surface-100 transition-duration-150 transition-colors w-full">
-                            <span className="font-medium">View</span>
-                          </a>
-                        </li>
-                        <li className="flex gap-2 p-3">
-                          {/* <option.icon className={Styles.nestedIcon}/> */}
-                          <a className=" flex align-items-center cursor-pointer hover:surface-100 transition-duration-150 transition-colors w-full">
-                            <span className="font-medium">Search</span>
-                          </a>
-                        </li>
+                      <ul className="list-none tab w-full   ml-[-1.2rem] hidden overflow-y-hidden transition-all transition-duration-400 transition-ease-in-out">
+                        {
+                          option?.options.map((opt) => (
+                            <li key={opt.tabName} className="flex  p-3">
+                              {/* <homeSetting className={Styles.nestedIcon}/> */}
+                              <a className=" flex cursor-pointer  hover:surface-100 transition-duration-150 transition-colors items-center gap-1 w-full justify-evenly">
+                                <IconBtn
+                                  alt={opt.tabName}
+                                  height={opt.size}
+                                  width={opt.size}
+                                  iconName={opt.iconName}
+                                  enableIcons={sidebarSelected === opt.link}
+                                  activeOnHover={true}
+                                  icon={opt.icon}
+                                  link={opt.link}
+                                  route={route}
+                                />
+                                <span className="font-medium !text-sm w-full">{opt.tabName}</span>
+                              </a>
+                            </li>
+                          ))
+                        }
+
                       </ul>
                     </div>
                   ) : (
