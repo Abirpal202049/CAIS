@@ -1,19 +1,9 @@
-import {
-  AlignJustify,
-  ArrowUp,
-  File,
-  LayoutGrid,
-  Plus,
-  Search,
-  Upload,
-} from "lucide-react";
+import { Plus, Upload } from "lucide-react";
 import { Button } from "primereact/button";
-import { Column } from "primereact/column";
-import { DataTable } from "primereact/datatable";
-import { InputText } from "primereact/inputtext";
 import React, { useState } from "react";
 import NewWindow from "react-new-window";
 import UploadFile from "@/app/(dashboard)/alerts/details/[alertId]/_components/Upload";
+import Attachment_FileTable from "./Attachment_FileTable";
 
 const Attachments = () => {
   const [showUpload, setShowUpload] = useState(false);
@@ -21,86 +11,6 @@ const Attachments = () => {
   const buttonStyle = {
     borderColor: "var(--surface-400)",
     color: "var(--surface-900)",
-  };
-
-  const columnBody = [
-    {
-      id: "1",
-      name: "dummy text of the printing and types...",
-      fileRype: "DOC",
-      fileSize: "146 KB",
-    },
-    {
-      id: "2",
-      name: "dummy text of the printing and types...",
-      fileRype: "PNG",
-      fileSize: "122 KB",
-    },
-    {
-      id: "3",
-      name: "dummy text of the printing and types...",
-      fileRype: "JPG",
-      fileSize: "256 KB",
-    },
-    {
-      id: "4",
-      name: "dummy text of the printing and types...",
-      fileRype: "PDF",
-      fileSize: "125 KB",
-    },
-    {
-      id: "5",
-      name: "Unknown.dat",
-      fileRype: "-",
-      fileSize: "2 KB",
-    },
-    {
-      id: "6",
-      name: "Unknown.dat",
-      fileRype: "-",
-      fileSize: "5 KB",
-    },
-    {
-      id: "7",
-      name: "Unknown.dat",
-      fileRype: "-",
-      fileSize: "10 KB",
-    },
-    {
-      id: "8",
-      name: "Unknown.dat",
-      fileRype: "-",
-      fileSize: "12 KB",
-    },
-  ];
-
-  const nameBodyTemplate = (columnBody: any) => {
-    return (
-      <div className="flex items-center">
-        <span className="mr-2">
-          <File width={20} color="var(--surface-400)" />
-        </span>
-        <span>{columnBody?.name}</span>
-      </div>
-    );
-  };
-
-  const fileTypeHeader = () => {
-    return (
-      <div className="flex justify-center items-center gap-2">
-        <span>FILE TYPE</span>
-        <ArrowUp width={20} color="var(--surface-500)" />
-      </div>
-    );
-  };
-
-  const fileSizeHeader = () => {
-    return (
-      <div className="flex justify-center items-center gap-2">
-        <span>FILE SIZE</span>
-        <ArrowUp width={20} color="var(--surface-500)" />
-      </div>
-    );
   };
 
   return (
@@ -152,51 +62,9 @@ const Attachments = () => {
             </span>
           )}
 
-          <div className="flex items-center justify-between">
-            <span className="p-input-icon-left ">
-              <Search width={20} className="top-4" />
-              <InputText
-                placeholder="Search by name or file type..."
-                size={45}
-                style={{
-                  backgroundColor: "var(--surface-100)",
-                  border: "none",
-                }}
-              />
-            </span>
-
-            <span className="flex items-center gap-4 border-l-2 pl-6 border-surface-300">
-              <span>view:</span>
-              <span className="bg-surface-400 p-1 rounded-lg">
-                <AlignJustify width={22} strokeWidth={3} />
-              </span>
-              <span className="bg-surface-300 p-1 rounded-lg">
-                <LayoutGrid
-                  width={20}
-                  fill="var(--surface-500)"
-                  strokeWidth={0}
-                />
-              </span>
-            </span>
-          </div>
-
-          <div className="flex border border-surface-300 rounded-lg">
-            <DataTable value={columnBody}>
-              <Column field="name" header="NAME" body={nameBodyTemplate} />
-              <Column field="fileRype" header={fileTypeHeader}></Column>
-              <Column field="fileSize" header={fileSizeHeader}></Column>
-            </DataTable>
-          </div>
-
-          <div className="flex items-center gap-5">
-            <Button
-              label="Back"
-              outlined
-              className="w-32"
-              style={buttonStyle}
-            />
-            <Button label="Finish" className="w-32" />
-          </div>
+          <span>
+            <Attachment_FileTable />
+          </span>
         </div>
       </NewWindow>
     </>

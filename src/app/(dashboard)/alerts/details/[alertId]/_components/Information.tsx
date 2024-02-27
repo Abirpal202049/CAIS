@@ -4,6 +4,8 @@ import Custom_Tab from "@/components/common/Custom_Tab";
 import { Expand } from "lucide-react";
 import { formatString } from "@/utils/formatData";
 import { Dialog } from "primereact/dialog";
+import Attachment_FileTable from "./Attachment_FileTable";
+import Communication from "./Communication";
 
 type Props = {
   data: any;
@@ -99,7 +101,9 @@ const Information: React.FC<Props> = ({ data, loading }) => {
             setSelectedTabIndex={setTabIndex}
           />
         </span>
-        <span></span>
+
+        <span>{tabIndex === 1 && <Attachment_FileTable />}</span>
+        <span>{tabIndex === 0 && <Communication />}</span>
       </div>
     </div>
   );
