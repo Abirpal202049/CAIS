@@ -4,6 +4,7 @@ import "../styles/globals.scss";
 import { PrimeReactProvider } from "primereact/api";
 import "../styles/theme/theme-light.scss";
 import ReduxProvider from "@/components/Providers/ReduxProvider";
+import { QueryClientProviderWrapper } from "@/components/Providers/QueryClientProvider";
 
 // const inter = Inter({ subsets: ["latin"] });
 const roboto = Roboto({ subsets: ["latin"], weight: ["400", "700"] });
@@ -22,7 +23,9 @@ export default function RootLayout({
     <html lang="en">
       <ReduxProvider>
         <PrimeReactProvider>
-          <body className={roboto.className}>{children}</body>
+          <QueryClientProviderWrapper>
+            <body className={roboto.className}>{children}</body>
+          </QueryClientProviderWrapper>
         </PrimeReactProvider>
       </ReduxProvider>
     </html>
