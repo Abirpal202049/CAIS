@@ -6,7 +6,11 @@ import { Editor } from "primereact/editor";
 import React, { useState } from "react";
 import NewWindow from "react-new-window";
 
-const NoteInformation = () => {
+type props = {
+  close: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
+const NoteInformation = ({ close }: props) => {
   const [tabIndex, setTabIndex] = useState(0);
   const [visible, setVisible] = useState(false);
   const [text, setText] = useState("");
@@ -55,6 +59,9 @@ const NoteInformation = () => {
         title="Notes Information"
         center="screen"
         copyStyles={true}
+        onUnload={() => {
+          close(false);
+        }}
       >
         <div
           className="flex flex-col justify-center p-5 gap-5"

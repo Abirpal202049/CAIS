@@ -1,8 +1,5 @@
-import React from "react";
-import { AlignJustify, ArrowUp, LayoutGrid, Search } from "lucide-react";
-import { Column } from "primereact/column";
-import { DataTable } from "primereact/datatable";
-import { InputText } from "primereact/inputtext";
+import React, { useState } from "react";
+import { AlignJustify, LayoutGrid } from "lucide-react";
 import { Button } from "primereact/button";
 import {
   FileDoc,
@@ -11,62 +8,67 @@ import {
   FileJpg,
   UnknownFile,
 } from "@/data/svgr/Attachments_Files";
+import Custom_Table from "@/components/common/Custom_Table";
 
-const Attachment_Files = () => {
+type Props = {
+  showButtons?: boolean;
+};
+
+const Attachment_FileTable: React.FC<Props> = ({ showButtons = "true" }) => {
+  const [tableView, setTableView] = useState<"list" | "grid">("list");
+
   const buttonStyle = {
     borderColor: "var(--surface-400)",
     color: "var(--surface-900)",
   };
   const columnBody = [
     {
-      id: "1",
       name: "dummy text of the printing and types...",
       fileType: "DOC",
       fileSize: "146 KB",
     },
     {
-      id: "2",
       name: "dummy text of the printing and types...",
       fileType: "PNG",
       fileSize: "122 KB",
     },
     {
-      id: "3",
       name: "dummy text of the printing and types...",
       fileType: "JPG",
       fileSize: "256 KB",
     },
     {
-      id: "4",
       name: "dummy text of the printing and types...",
       fileType: "PDF",
       fileSize: "125 KB",
     },
     {
-      id: "5",
       name: "Unknown.dat",
       fileType: "-",
       fileSize: "2 KB",
     },
     {
-      id: "6",
       name: "Unknown.dat",
       fileType: "-",
       fileSize: "5 KB",
     },
     {
-      id: "7",
       name: "Unknown.dat",
       fileType: "-",
       fileSize: "10 KB",
     },
     {
-      id: "8",
       name: "Unknown.dat",
       fileType: "-",
       fileSize: "12 KB",
     },
   ];
+
+  const columnData = columnBody.map((item, index) => ({
+    name: item.name,
+    fileType: item.fileType,
+    fileSize: item.fileSize,
+  }));
 
   const renderFileIcon = (fileType: any, size = 25) => {
     switch (fileType) {
@@ -83,72 +85,77 @@ const Attachment_Files = () => {
     }
   };
 
-  const nameBodyTemplate = (columnBody: any) => {
-    return (
-      <div className="flex items-center">
-        <span className="mr-2 ">{renderFileIcon(columnBody.fileType)}</span>
-        <span>{columnBody?.name}</span>
-      </div>
-    );
+  const handleSwitch = (rowData: any, field: any) => {
+    switch (field) {
+      case "name":
+        return (
+          <span className="flex items-center">
+            <span className="mr-2">{renderFileIcon(rowData.fileType)}</span>
+            <span className="text-nowrap grow-1">{rowData[field]}</span>
+          </span>
+        );
+      case "fileType":
+        return <span>{rowData[field]}</span>;
+      case "fileSize":
+        return <span>{rowData[field]}</span>;
+      default:
+        return null;
+    }
   };
 
-  const fileTypeHeader = () => {
-    return (
-      <div className="flex items-center">
-        <span>FILE TYPE</span>
-        <ArrowUp width={20} color="var(--surface-500)" />
-      </div>
-    );
-  };
-
-  const fileSizeHeader = () => {
-    return (
-      <div className="flex  items-center">
-        <span>FILE SIZE</span>
-        <ArrowUp width={20} color="var(--surface-500)" />
-      </div>
-    );
-  };
   return (
-    <div className="flex flex-col gap-6 mt-2">
-      <div className="flex items-center justify-between">
-        <span className="p-input-icon-left ">
-          <Search width={20} className="top-4" />
-          <InputText
-            placeholder="Search by name or file type..."
-            size={45}
-            style={{
-              backgroundColor: "var(--surface-100)",
-              border: "none",
-            }}
-          />
+    <div className="flex flex-col gap-6 mt-2 relative ">
+      <span className="flex items-center gap-4 border-l-2 pl-6 border-surface-300 absolute right-0 mt-5 z-10">
+        <span>view:</span>
+        <span
+          className={`bg-surface-400 p-1 rounded-lg cursor-pointer${
+            tableView === "list" ? "text-primary" : ""
+          }`}
+          onClick={() => {
+            setTableView("list");
+          }}
+        >
+          <AlignJustify width={22} strokeWidth={3} />
         </span>
+        <span
+          className={`bg-surface-300 p-1 rounded-lg ${
+            tableView === "grid" ? "text-primary" : ""
+          }`}
+          onClick={() => {
+            setTableView("grid");
+          }}
+        >
+          <LayoutGrid width={20} fill="var(--surface-500)" strokeWidth={0} />
+        </span>
+      </span>
 
-        <span className="flex items-center gap-4 border-l-2 pl-6 border-surface-300">
+      {tableView === "grid" ? (
+        <>
+          <div>Helooooooooooooooooooooooo</div>
           <span>view:</span>
-          <span className="bg-surface-400 p-1 rounded-lg">
-            <AlignJustify width={22} strokeWidth={3} />
-          </span>
-          <span className="bg-surface-300 p-1 rounded-lg">
-            <LayoutGrid width={20} fill="var(--surface-500)" strokeWidth={0} />
-          </span>
-        </span>
-      </div>
+        </>
+      ) : (
+        <div>
+          <Custom_Table
+            tableHeading=""
+            columnFilter
+            data={columnData}
+            handleSwitch={handleSwitch}
+            select={false}
+            ScrollHeight="calc(74vh - 100px)"
+            showColumnButton={false}
+          />
+        </div>
+      )}
 
-      <div className="flex border border-surface-300 rounded-lg">
-        <DataTable value={columnBody}>
-          <Column field="name" header="NAME" body={nameBodyTemplate} />
-          <Column field="fileType" header={fileTypeHeader}></Column>
-          <Column field="fileSize" header={fileSizeHeader}></Column>
-        </DataTable>
-      </div>
-
-      <div className="flex items-center gap-5">
-        <Button label="Back" outlined className="w-32" style={buttonStyle} />
-        <Button label="Finish" className="w-32" />
-      </div>
+      {showButtons && (
+        <div className="flex items-center gap-5">
+          <Button label="Back" outlined className="w-32" style={buttonStyle} />
+          <Button label="Finish" className="w-32" />
+        </div>
+      )}
     </div>
   );
 };
 
-export default Attachment_Files;
+export default Attachment_FileTable;

@@ -34,6 +34,7 @@ type Props = {
   ResizableColumns?: boolean;
   exportable?: boolean;
   expandable?: boolean;
+  showColumnButton?: boolean;
 };
 
 const defaultFilters: DataTableFilterMeta = {
@@ -84,6 +85,7 @@ const Custom_Table: React.FC<Props> = ({
   handleSwitch,
   exportable,
   expandable,
+  showColumnButton = true,
 }) => {
   const [selectedItems, setSelectedItems] = React.useState([]);
 
@@ -178,29 +180,32 @@ const Custom_Table: React.FC<Props> = ({
     <div className={styles.table_headerStyle}>
       <div>{columnFilter && globalSearch()}</div>
       <div className="grow flex gap-x-3 items-center">
-        <div className="flex ml-auto items-center">
-          <button
-            className="h-full flex justify-center items-center gap-1 border-surface-400 text-brand font-bold hover:border-primary"
-            onClick={() => document.getElementById("selectColumns")?.click()}
-          >
-            Columns <Columns2 />
-          </button>
-          <MultiSelect
-            id="selectColumns"
-            value={visibleColumns}
-            options={columns}
-            optionLabel="header"
-            scrollHeight="300px"
-            onChange={onColumnToggle}
-            filter
-            // display="chip"
-            className={`${styles.dynamicColumn} ${
-              columns.length === visibleColumns.length
-                ? styles.dynamicColumnChipsHide
-                : ""
-            } w-0 opacity-0 h-10 shadow-md`}
-          />
-        </div>
+        {showColumnButton && (
+          <div className="flex ml-auto items-center">
+            <button
+              className="h-full flex justify-center items-center gap-1 border-surface-400 text-brand font-bold hover:border-primary"
+              onClick={() => document.getElementById("selectColumns")?.click()}
+            >
+              Columns <Columns2 />
+            </button>
+
+            <MultiSelect
+              id="selectColumns"
+              value={visibleColumns}
+              options={columns}
+              optionLabel="header"
+              scrollHeight="300px"
+              onChange={onColumnToggle}
+              filter
+              // display="chip"
+              className={`${styles.dynamicColumn} ${
+                columns.length === visibleColumns.length
+                  ? styles.dynamicColumnChipsHide
+                  : ""
+              } w-0 opacity-0 h-10 shadow-md`}
+            />
+          </div>
+        )}
 
         {exportable && (
           <div className="relative">
