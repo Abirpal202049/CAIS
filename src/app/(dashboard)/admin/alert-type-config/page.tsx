@@ -5,23 +5,10 @@ import Custom_Table from "@/components/common/Custom_Table";
 
 type Props = {};
 
-export default function AlertTypePage({}: Props) {
+export default function AlertTypePage({ }: Props) {
   const { data, isLoading, isError } = useGetAllAlertType();
   const { mutate, data: abd, isPending } = useCreateAlertType();
 
-  const handleSubmit = (data: any) => {
-    mutate(data, {
-      onSuccess: (data) => {
-        alert("success");
-      },
-      onError: (err) => {
-        alert("error");
-      },
-      onSettled: (data, error) => {
-        alert("settled");
-      },
-    });
-  };
   const handleSwitch = (data: any, field: any) => {
     switch (field) {
       default:
