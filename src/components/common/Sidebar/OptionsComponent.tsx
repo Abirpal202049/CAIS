@@ -75,7 +75,7 @@ const OptionsComponent = ({
                           option?.options.map((opt) => (
                             <li key={opt.tabName} className="flex  p-3">
                               {/* <homeSetting className={Styles.nestedIcon}/> */}
-                              <a className=" flex cursor-pointer  hover:surface-100 transition-duration-150 transition-colors items-center gap-1 w-full justify-evenly">
+                              <Link href={opt.link} className={`flex cursor-pointer  hover:surface-100 transition-duration-150 transition-colors items-center gap-1 w-full justify-evenly`}>
                                 <IconBtn
                                   alt={opt.tabName}
                                   height={opt.size}
@@ -88,7 +88,7 @@ const OptionsComponent = ({
                                   route={route}
                                 />
                                 <span className="font-medium !text-sm w-full">{opt.tabName}</span>
-                              </a>
+                              </Link>
                             </li>
                           ))
                         }
