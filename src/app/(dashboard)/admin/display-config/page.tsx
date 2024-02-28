@@ -4,9 +4,9 @@ import { useGetDisplay } from '../_api/alert_config';
 import Custom_Table from '@/components/common/Custom_Table';
 
 const Page = () => {
-  const { data:any, isLoading, isError } = useGetDisplay();
+  const { data , isLoading, isError } = useGetDisplay();
 
-  const tableData = useMemo(() => {
+  const tableData:any = useMemo(() => {
     if (data && data.data) {
       return data.data.map(({ display_id, ...rest }) => rest);
     }

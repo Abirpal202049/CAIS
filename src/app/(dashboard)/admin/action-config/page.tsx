@@ -7,7 +7,7 @@ const Page = () => {
   const { data, isLoading, isError } = useGetActions();
   console.log("Actions :",data)
 
-  const tableData = useMemo(() => {
+  const tableData:any = useMemo(() => {
     if (data && data.data) {
       return data.data.map(({ action_id, ...rest }) => rest);
     }

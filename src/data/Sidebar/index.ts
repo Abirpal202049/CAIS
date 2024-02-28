@@ -24,7 +24,7 @@ export const sideBarOption = [
   },
   {
     tabName: "Administrator",
-    link: "admin",
+    link: "/admin",
     iconName: "user-circle-block",
     size: 25,
     icon: userCircleBlock,
