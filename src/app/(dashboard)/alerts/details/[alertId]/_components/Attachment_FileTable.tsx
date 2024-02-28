@@ -140,14 +140,14 @@ const Attachment_FileTable: React.FC<Props> = ({ showButtons = "true" }) => {
               className="bg-surface-100 !shadow-none"
             />
           </div>
-          <div className="grid grid-rows-4 grid-flow-col gap-4 ">
+          <div className="grid grid-rows-3 grid-flow-col gap-4 ">
             {columnData.map((item, index) => (
               <div
                 key={index}
                 className="flex flex-col items-center border border-surface-300 rounded-lg p-4"
               >
                 {renderFileIcon(item.fileType)}
-                <span>{item.name}</span>
+                <div className="w-20 truncate">{item.name}</div>
                 <span>{item.fileType}</span>
                 <span>{item.fileSize}</span>
               </div>
