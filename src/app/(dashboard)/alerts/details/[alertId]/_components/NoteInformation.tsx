@@ -2,6 +2,7 @@ import Custom_Tab from "@/components/common/Custom_Tab";
 import { ArrowUpNarrowWide, ChevronDown, Plus, XCircle } from "lucide-react";
 import { Button } from "primereact/button";
 import { Dialog } from "primereact/dialog";
+import { Dropdown } from "primereact/dropdown";
 import { Editor } from "primereact/editor";
 import React, { useState } from "react";
 import NewWindow from "react-new-window";
@@ -14,6 +15,7 @@ const NoteInformation = ({ close }: props) => {
   const [tabIndex, setTabIndex] = useState(0);
   const [visible, setVisible] = useState(false);
   const [text, setText] = useState("");
+  const [selected, setSelected] = useState(null);
 
   const tabsModel = [
     {
@@ -86,17 +88,21 @@ const NoteInformation = ({ close }: props) => {
               />
             </span>
 
-            <span className="flex justify-center items-center gap-3">
-              <span className="flex justify-center items-center border border-surface-300 rounded-lg px-2 py-1 font-primary gap-2 cursor-pointer">
-                <span>Sort</span>
-                <span>
-                  <ChevronDown width={20} />
-                </span>
+            <div className="flex justify-content-center mt-2">
+              <span>
+                <Dropdown
+                  value={selected}
+                  onChange={(e) => {
+                    setSelected(e.value);
+                  }}
+                  showClear
+                  options={informationData}
+                  optionLabel="name"
+                  placeholder="Sort"
+                  className="!shadow-none"
+                />
               </span>
-              <span className="border border-surface-300 rounded-lg gap-2 cursor-pointer">
-                <ArrowUpNarrowWide height={25} className="p-1" color="blue" />
-              </span>
-            </span>
+            </div>
           </div>
 
           <div className="flex flex-col border-2 border-surface-200 rounded-lg w-full h-auto p-5 gap-5">
@@ -139,6 +145,7 @@ const NoteInformation = ({ close }: props) => {
           </div>
         </div>
 
+        {/* Add Note Editor from here */}
         <div>
           {visible && (
             <Dialog
@@ -164,6 +171,7 @@ const NoteInformation = ({ close }: props) => {
 
                 <span>
                   <Editor
+                    placeholder="Type your note here...|"
                     value={text}
                     onTextChange={(e: any) => {
                       setText(e.htmlValue);

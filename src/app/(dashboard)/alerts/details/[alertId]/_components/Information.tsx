@@ -101,7 +101,7 @@ const Information: React.FC<Props> = ({ data, loading }) => {
               header="Information Request"
               visible={visible}
               draggable={false}
-              style={{ width: "40%" }}
+              style={{ width: "40vw" }}
               onHide={() => setVisible(false)}
             >
               <span>

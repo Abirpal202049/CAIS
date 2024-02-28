@@ -116,7 +116,7 @@ const Attachment_FileTable: React.FC<Props> = ({ showButtons = "true" }) => {
             setTableView("list");
           }}
         >
-          <AlignJustify width={22} strokeWidth={3} />
+          <AlignJustify width={22} color="var(--surface-600)" strokeWidth={3} />
         </span>
         <span
           className={`p-1 rounded-lg cursor-pointer ${
@@ -126,7 +126,7 @@ const Attachment_FileTable: React.FC<Props> = ({ showButtons = "true" }) => {
             setTableView("grid");
           }}
         >
-          <LayoutGrid width={20} fill="var(--surface-500)" strokeWidth={0} />
+          <LayoutGrid width={20} fill="var(--surface-600)" strokeWidth={0} />
         </span>
       </span>
 
@@ -137,7 +137,7 @@ const Attachment_FileTable: React.FC<Props> = ({ showButtons = "true" }) => {
             <InputText
               placeholder="Search by name or file type..."
               size={28}
-              className="bg-surface-100 border-none !shadow-none"
+              className="bg-surface-100 !shadow-none"
             />
           </div>
           <div className="grid grid-rows-4 grid-flow-col gap-4 ">
