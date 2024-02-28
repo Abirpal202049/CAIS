@@ -109,8 +109,8 @@ const Attachment_FileTable: React.FC<Props> = ({ showButtons = "true" }) => {
       <span className="flex items-center gap-4 border-l-2 pl-6 border-surface-300 absolute right-0 mt-5 z-10">
         <span>view:</span>
         <span
-          className={`bg-surface-400 p-1 rounded-lg cursor-pointer${
-            tableView === "list" ? "text-primary" : ""
+          className={` p-1 rounded-lg cursor-pointer ${
+            tableView === "list" ? "bg-surface-400" : "bg-surface-200"
           }`}
           onClick={() => {
             setTableView("list");
@@ -119,8 +119,8 @@ const Attachment_FileTable: React.FC<Props> = ({ showButtons = "true" }) => {
           <AlignJustify width={22} strokeWidth={3} />
         </span>
         <span
-          className={`bg-surface-300 p-1 rounded-lg ${
-            tableView === "grid" ? "text-primary" : ""
+          className={`p-1 rounded-lg cursor-pointer ${
+            tableView === "grid" ? "bg-surface-400" : "bg-surface-200"
           }`}
           onClick={() => {
             setTableView("grid");
