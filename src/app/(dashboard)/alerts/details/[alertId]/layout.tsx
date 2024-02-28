@@ -109,7 +109,7 @@ const Menu = ({ alertId }: { alertId: string }) => {
           }}
         >
           <Paperclip />
-          {isAttachmentOpen && <Attachments />}
+          {isAttachmentOpen && <Attachments close={setIsAttachmentOpen} />}
         </span>
         <span
           onClick={() => {
@@ -117,7 +117,7 @@ const Menu = ({ alertId }: { alertId: string }) => {
           }}
         >
           <FilePlus />
-          {isNoteInfoOpen && <NoteInformation />}
+          {isNoteInfoOpen && <NoteInformation close={setIsNoteInfoOpen} />}
         </span>
         <span>
           <Users />

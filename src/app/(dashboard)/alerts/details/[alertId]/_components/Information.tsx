@@ -14,6 +14,8 @@ type Props = {
 
 const Information: React.FC<Props> = ({ data, loading }) => {
   const [tabIndex, setTabIndex] = React.useState(0);
+  const [visible, setVisible] = React.useState(false);
+
   const tabsModel = [
     {
       label: "Communication",
@@ -91,9 +93,31 @@ const Information: React.FC<Props> = ({ data, loading }) => {
         <span className={styles.heading}>
           Information Request
           <span>
-            <Expand style={{ cursor: "pointer" }} />
+            <Expand
+              onClick={() => setVisible(true)}
+              style={{ cursor: "pointer" }}
+            />
+            <Dialog
+              header="Information Request"
+              visible={visible}
+              draggable={false}
+              style={{ width: "40vw" }}
+              onHide={() => setVisible(false)}
+            >
+              <span>
+                <Custom_Tab
+                  TabsModel={tabsModel}
+                  selectedTabIndex={tabIndex}
+                  setSelectedTabIndex={setTabIndex}
+                />
+              </span>
+
+              {tabIndex === 1 && <Attachment_FileTable showButtons={false} />}
+              {tabIndex === 0 && <Communication />}
+            </Dialog>
           </span>
         </span>
+
         <span>
           <Custom_Tab
             TabsModel={tabsModel}
@@ -102,8 +126,8 @@ const Information: React.FC<Props> = ({ data, loading }) => {
           />
         </span>
 
-        <span>{tabIndex === 1 && <Attachment_FileTable />}</span>
-        <span>{tabIndex === 0 && <Communication />}</span>
+        {tabIndex === 1 && <Attachment_FileTable showButtons={false} />}
+        {tabIndex === 0 && <Communication />}
       </div>
     </div>
   );
