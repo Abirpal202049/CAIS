@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { AlignJustify, LayoutGrid } from "lucide-react";
+import { AlignJustify, LayoutGrid, Search } from "lucide-react";
 import { Button } from "primereact/button";
 import {
   FileDoc,
@@ -9,6 +9,7 @@ import {
   UnknownFile,
 } from "@/data/svgr/Attachments_Files";
 import Custom_Table from "@/components/common/Custom_Table";
+import { InputText } from "primereact/inputtext";
 
 type Props = {
   showButtons?: boolean;
@@ -130,10 +131,29 @@ const Attachment_FileTable: React.FC<Props> = ({ showButtons = "true" }) => {
       </span>
 
       {tableView === "grid" ? (
-        <>
-          <div>Helooooooooooooooooooooooo</div>
-          <span>view:</span>
-        </>
+        <div className="flex flex-col gap-6   ">
+          <div className="p-input-icon-left mt-4">
+            <Search width={20} className="top-4 " />
+            <InputText
+              placeholder="Search by name or file type..."
+              size={28}
+              className="bg-surface-100 border-none !shadow-none"
+            />
+          </div>
+          <div className="grid grid-rows-4 grid-flow-col gap-4 ">
+            {columnData.map((item, index) => (
+              <div
+                key={index}
+                className="flex flex-col items-center border border-surface-300 rounded-lg p-4"
+              >
+                {renderFileIcon(item.fileType)}
+                <span>{item.name}</span>
+                <span>{item.fileType}</span>
+                <span>{item.fileSize}</span>
+              </div>
+            ))}
+          </div>
+        </div>
       ) : (
         <div>
           <Custom_Table
