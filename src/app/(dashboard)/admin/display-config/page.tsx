@@ -6,13 +6,6 @@ import Custom_Table from '@/components/common/Custom_Table';
 const Page = () => {
   const { data , isLoading, isError } = useGetDisplay();
 
-  const tableData:any = useMemo(() => {
-    if (data && data.data) {
-      return data.data.map(({ display_id, ...rest }) => rest);
-    }
-    return [];
-  }, [data]);
-  
   const handleSwitch = (data: any, field: any) => {
     switch (field) {
       default:
@@ -20,10 +13,33 @@ const Page = () => {
     }
   };
 
+  const showColumns = [
+    {
+      field: "name",
+      header: "Name",
+    },
+    {
+      field: "identifier",
+      header: "Identifier",
+    },
+    {
+      field: "created_at",
+      header: "Created",
+    },
+    {
+      field: "updated_at",
+      header: "Updated",
+    },
+  ];
+
   return (
     <div className='overflow-hidden'>
        {!isLoading && (
-        <Custom_Table data={tableData} handleSwitch={handleSwitch} />
+        <Custom_Table 
+         data={data?.data} 
+         handleSwitch={handleSwitch} 
+         showColumns={showColumns}
+        />
       )}
     </div>
   )
