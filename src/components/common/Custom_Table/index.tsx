@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { DataTable, DataTableFilterMeta } from "primereact/datatable";
 import { Column } from "primereact/column";
 import { MultiSelect, MultiSelectChangeEvent } from "primereact/multiselect";
@@ -23,6 +23,7 @@ import {
 import { set } from "react-hook-form";
 import { Dialog } from "primereact/dialog";
 import { formatString } from "@/utils/formatData";
+import { OverlayPanel } from "primereact/overlaypanel";
 
 type Props = {
   tableHeading?: string;
@@ -102,6 +103,7 @@ const Custom_Table: React.FC<Props> = ({
   const [loading, setLoading] = React.useState(true);
 
   const dtRef = React.useRef(null);
+  const exportRef = useRef<OverlayPanel>(null);
   React.useEffect(() => {
     const dynamicColumns = Object.keys(data[0]).map((ele) => ({
       field: ele,
@@ -198,6 +200,7 @@ const Custom_Table: React.FC<Props> = ({
               onChange={onColumnToggle}
               filter
               // display="chip"
+              filterInputAutoFocus={false}
               className={`${styles.dynamicColumn} ${
                 columns.length === visibleColumns.length
                   ? styles.dynamicColumnChipsHide
@@ -210,33 +213,42 @@ const Custom_Table: React.FC<Props> = ({
         {exportable && (
           <div className="relative">
             <button
-              className="flex gap-3 items-center border rounded-lg border-surface-400 px-3 py-1 text-brand font-bold hover:border-primary"
-              onClick={() => setExportVisible(!exportVisible)}
+              className="flex gap-3 items-center border rounded-lg border-surface-400 px-4 py-2 text-var(--surface-900) font-bold "
+              // onClick={() => setExportVisible(!exportVisible)}
+              onClick={(e) => {
+                if (exportRef.current) {
+                  exportRef.current.toggle(e);
+                }
+              }}
             >
               <Download />
               Export
             </button>
-            <div
-              className={`absolute right-0 z-10 border border-surface-500 rounded-lg p-1 bg-surface-50 mt-1.5 ${
-                exportVisible ? "" : "hidden"
-              }`}
-            >
-              <button
-                className="w-full flex gap-3 hover:bg-surface-300 hover:rounded-sm items-center px-3 py-1 text-brand font-bold mb-1"
-                onClick={() => exportCSV(dtRef, false)}
+
+            <div>
+              <OverlayPanel
+                ref={exportRef}
+                closeOnEscape
+                dismissable={false}
+                showCloseIcon={false}
               >
-                <Download />
-                CSV
-              </button>
-              <button
-                className="flex gap-3 hover:bg-surface-300 hover:rounded-sm items-center px-3 py-1 text-brand font-bold"
-                onClick={() =>
-                  exportExcel(data, tableHeading ? tableHeading : "data")
-                } // change the string "data " to the name of the file
-              >
-                <Download />
-                Excel
-              </button>
+                <button
+                  className="w-full flex gap-3 hover:bg-surface-300 hover:rounded-sm items-center px-4 py-2 text-var(--surface-900) font-bold mb-1"
+                  onClick={() => exportCSV(dtRef, false)}
+                >
+                  <Download />
+                  CSV
+                </button>
+                <button
+                  className="flex gap-3 hover:bg-surface-300 hover:rounded-sm items-center px-4 py-2 text-var(--surface-900) font-bold"
+                  onClick={() =>
+                    exportExcel(data, tableHeading ? tableHeading : "data")
+                  }
+                >
+                  <Download />
+                  Excel
+                </button>
+              </OverlayPanel>
             </div>
           </div>
         )}

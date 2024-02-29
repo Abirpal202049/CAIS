@@ -15,6 +15,7 @@ type Props = {
 const Information: React.FC<Props> = ({ data, loading }) => {
   const [tabIndex, setTabIndex] = React.useState(0);
   const [visible, setVisible] = React.useState(false);
+  const [dialogTabIndex, setDialogTabIndex] = React.useState(0);
 
   const tabsModel = [
     {
@@ -26,7 +27,6 @@ const Information: React.FC<Props> = ({ data, loading }) => {
   ];
 
   const filteredData = { ...data };
-  console.log("filteredData keys", Object.keys(filteredData));
   delete filteredData.issue_details;
   delete filteredData.alert_details;
 
@@ -94,26 +94,28 @@ const Information: React.FC<Props> = ({ data, loading }) => {
           Information Request
           <span>
             <Expand
-              onClick={() => setVisible(true)}
+              onClick={() => setVisible(!visible)}
               style={{ cursor: "pointer" }}
             />
             <Dialog
               header="Information Request"
               visible={visible}
               draggable={false}
-              style={{ width: "40vw" }}
-              onHide={() => setVisible(false)}
+              style={{ width: "45rem", height: "65rem" }}
+              onHide={() => setVisible(!visible)}
             >
               <span>
                 <Custom_Tab
                   TabsModel={tabsModel}
-                  selectedTabIndex={tabIndex}
-                  setSelectedTabIndex={setTabIndex}
+                  selectedTabIndex={dialogTabIndex}
+                  setSelectedTabIndex={setDialogTabIndex}
                 />
               </span>
 
-              {tabIndex === 1 && <Attachment_FileTable showButtons={false} />}
-              {tabIndex === 0 && <Communication />}
+              {dialogTabIndex === 1 && (
+                <Attachment_FileTable showButtons={false} />
+              )}
+              {dialogTabIndex === 0 && <Communication />}
             </Dialog>
           </span>
         </span>

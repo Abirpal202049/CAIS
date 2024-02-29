@@ -105,7 +105,11 @@ const Attachment_FileTable: React.FC<Props> = ({ showButtons = "true" }) => {
   };
 
   return (
-    <div className="flex flex-col gap-6 mt-2 relative ">
+    <div
+      className={`flex flex-col gap-6 mt-2 relative h-[45rem] ${
+        tableView === "grid" ? "h-[35rem]" : ""
+      }`}
+    >
       <span className="flex items-center gap-4 border-l-2 pl-6 border-surface-300 absolute right-0 mt-5 z-10">
         <span>view:</span>
         <span
@@ -169,7 +173,11 @@ const Attachment_FileTable: React.FC<Props> = ({ showButtons = "true" }) => {
       )}
 
       {showButtons && (
-        <div className="flex items-center gap-5">
+        <div
+          className={`flex items-center gap-5 mt-1 ${
+            tableView === "grid" ? "mt-5" : ""
+          }`}
+        >
           <Button label="Back" outlined className="w-32" style={buttonStyle} />
           <Button label="Finish" className="w-32" />
         </div>
