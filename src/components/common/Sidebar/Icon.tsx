@@ -16,9 +16,9 @@ export default function IconBtn({
 }: IconBtnProps) {
 
   return (
-    <div className={`cursor-pointer ${Styles.icon_container} ${route==link?`${Styles.icon_active}`:''}`}>
+    <div className={`cursor-pointer flex justify-evenly  ${Styles.icon_container} ${route==link?`${Styles.icon_active}`:''}`}>
       <div>
-      {IconComponent && <IconComponent />}
+      {IconComponent && <IconComponent className="text-surface-500"/>}
       </div>
     </div>
   );

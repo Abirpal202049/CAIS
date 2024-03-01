@@ -1,18 +1,22 @@
 "use client"
-import React, { useMemo } from 'react'
-import { useGetActions } from '../_api/alert_config';
+import React, { useState } from 'react'
 import Custom_Table from '@/components/common/Custom_Table';
+import { Dialog } from 'primereact/dialog';
+import { Plus } from 'lucide-react';
+import { InputText } from 'primereact/inputtext';
+import { Button } from 'primereact/button';
+import { useCreateActionType, useGetActions } from '../_api/action.config';
 
 const Page = () => {
   const { data, isLoading, isError } = useGetActions();
-  console.log("Actions :",data)
+  const [visible, setVisible] = useState(false);
+  const { mutate, isPending } = useCreateActionType()
+  const [inputData, setInputData] = useState({
+    name: '',
+    identifier: ''
+  })
 
-  const tableData = useMemo(() => {
-    if (data && data.data) {
-      return data.data.map(({ action_id, ...rest }) => rest);
-    }
-    return [];
-  }, [data]);
+
 
   const handleSwitch = (data: any, field: any) => {
     switch (field) {
@@ -21,11 +25,89 @@ const Page = () => {
     }
   };
 
+  const showColumns = [
+    {
+      field: "name",
+      header: "Name",
+    },
+    {
+      field: "identifier",
+      header: "Identifier",
+    },
+    {
+      field: "created_at",
+      header: "Created",
+    },
+    {
+      field: "updated_at",
+      header: "Updated",
+    },
+  ];
+
+  const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setInputData((prevInputData) => ({
+      ...prevInputData,
+      name: e.target.value,
+      identifier: e.target.value.toLowerCase().replace(/\s+/g, '-'),
+    }));
+  }
+
+  const handleActionSubmit = () => {
+    mutate(inputData, {
+      onSuccess: (data) => {
+        console.log('Success ', data)
+      },
+      onError: (err) => {
+        console.log('Success ', err)
+      },
+      onSettled: (data, error) => {
+        console.log('Success ', data, error)
+      },
+    })
+    if (!isPending) {
+      setVisible(false);
+      setInputData({
+        name: '',
+        identifier: ''
+      })
+    }
+  }
+
   return (
     <div className='overflow-hidden'>
-       {!isLoading && (
-        <Custom_Table data={tableData} handleSwitch={handleSwitch} />
-      )}
+
+      <div className=' flex justify-between px-3'>
+        <p className='!text-xl font-semibold'>Action Configuration</p>
+        <div className='flex gap-1 cursor-pointer justify-center items-center text-brand font-bold hover:border-primary' onClick={() => setVisible(!visible)}>
+          <Plus /> <p>Add Action</p>
+        </div>
+      </div>
+
+      <div>
+        {!isLoading && (
+          <Custom_Table
+            data={data?.data}
+            columnFilter
+            handleSwitch={handleSwitch}
+            showColumns={showColumns}
+          />
+        )}
+      </div>
+      <Dialog header="Add New Action" visible={visible} style={{ width: '30vw' }} onHide={() => setVisible(false)} className='rounded p-2'>
+        <div className="flex flex-col  items-center">
+          <div className='w-4/5 flex flex-col gap-5'>
+            <div className='flex flex-col gap-2'>
+              <label htmlFor="username">Name</label>
+              <InputText id="username" aria-describedby="username-help" onChange={handleInput} />
+            </div>
+            <div className='flex flex-col gap-2'>
+              <label htmlFor="identifier">Identifier</label>
+              <InputText id="identifier" value={inputData.identifier} aria-describedby="identifier-help" disabled />
+            </div>
+            <Button label='Create Action' onClick={handleActionSubmit} disabled={isPending} />
+          </div>
+        </div>
+      </Dialog>
     </div>
   )
 }

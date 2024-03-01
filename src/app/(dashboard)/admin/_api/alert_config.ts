@@ -19,29 +19,6 @@ export const useGetAllAlerts = () => {
   });
 };
 
-export const useGetActions = () => {
-  return useQuery({
-    queryKey: ["allActions"],
-    queryFn: getAllActions,
-  });
-};
-
-export const useGetDisplay = () => {
-  return useQuery({
-    queryKey: ["allDisplay"],
-    queryFn: getAllDisplay,
-  });
-};
-
-const getAllDisplay = async (data: any) => {
-  const res = await BASE_INSTANCE.get("/display");
-  return res.data;
-};
-
-const getAllActions = async (data: any) => {
-  const res = await BASE_INSTANCE.get("/action");
-  return res.data;
-};
 
 const createAlert = async (data: any) => {
   const res = await BASE_INSTANCE.post("/alerts", data);

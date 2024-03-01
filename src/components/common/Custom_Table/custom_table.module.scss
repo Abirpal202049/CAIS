@@ -45,6 +45,11 @@
     &:focus {
       box-shadow: none;
     }
+    div {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
   }
   .columnClassName {
     border: var(--border);

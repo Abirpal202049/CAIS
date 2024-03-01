@@ -34,6 +34,7 @@ type Props = {
   ResizableColumns?: boolean;
   exportable?: boolean;
   expandable?: boolean;
+  showColumns?: { field: string; header: string }[];
 };
 
 const defaultFilters: DataTableFilterMeta = {
@@ -84,6 +85,7 @@ const Custom_Table: React.FC<Props> = ({
   handleSwitch,
   exportable,
   expandable,
+  showColumns = [],
 }) => {
   const [selectedItems, setSelectedItems] = React.useState([]);
 
@@ -101,13 +103,16 @@ const Custom_Table: React.FC<Props> = ({
 
   const dtRef = React.useRef(null);
   React.useEffect(() => {
-    const dynamicColumns = Object.keys(data[0]).map((ele) => ({
-      field: ele,
-      header: ele
-        .split("_")
-        .map((ele) => ele.charAt(0).toUpperCase() + ele.slice(1))
-        .join(" "),
-    }));
+    const dynamicColumns =
+      showColumns.length > 0
+        ? showColumns
+        : Object.keys(data[0]).map((ele) => ({
+            field: ele,
+            header: ele
+              .split("_")
+              .map((ele) => ele.charAt(0).toUpperCase() + ele.slice(1))
+              .join(" "),
+          }));
     setColumns(dynamicColumns);
     setVisibleColumns(dynamicColumns);
     setTimeout(() => {
