@@ -8,6 +8,7 @@ import { Dialog } from 'primereact/dialog';
 import { useCreateDisplayType, useGetDisplay } from '../_api/display.config';
 import { queryClient } from '@/components/Providers/QueryClientProvider';
 import { diaplayColumns } from '@/data/admin/tableColumns';
+import CustomTab from '@/components/common/admin-config/CustomTab';
 
 const Page = () => {
   const { data, isLoading, isError } = useGetDisplay();
@@ -58,12 +59,14 @@ const Page = () => {
 
   return (
     <div className='overflow-hidden'>
-      <div className=' flex justify-between px-3 py-2'>
-        <p className='!text-xl font-semibold'>Display Configuration</p>
-        <div className='flex gap-1 cursor-pointer justify-center items-center text-brand font-bold hover:border-primary' onClick={() => setVisible(!visible)}>
-          <Plus /> <p>Add Action</p>
-        </div>
-      </div>
+
+      <CustomTab
+        setVisible={setVisible}
+        visible={visible}
+        title="Display Configuration"
+        ActionType="Add Diaplay"
+      />
+
       <div>
         {!isLoading && (
           <Custom_Table

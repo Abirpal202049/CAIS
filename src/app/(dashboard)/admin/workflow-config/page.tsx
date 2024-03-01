@@ -8,11 +8,12 @@ import { Dialog } from 'primereact/dialog';
 import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
 import { queryClient } from '@/components/Providers/QueryClientProvider';
+import CustomTab from '@/components/common/admin-config/CustomTab';
 
 type Props = {}
 
-export default function WorkflowConfigPage({}: Props) {
-  const { data, isLoading,isPending, isError } = useGetWorkflow();
+export default function WorkflowConfigPage({ }: Props) {
+  const { data, isLoading, isPending, isError } = useGetWorkflow();
   const { mutate } = useCreateWorkflowType()
   const [visible, setVisible] = useState(false);
   const [inputData, setInputData] = useState({
@@ -51,21 +52,21 @@ export default function WorkflowConfigPage({}: Props) {
     if (inputData.name && !isPending) {
       setVisible(false);
       setInputData({
-        name:'',
-        identifier:''
+        name: '',
+        identifier: ''
       })
     }
   }
 
   return (
     <div className='overflow-hidden'>
-       <div className=' flex justify-between px-3 py-2'>
-        <p className='!text-xl font-semibold'>Workflow  Configuration</p>
-        <div className='flex gap-1 cursor-pointer justify-center items-center text-brand font-bold hover:border-primary' onClick={() => setVisible(!visible)}>
-          <Plus /> <p>Add Workflow</p>
-        </div>
-      </div>
-        <div>
+      <CustomTab
+        setVisible={setVisible}
+        visible={visible}
+        title="Workflow Configuration"
+        ActionType="Add Workflow"
+      />
+      <div>
         {!isLoading && (
           <Custom_Table
             data={data?.data}
@@ -81,7 +82,7 @@ export default function WorkflowConfigPage({}: Props) {
           <div className='w-4/5 flex flex-col gap-5'>
             <div className='flex flex-col gap-2'>
               <label htmlFor="username">Name</label>
-              <InputText id="username" aria-describedby="username-help" onChange={handleInput} required/>
+              <InputText id="username" aria-describedby="username-help" onChange={handleInput} required />
             </div>
             <div className='flex flex-col gap-2'>
               <label htmlFor="identifier">Identifier</label>

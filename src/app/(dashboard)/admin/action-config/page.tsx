@@ -8,6 +8,7 @@ import { Button } from 'primereact/button';
 import { useCreateActionType, useGetActions } from '../_api/action.config';
 import { queryClient } from '@/components/Providers/QueryClientProvider';
 import { ActionColumns } from '@/data/admin/tableColumns';
+import CustomTab from '@/components/common/admin-config/CustomTab';
 
 const Page = () => {
   const { data, isLoading, isError } = useGetActions();
@@ -60,13 +61,12 @@ const Page = () => {
   return (
     <div className='overflow-hidden'>
 
-      <div className='flex justify-between px-3 py-2'>
-        <p className='!text-xl font-semibold'>Action Configuration</p>
-        <div className='flex gap-1 cursor-pointer justify-center items-center text-brand font-bold hover:border-primary' onClick={() => setVisible(!visible)}>
-          <Plus /> <p>Add Action</p>
-        </div>
-      </div>
-
+      <CustomTab
+        setVisible={setVisible}
+        title="Action Configuration"
+        ActionType="Add Action"
+        visible={visible}
+      />
       <div>
         {!isLoading && (
           <Custom_Table
