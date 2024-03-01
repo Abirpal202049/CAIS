@@ -6,9 +6,10 @@ import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
 import { Dialog } from 'primereact/dialog';
 import { useCreateDisplayType, useGetDisplay } from '../_api/display.config';
+import { queryClient } from '@/components/Providers/QueryClientProvider';
 
 const Page = () => {
-  const { data , isLoading, isError } = useGetDisplay();
+  const { data, isLoading, isError } = useGetDisplay();
   const [visible, setVisible] = useState(false);
   const [inputData, setInputData] = useState({
     name: '',
@@ -54,6 +55,7 @@ const Page = () => {
     mutate(inputData, {
       onSuccess: (data) => {
         console.log('Success ', data)
+        queryClient.invalidateQueries({ queryKey: ["allDisplay"] })
       },
       onError: (err) => {
         console.log('Success ', err)
@@ -65,8 +67,8 @@ const Page = () => {
     if (inputData.name && !isPending) {
       setVisible(false);
       setInputData({
-        name:'',
-        identifier:''
+        name: '',
+        identifier: ''
       })
     }
   }
@@ -76,25 +78,25 @@ const Page = () => {
       <div className=' flex justify-between px-3'>
         <p className='!text-xl font-semibold'>Display Configuration</p>
         <div className='flex gap-1 cursor-pointer justify-center items-center text-brand font-bold hover:border-primary' onClick={() => setVisible(!visible)}>
-          <Plus/> <p>Add Action</p>
+          <Plus /> <p>Add Action</p>
         </div>
       </div>
       <div>
-       {!isLoading && (
-        <Custom_Table 
-         data={data?.data} 
-         columnFilter
-         handleSwitch={handleSwitch} 
-         showColumns={showColumns}
-        />
-      )}
+        {!isLoading && (
+          <Custom_Table
+            data={data?.data}
+            columnFilter
+            handleSwitch={handleSwitch}
+            showColumns={showColumns}
+          />
+        )}
       </div>
       <Dialog draggable={false} header="Add New Display" visible={visible} style={{ width: '30vw' }} onHide={() => setVisible(false)} className='rounded p-2'>
         <div className="flex flex-col  items-center">
           <div className='w-4/5 flex flex-col gap-5'>
             <div className='flex flex-col gap-2'>
               <label htmlFor="username">Name</label>
-              <InputText id="username" aria-describedby="username-help" onChange={handleInput} required/>
+              <InputText id="username" aria-describedby="username-help" onChange={handleInput} required />
             </div>
             <div className='flex flex-col gap-2'>
               <label htmlFor="identifier">Identifier</label>

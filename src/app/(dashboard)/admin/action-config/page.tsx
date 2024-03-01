@@ -6,6 +6,7 @@ import { Plus } from 'lucide-react';
 import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
 import { useCreateActionType, useGetActions } from '../_api/action.config';
+import { queryClient } from '@/components/Providers/QueryClientProvider';
 
 const Page = () => {
   const { data, isLoading, isError } = useGetActions();
@@ -56,6 +57,7 @@ const Page = () => {
     mutate(inputData, {
       onSuccess: (data) => {
         console.log('Success ', data)
+        queryClient.invalidateQueries({ queryKey: ["allActions"] })
       },
       onError: (err) => {
         console.log('Success ', err)
@@ -64,7 +66,7 @@ const Page = () => {
         console.log('Success ', data, error)
       },
     })
-    if (inputData.name &&!isPending) {
+    if (inputData.name && !isPending) {
       setVisible(false);
       setInputData({
         name: '',
