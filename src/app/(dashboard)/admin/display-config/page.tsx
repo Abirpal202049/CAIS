@@ -89,7 +89,7 @@ const Page = () => {
         />
       )}
       </div>
-      <Dialog header="Add New Display" visible={visible} style={{ width: '30vw' }} onHide={() => setVisible(false)} className='rounded p-2'>
+      <Dialog draggable={false} header="Add New Display" visible={visible} style={{ width: '30vw' }} onHide={() => setVisible(false)} className='rounded p-2'>
         <div className="flex flex-col  items-center">
           <div className='w-4/5 flex flex-col gap-5'>
             <div className='flex flex-col gap-2'>
