@@ -58,7 +58,7 @@ const Page = () => {
 
   return (
     <div className='overflow-hidden'>
-      <div className=' flex justify-between px-3'>
+      <div className=' flex justify-between px-3 py-2'>
         <p className='!text-xl font-semibold'>Display Configuration</p>
         <div className='flex gap-1 cursor-pointer justify-center items-center text-brand font-bold hover:border-primary' onClick={() => setVisible(!visible)}>
           <Plus /> <p>Add Action</p>

@@ -59,7 +59,7 @@ export default function WorkflowConfigPage({}: Props) {
 
   return (
     <div className='overflow-hidden'>
-       <div className=' flex justify-between px-3'>
+       <div className=' flex justify-between px-3 py-2'>
         <p className='!text-xl font-semibold'>Workflow  Configuration</p>
         <div className='flex gap-1 cursor-pointer justify-center items-center text-brand font-bold hover:border-primary' onClick={() => setVisible(!visible)}>
           <Plus /> <p>Add Workflow</p>
