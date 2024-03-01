@@ -62,7 +62,7 @@ const Page = () => {
         console.log('Success ', data, error)
       },
     })
-    if (!isPending) {
+    if (inputData.name && !isPending) {
       setVisible(false);
       setInputData({
         name:'',
@@ -74,7 +74,7 @@ const Page = () => {
   return (
     <div className='overflow-hidden'>
       <div className=' flex justify-between px-3'>
-        <p className='!text-xl font-semibold'>Action Configuration</p>
+        <p className='!text-xl font-semibold'>Display Configuration</p>
         <div className='flex gap-1 cursor-pointer justify-center items-center text-brand font-bold hover:border-primary' onClick={() => setVisible(!visible)}>
           <Plus/> <p>Add Action</p>
         </div>
@@ -83,23 +83,24 @@ const Page = () => {
        {!isLoading && (
         <Custom_Table 
          data={data?.data} 
+         columnFilter
          handleSwitch={handleSwitch} 
          showColumns={showColumns}
         />
       )}
       </div>
-      <Dialog header="Add New Action" visible={visible} style={{ width: '30vw' }} onHide={() => setVisible(false)} className='rounded p-2'>
+      <Dialog draggable={false} header="Add New Display" visible={visible} style={{ width: '30vw' }} onHide={() => setVisible(false)} className='rounded p-2'>
         <div className="flex flex-col  items-center">
           <div className='w-4/5 flex flex-col gap-5'>
             <div className='flex flex-col gap-2'>
               <label htmlFor="username">Name</label>
-              <InputText id="username" aria-describedby="username-help" onChange={handleInput} />
+              <InputText id="username" aria-describedby="username-help" onChange={handleInput} required/>
             </div>
             <div className='flex flex-col gap-2'>
               <label htmlFor="identifier">Identifier</label>
               <InputText id="identifier" value={inputData.identifier} aria-describedby="identifier-help" disabled />
             </div>
-            <Button label='Create Display' onClick={handleDisplaySubmit} disabled={isPending} />
+            <Button label='Create Display' onClick={handleDisplaySubmit} disabled={isPending} type='submit' />
           </div>
         </div>
       </Dialog>
