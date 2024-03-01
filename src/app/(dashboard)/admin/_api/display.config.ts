@@ -10,7 +10,7 @@ const BASE_INSTANCE = axios.create({
 
 const createDiaplayType = async (data: any) => {
     console.log("data :",data)
-    const res = await BASE_INSTANCE.post("/display/new", data);
+    const res = await BASE_INSTANCE.post("/display/create", data);
     return res.data;
   };
   

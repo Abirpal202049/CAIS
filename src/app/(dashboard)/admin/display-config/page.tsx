@@ -11,7 +11,8 @@ const Page = () => {
   const { data , isLoading, isError } = useGetDisplay();
   const [visible, setVisible] = useState(false);
   const [inputData, setInputData] = useState({
-    name:''
+    name: '',
+    identifier: ''
   })
   const { mutate, isPending } = useCreateDisplayType()
 
@@ -41,6 +42,14 @@ const Page = () => {
     },
   ];
 
+  const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setInputData((prevInputData) => ({
+      ...prevInputData,
+      name: e.target.value,
+      identifier: e.target.value.toLowerCase().replace(/\s+/g, '-'),
+    }));
+  }
+
   const handleDisplaySubmit = () => {
     mutate(inputData, {
       onSuccess: (data) => {
@@ -56,7 +65,8 @@ const Page = () => {
     if (!isPending) {
       setVisible(false);
       setInputData({
-        name:''
+        name:'',
+        identifier:''
       })
     }
   }
@@ -82,11 +92,14 @@ const Page = () => {
         <div className="flex flex-col  items-center">
           <div className='w-4/5 flex flex-col gap-5'>
             <div className='flex flex-col gap-2'>
-              <label htmlFor="rname">Name</label>
-              <InputText id="rname" aria-describedby="username-help" onChange={(e)=>setInputData({name:e.target.value})} value={inputData.name}/>
+              <label htmlFor="username">Name</label>
+              <InputText id="username" aria-describedby="username-help" onChange={handleInput} />
             </div>
-
-            <Button label='Create Action' onClick={handleDisplaySubmit} disabled={isPending} />
+            <div className='flex flex-col gap-2'>
+              <label htmlFor="identifier">Identifier</label>
+              <InputText id="identifier" value={inputData.identifier} aria-describedby="identifier-help" disabled />
+            </div>
+            <Button label='Create Display' onClick={handleDisplaySubmit} disabled={isPending} />
           </div>
         </div>
       </Dialog>
