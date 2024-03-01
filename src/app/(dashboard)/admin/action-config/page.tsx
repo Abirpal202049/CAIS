@@ -27,8 +27,6 @@ const Page = () => {
     }
   };
 
-
-
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputData((prevInputData) => ({
       ...prevInputData,

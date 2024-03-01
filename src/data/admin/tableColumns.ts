@@ -78,3 +78,23 @@ export const ActionColumns = [
       header: "Updated",
     },
   ];
+
+
+  export  const workflowColumns = [
+    {
+      field: "name",
+      header: "Name",
+    },
+    {
+      field: "identifier",
+      header: "Identifier",
+    },
+    {
+      field: "created_at",
+      header: "Created",
+    },
+    {
+      field: "updated_at",
+      header: "Updated",
+    },
+  ];
