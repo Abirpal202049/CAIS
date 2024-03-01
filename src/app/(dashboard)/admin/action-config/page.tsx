@@ -7,7 +7,7 @@ import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
 import { useCreateActionType, useGetActions } from '../_api/action.config';
 import { queryClient } from '@/components/Providers/QueryClientProvider';
-import { ActionColumns } from '@/data/admin/tableCOlumns';
+import { ActionColumns } from '@/data/admin/tableColumns';
 
 const Page = () => {
   const { data, isLoading, isError } = useGetActions();

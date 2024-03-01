@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 import { useGetAllAlertType, useCreateAlertType } from "../_api/alert_config";
 import Custom_Table from "@/components/common/Custom_Table";
 import { CheckSquare2, XSquare } from "lucide-react";
-import { AlertTypeColumns } from "@/data/admin/tableCOlumns";
+import { AlertTypeColumns } from "@/data/admin/tableColumns";
 
 type Props = {};
 

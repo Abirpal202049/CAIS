@@ -7,7 +7,7 @@ import { Button } from 'primereact/button';
 import { Dialog } from 'primereact/dialog';
 import { useCreateDisplayType, useGetDisplay } from '../_api/display.config';
 import { queryClient } from '@/components/Providers/QueryClientProvider';
-import { diaplayColumns } from '@/data/admin/tableCOlumns';
+import { diaplayColumns } from '@/data/admin/tableColumns';
 
 const Page = () => {
   const { data, isLoading, isError } = useGetDisplay();
