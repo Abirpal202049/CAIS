@@ -7,6 +7,7 @@ import { Button } from 'primereact/button';
 import { Dialog } from 'primereact/dialog';
 import { useCreateDisplayType, useGetDisplay } from '../_api/display.config';
 import { queryClient } from '@/components/Providers/QueryClientProvider';
+import { diaplayColumns } from '@/data/admin/tableCOlumns';
 
 const Page = () => {
   const { data, isLoading, isError } = useGetDisplay();
@@ -24,24 +25,6 @@ const Page = () => {
     }
   };
 
-  const showColumns = [
-    {
-      field: "name",
-      header: "Name",
-    },
-    {
-      field: "identifier",
-      header: "Identifier",
-    },
-    {
-      field: "created_at",
-      header: "Created",
-    },
-    {
-      field: "updated_at",
-      header: "Updated",
-    },
-  ];
 
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputData((prevInputData) => ({
@@ -87,7 +70,7 @@ const Page = () => {
             data={data?.data}
             columnFilter
             handleSwitch={handleSwitch}
-            showColumns={showColumns}
+            showColumns={diaplayColumns}
           />
         )}
       </div>
