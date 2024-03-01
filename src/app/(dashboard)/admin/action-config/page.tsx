@@ -64,7 +64,7 @@ const Page = () => {
         console.log('Success ', data, error)
       },
     })
-    if (!isPending) {
+    if (inputData.name &&!isPending) {
       setVisible(false);
       setInputData({
         name: '',
