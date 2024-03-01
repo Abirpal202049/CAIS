@@ -3,6 +3,7 @@ import React, { useEffect } from "react";
 import { useGetAllAlertType, useCreateAlertType } from "../_api/alert_config";
 import Custom_Table from "@/components/common/Custom_Table";
 import { CheckSquare2, XSquare } from "lucide-react";
+import { AlertTypeColumns } from "@/data/admin/tableCOlumns";
 
 type Props = {};
 
@@ -23,48 +24,7 @@ export default function AlertTypePage({}: Props) {
       },
     });
   };
-  const showColumns = [
-    {
-      field: "name",
-      header: "Name",
-    },
-    {
-      field: "identifier",
-      header: "Identifier",
-    },
-    {
-      field: "action_name_array",
-      header: "Actions",
-    },
-    {
-      field: "action_count",
-      header: "Actions Count",
-    },
-    {
-      field: "display_name_array",
-      header: "Display",
-    },
-    {
-      field: "display_count",
-      header: "Display Count",
-    },
-    {
-      field: "workflow_name_array",
-      header: "Workflow",
-    },
-    {
-      field: "workflow_count",
-      header: "Workflow Count",
-    },
-    {
-      field: "configured",
-      header: "Configured",
-    },
-    {
-      field: "confi-button",
-      header: "",
-    },
-  ];
+
 
   const BadgeArray = ({ data }: any) => {
     return (
@@ -130,7 +90,7 @@ export default function AlertTypePage({}: Props) {
           columnFilter
           handleSwitch={handleSwitch}
           ResizableColumns
-          showColumns={showColumns}
+          showColumns={AlertTypeColumns}
         />
       )}
     </div>

@@ -6,6 +6,7 @@ import { Plus } from 'lucide-react';
 import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
 import { useCreateActionType, useGetActions } from '../_api/action.config';
+import { ActionColumns } from '@/data/admin/tableCOlumns';
 
 const Page = () => {
   const { data, isLoading, isError } = useGetActions();
@@ -25,24 +26,7 @@ const Page = () => {
     }
   };
 
-  const showColumns = [
-    {
-      field: "name",
-      header: "Name",
-    },
-    {
-      field: "identifier",
-      header: "Identifier",
-    },
-    {
-      field: "created_at",
-      header: "Created",
-    },
-    {
-      field: "updated_at",
-      header: "Updated",
-    },
-  ];
+
 
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputData((prevInputData) => ({
@@ -89,7 +73,7 @@ const Page = () => {
             data={data?.data}
             columnFilter
             handleSwitch={handleSwitch}
-            showColumns={showColumns}
+            showColumns={ActionColumns}
           />
         )}
       </div>
