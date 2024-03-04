@@ -2,12 +2,12 @@
 import React, { useEffect } from "react";
 import { useGetAllAlertType, useCreateAlertType } from "../_api/alert_config";
 import Custom_Table from "@/components/common/Custom_Table";
-import { CheckSquare2, XSquare } from "lucide-react";
-import { AlertTypeColumns } from "@/data/admin/tableColumns";
+import { CheckCircle2, XCircle } from "lucide-react";
+import Link from "next/link";
 
 type Props = {};
 
-export default function AlertTypePage({ }: Props) {
+export default function AlertTypePage({}: Props) {
   const { data, isLoading, isError } = useGetAllAlertType();
   const { mutate, data: abd, isPending } = useCreateAlertType();
 
@@ -24,18 +24,56 @@ export default function AlertTypePage({ }: Props) {
       },
     });
   };
-
+  const showColumns = [
+    {
+      field: "name",
+      header: "Name",
+    },
+    {
+      field: "identifier",
+      header: "Identifier",
+    },
+    {
+      field: "action_name_array",
+      header: "Actions",
+    },
+    {
+      field: "action_count",
+      header: "Actions Count",
+    },
+    {
+      field: "display_name_array",
+      header: "Display",
+    },
+    {
+      field: "display_count",
+      header: "Display Count",
+    },
+    {
+      field: "workflow_name_array",
+      header: "Workflow",
+    },
+    {
+      field: "workflow_count",
+      header: "Workflow Count",
+    },
+    {
+      field: "configured",
+      header: "Configured",
+    },
+    {
+      field: "confi-button",
+      header: "",
+    },
+  ];
 
   const BadgeArray = ({ data }: any) => {
     return (
-      <div className="flex flex-row gap-2 justify-center">
+      <div className="flex flex-row gap-2">
         {data
           ?.slice(0, Math.min(3, data.length))
           .map((item: any, index: any) => (
-            <div
-              key={index}
-              className="bg-pink text-surface-0 p-0.5 rounded-lg"
-            >
+            <div key={index} className="bg-pink text-surface-0 p-1 rounded-lg">
               {item}
             </div>
           ))}
@@ -69,10 +107,18 @@ export default function AlertTypePage({ }: Props) {
         return (
           <div className="flex justify-center">
             {data["configured"] ? (
-              <CheckSquare2 className="text-green" />
+              <CheckCircle2 className="text-green" />
             ) : (
-              <XSquare className="text-red" />
+              <XCircle className="text-red" />
             )}
+          </div>
+        );
+      case "confi-button":
+        return (
+          <div className="flex flex-row">
+            <Link href={`/admin/alert-type-config/${data["id"]}`}>
+              <button className="b border p-1 rounded-lg">configure</button>
+            </Link>
           </div>
         );
       default:
@@ -81,18 +127,16 @@ export default function AlertTypePage({ }: Props) {
   };
 
   return (
-    <div className="">
+    <div className="overflow-hidden">
       <h2 className="!text-2xl">All Alert Type</h2>
-      {!isLoading && (
-        <Custom_Table
-          data={data?.message}
-          tableHeading="All Alert Type"
-          columnFilter
-          handleSwitch={handleSwitch}
-          ResizableColumns
-          showColumns={AlertTypeColumns}
-        />
-      )}
+      <Custom_Table
+        data={data?.message}
+        tableHeading="All Alert Type"
+        columnFilter
+        handleSwitch={handleSwitch}
+        ResizableColumns
+        showColumns={showColumns}
+      />
     </div>
   );
 }
