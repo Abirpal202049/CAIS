@@ -20,7 +20,7 @@ type ConfigProps = {
 type configTab = {
   label: string;
   value: string;
-  unsaved: boolean;
+  unsaved: number;
 };
 export default function Config({ params }: ConfigProps) {
   const {
@@ -36,17 +36,17 @@ export default function Config({ params }: ConfigProps) {
     {
       label: "Action",
       value: "Action",
-      unsaved: false,
+      unsaved: 0,
     },
     {
       label: "Display",
       value: "Display",
-      unsaved: false,
+      unsaved: 0,
     },
     {
       label: "Workflow",
       value: "Workflow",
-      unsaved: false,
+      unsaved: 0,
     },
   ]);
   const [selectedTabIndex, setSelectedTabIndex] = React.useState(0);
@@ -146,10 +146,10 @@ const ConfigureTab = ({
   const [deletedActions, setDeletedActions] = React.useState<string[]>([]);
   const [selectedItems, setSelectedItems] = React.useState<[]>([]);
 
-  const updateTab = (unsaved: boolean) => {
+  const updateTab = (unsaved: number) => {
     setTabsModel((prev) => {
       return prev.map((ele, idx) => {
-        if (tabIndex === idx) {
+        if (tabIndex === idx && ele.unsaved != 2) {
           ele.unsaved = unsaved;
         }
         return ele;
@@ -176,7 +176,7 @@ const ConfigureTab = ({
                 <div
                   onClick={() => {
                     setDeletedActions([...deletedActions, ele.id]);
-                    updateTab(true);
+                    updateTab(2);
                   }}
                   className="cursor-pointer"
                 >
@@ -191,9 +191,9 @@ const ConfigureTab = ({
         onChange={(e) => {
           setSelectedItems(e.value);
           if (e.value.length > 0) {
-            updateTab(true);
+            updateTab(1);
           } else {
-            updateTab(false);
+            updateTab(0);
           }
         }}
         options={allInfo}

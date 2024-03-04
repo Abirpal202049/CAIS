@@ -10,7 +10,7 @@ type props = {
     value: string;
     count?: number;
     redirect?: string;
-    unsaved?: boolean;
+    unsaved?: number;
   }[];
   selectedTabIndex: number;
   setSelectedTabIndex: React.Dispatch<React.SetStateAction<number>>;
@@ -38,7 +38,7 @@ const Custom_Tab: React.FC<props> = ({
           >
             <div className="flex items-center !text-lg font-semibold">
               {ele.label}
-              {ele.unsaved && (
+              {ele.unsaved && ele.unsaved > 0 && (
                 <Dot size={20} className="relative scale-[2.5] text-yellow" />
               )}{" "}
             </div>
