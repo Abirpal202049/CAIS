@@ -3,9 +3,18 @@ import React from "react";
 import { useGetAlertTypeofId, getAlertTypeofId } from "../../_api/alert_config";
 import { useQuery } from "@tanstack/react-query";
 import Custom_Tab from "@/components/common/Custom_Tab";
-import { useGetDisplay } from "../../_api/display.config";
-import { useGetActions } from "../../_api/action.config";
-import { useGetWorkflow } from "../../_api/workflow-config";
+import {
+  useGetDisplay,
+  usePostDisplayAlertConfig,
+} from "../../_api/display.config";
+import {
+  useGetActions,
+  usePostActionAlertConfig,
+} from "../../_api/action.config";
+import {
+  useGetWorkflow,
+  usePostWorkflowAlertConfig,
+} from "../../_api/workflow-config";
 import { MultiSelect } from "primereact/multiselect";
 import { Chips } from "primereact/chips";
 import { X, XCircle } from "lucide-react";
@@ -32,6 +41,10 @@ export default function Config({ params }: ConfigProps) {
   const { data: display } = useGetDisplay();
   const { data: workflow } = useGetWorkflow();
 
+  const { mutate: mutateAction } = usePostActionAlertConfig(params._id);
+  const { mutate: mutateDisplay } = usePostDisplayAlertConfig(params._id);
+  const { mutate: mutateWorkflow } = usePostWorkflowAlertConfig(params._id);
+
   const [tabsModel, setTabsModel] = React.useState<configTab[]>([
     {
       label: "Action",
@@ -50,6 +63,18 @@ export default function Config({ params }: ConfigProps) {
     },
   ]);
   const [selectedTabIndex, setSelectedTabIndex] = React.useState(0);
+
+  const submitAction = (newAdded: string[], deleted: string[]) => {
+    mutateAction({ newAction: newAdded, deletedAction: deleted });
+  };
+
+  const submitDisplay = (newAdded: string[], deleted: string[]) => {
+    mutateDisplay({ newDisplay: newAdded, deletedDisplay: deleted });
+  };
+
+  const submitWorkflow = (newAdded: string[], deleted: string[]) => {
+    mutateWorkflow({ newWorkflow: newAdded, deletedWorkflow: deleted });
+  };
   if (isLoading) return <div>Loading...</div>;
   const { data } = response;
 
@@ -94,9 +119,10 @@ export default function Config({ params }: ConfigProps) {
             id: ele,
           }))}
           allInfo={actions?.data}
-          name="Action"
+          name="action"
           setTabsModel={setTabsModel}
           tabIndex={selectedTabIndex}
+          submitConfig={submitAction}
         />
       )}
       {selectedTabIndex === 1 && (
@@ -106,9 +132,10 @@ export default function Config({ params }: ConfigProps) {
             id: ele,
           }))}
           allInfo={display?.data}
-          name="Display"
+          name="display"
           setTabsModel={setTabsModel}
           tabIndex={selectedTabIndex}
+          submitConfig={submitDisplay}
         />
       )}
       {selectedTabIndex === 2 && (
@@ -118,9 +145,10 @@ export default function Config({ params }: ConfigProps) {
             id: ele,
           }))}
           allInfo={workflow?.data}
-          name="Workflow"
+          name="workflow"
           setTabsModel={setTabsModel}
           tabIndex={selectedTabIndex}
+          submitConfig={submitWorkflow}
         />
       )}
     </div>
@@ -128,20 +156,19 @@ export default function Config({ params }: ConfigProps) {
 }
 
 const ConfigureTab = ({
-  preValue = [
-    { name: "test", id: "test" },
-    { name: "test1", id: "test1" },
-  ],
+  preValue,
   allInfo,
   name,
   setTabsModel,
   tabIndex,
+  submitConfig,
 }: {
   preValue: { name: string; id: string }[] | null;
   allInfo: [];
   name: string;
   setTabsModel: React.Dispatch<React.SetStateAction<configTab[]>>;
   tabIndex: number;
+  submitConfig?: (newAction: string[], deletedAction: string[]) => void;
 }) => {
   const [deletedActions, setDeletedActions] = React.useState<string[]>([]);
   const [selectedItems, setSelectedItems] = React.useState<[]>([]);
@@ -200,7 +227,7 @@ const ConfigureTab = ({
         optionLabel="name"
         display="chip"
         filter
-        placeholder={`Select ${name}`}
+        placeholder={`Select ${name.charAt(0).toUpperCase() + name.slice(1)}`}
         pt={{
           token: {
             className: "!bg-surface-300",
@@ -211,7 +238,18 @@ const ConfigureTab = ({
         }}
         className="w-full md:w-20rem "
       />
-      <Button label="Submit" className="px-5 py-2 mt-12 float-right" />
+      <Button
+        label="Submit"
+        className="px-5 py-2 mt-12 float-right"
+        onClick={() => {
+          console.log(selectedItems);
+
+          submitConfig?.(
+            selectedItems.map((ele: any) => ele[`${name}_id`]),
+            deletedActions
+          );
+        }}
+      />
     </div>
   );
 };

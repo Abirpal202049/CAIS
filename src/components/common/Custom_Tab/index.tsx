@@ -36,10 +36,21 @@ const Custom_Tab: React.FC<props> = ({
               if (ele.redirect) router.push(ele.redirect);
             }}
           >
-            <div className="flex items-center !text-lg font-semibold">
+            <div
+              className={`flex items-center !text-lg font-semibold relative ${
+                "unsaved" in ele ? "px-2" : ""
+              }`}
+            >
               {ele.label}
-              {ele.unsaved && ele.unsaved > 0 && (
-                <Dot size={20} className="relative scale-[2.5] text-yellow" />
+              {"unsaved" in ele ? (
+                <Dot
+                  size={20}
+                  className={`absolute scale-[2] text-primaryLight -right-3 ${
+                    ele.unsaved === 0 ? "opacity-0" : ""
+                  }`}
+                />
+              ) : (
+                ""
               )}{" "}
             </div>
             {ele.count && (

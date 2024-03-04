@@ -7,28 +7,40 @@ const BASE_INSTANCE = axios.create({
   timeout: 10000,
 });
 
-
 const createDiaplayType = async (data: any) => {
-    console.log("data :",data)
-    const res = await BASE_INSTANCE.post("/display/create", data);
-    return res.data;
-  };
-  
-  export const useCreateDisplayType = () => {
-    return useMutation({
-      mutationKey: ["createDisplayType"],
-      mutationFn: createDiaplayType,
-    });
-  };
+  console.log("data :", data);
+  const res = await BASE_INSTANCE.post("/display/create", data);
+  return res.data;
+};
 
-  export const useGetDisplay = () => {
-    return useQuery({
-      queryKey: ["allDisplay"],
-      queryFn: getAllDisplay,
-    });
-  };
-  
-  const getAllDisplay = async (data: any) => {
-    const res = await BASE_INSTANCE.get("/display");
-    return res.data;
-  };
+export const useCreateDisplayType = () => {
+  return useMutation({
+    mutationKey: ["createDisplayType"],
+    mutationFn: createDiaplayType,
+  });
+};
+
+export const useGetDisplay = () => {
+  return useQuery({
+    queryKey: ["allDisplay"],
+    queryFn: getAllDisplay,
+  });
+};
+
+const getAllDisplay = async (data: any) => {
+  const res = await BASE_INSTANCE.get("/display");
+  return res.data;
+};
+
+const postDisplayAlertConfig = async (id: string, data: any) => {
+  const res = await BASE_INSTANCE.post(`/display/config/create/${id}`, data);
+  return res.data;
+};
+
+export const usePostDisplayAlertConfig = (id: string) => {
+  return useMutation({
+    mutationKey: ["postDisplayAlertConfigg"],
+    mutationFn: (data: { newDisplay: string[]; deletedDisplay: string[] }) =>
+      postDisplayAlertConfig(id, data),
+  });
+};
