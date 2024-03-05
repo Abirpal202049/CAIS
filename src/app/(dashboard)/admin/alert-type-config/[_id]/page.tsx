@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useMemo } from "react";
 import { useGetAlertTypeofId, getAlertTypeofId } from "../../_api/alert_config";
 import Custom_Tab from "@/components/common/Custom_Tab";
 import {
@@ -80,7 +80,7 @@ export default function Config({ params }: ConfigProps) {
     <div className="p-2">
       <div className="w-full flex justify-between items-center">
         <div className="flex gap-2">
-          <h2 className="!text-2xl">Alert Type Configuration</h2>
+          <h2 className="!text-3xl">Configure {data.name} Alert Type</h2>
           <span className="flex items-center bg-green100 text-green py-0.5 px-2 rounded-full border border-green">
             {data.name}
           </span>
@@ -93,11 +93,11 @@ export default function Config({ params }: ConfigProps) {
           {data.configured ? "Configured" : "Not Configured"}
         </div>
       </div>
-      <div className="flex mt-5">
-        <div className="pr-10 border-r-2">
+      <div className="flex mt-5 w-full border px-3 py-6 border-surface-200 rounded-lg">
+        <div className="pr-10 border-r-2 w-[30%] border-surface-300 space-y-3">
           <NameVal name="Name" value={data.name} />
           <NameVal name="Identifier" value={data.identifier} />
-          <div className="flex items-center gap-20">
+          <div className="flex items-center gap-20 text-surface-600">
             <div className="!text-xl w-32">Configured</div>
             <div className="text-black !text-lg">
               {data["configured"] ? (
@@ -108,7 +108,7 @@ export default function Config({ params }: ConfigProps) {
             </div>
           </div>
         </div>
-        <div className="pl-10">
+        <div className="pl-10 space-y-3">
           <BadgeArray
             name="Display"
             data={data.display_name_array}
@@ -198,7 +198,9 @@ const ConfigureTab = ({
   submitConfig?: (newAction: string[], deletedAction: string[]) => void;
 }) => {
   const [deletedActions, setDeletedActions] = React.useState<string[]>([]);
-  const [selectedItems, setSelectedItems] = React.useState<[]>([]);
+  const [selectedItems, setSelectedItems] = React.useState<
+    { [key: string]: any }[]
+  >([]);
   const [searchValue, setSearchValue] = React.useState<string>("");
   const [insertedItems, setInsertedItems] = React.useState<Set<string>>(
     new Set()
@@ -218,14 +220,38 @@ const ConfigureTab = ({
     });
   };
 
+  const cancelClick = () => {
+    setSelectedItems([]);
+    setDeletedActions([]);
+    setInsertedItems(new Set(preValue?.map((ele) => ele.id)));
+    updateTab(0);
+  };
+
+  const submitClick = () => {
+    submitConfig?.(
+      selectedItems.map((ele: any) => ele[idName]),
+      deletedActions
+    );
+  };
+
+  const LabelClick = (ele: any) => {
+    setInsertedItems((insertedItems) => {
+      insertedItems.add(ele[idName]);
+      return insertedItems;
+    });
+    setSelectedItems([...selectedItems, ele]);
+    updateTab(1);
+  };
+
   return (
-    <div className="my-2 max-w-[80rem]">
+    <div className="my-2 p-3">
       <PreValue
         preValue={preValue}
         actions={deletedActions}
         setActions={setDeletedActions}
         updateTab={updateTab}
         setInsertedItems={setInsertedItems}
+        name={name}
       />
 
       <NewValue
@@ -240,7 +266,7 @@ const ConfigureTab = ({
         idName={idName}
       />
 
-      <div className="flex flex-wrap gap-x-5 gap-y-2">
+      <div className="flex flex-wrap gap-x-5 gap-y-2 my-2">
         {allInfo
           ?.filter((ele: any) => {
             if (searchValue === "") return true;
@@ -252,31 +278,28 @@ const ConfigureTab = ({
             return (
               <Button
                 key={index}
-                className="flex justify-between items-center gap-2 !px-4 !py-2 !bg-green"
+                className="flex justify-between items-center gap-2 !px-4 !py-2 !bg-green100 !border-green !text-green"
                 disabled={insertedItems.has(ele[idName])}
-                onClick={() => {
-                  insertedItems.add(ele[idName]);
-                  setInsertedItems(insertedItems);
-                  setSelectedItems([...selectedItems, ele]);
-                  updateTab(1);
-                }}
+                onClick={() => LabelClick(ele)}
                 label={ele?.name}
               />
             );
           })}
       </div>
-      <Button
-        label="Submit"
-        className="px-5 py-2 mt-12 float-right"
-        onClick={() => {
-          console.log(selectedItems);
+      <div className="flex gap-4 justify-end">
+        <Button
+          label="Clear"
+          className="px-5 py-2 mt-12"
+          outlined
+          onClick={cancelClick}
+        />
 
-          submitConfig?.(
-            selectedItems.map((ele: any) => ele[idName]),
-            deletedActions
-          );
-        }}
-      />
+        <Button
+          label="Submit"
+          className="px-5 py-2 mt-12"
+          onClick={submitClick}
+        />
+      </div>
     </div>
   );
 };
@@ -287,47 +310,62 @@ const PreValue = ({
   setActions,
   updateTab,
   setInsertedItems,
+  name,
 }: {
   preValue: { name: string; id: string }[] | [] | null;
   actions: string[];
   setActions: React.Dispatch<React.SetStateAction<string[]>>;
   updateTab: (unsaved: number) => void;
   setInsertedItems: React.Dispatch<React.SetStateAction<Set<string>>>;
+  name: string;
 }) => {
+  const filteredValue = React.useMemo(() => {
+    return preValue?.filter((ele, id) => {
+      if (actions.includes(ele.id)) {
+        return false;
+      }
+      return true;
+    });
+  }, [preValue, actions]);
+
+  const crossClick = (ele: any) => {
+    setActions([...actions, ele.id]);
+    updateTab(2);
+    setInsertedItems((prev) => {
+      prev.delete(ele.id);
+      return prev;
+    });
+  };
+
   return (
     <div
-      className={`flex items-center border border-surface-600 rounded-full h-10 my-2 px-2 gap-2 bg-surface-300`}
+      className={`flex items-center border border-surface-300 rounded-full my-2 p-2 gap-2`}
     >
-      {preValue
-        ?.filter((ele, id) => {
-          if (actions.includes(ele.id)) {
-            return false;
-          }
-          return true;
-        })
-        .map((ele, index) => {
-          return (
-            <div
-              key={index}
-              className="flex justify-between items-center w-fit rounded-full border border-red bg-red100 text-red py-1 px-2 gap-2 text-nowrap"
-            >
-              <div>{ele.name}</div>
+      {preValue && preValue.length > 0 ? (
+        filteredValue && filteredValue.length > 0 ? (
+          filteredValue.map((ele, index) => {
+            return (
               <div
-                onClick={() => {
-                  setActions([...actions, ele.id]);
-                  updateTab(2);
-                  setInsertedItems((prev) => {
-                    prev.delete(ele.id);
-                    return prev;
-                  });
-                }}
-                className="cursor-pointer"
+                key={index}
+                className="flex justify-between items-center w-fit rounded-full border border-red bg-red100 text-red py-1 px-2 gap-2 text-nowrap"
               >
-                <XCircle size={15} className="relative scale-[1.2]" />
+                <div>{ele.name}</div>
+                <div onClick={() => crossClick(ele)} className="cursor-pointer">
+                  <XCircle size={15} className="relative scale-[1.2]" />
+                </div>
               </div>
-            </div>
-          );
-        })}
+            );
+          })
+        ) : (
+          <div className="text-surface-400 py-1 border border-surface-0">
+            No {name} Added
+          </div>
+        )
+      ) : (
+        <div className="text-surface-400 py-1 border border-surface-0">
+          No {name} Added
+        </div>
+      )}
     </div>
   );
 };
@@ -343,8 +381,10 @@ const NewValue = ({
   idName,
   updateTab,
 }: {
-  selectedItems: [];
-  setSelectedItems: React.Dispatch<React.SetStateAction<[]>>;
+  selectedItems: { [key: string]: any }[];
+  setSelectedItems: React.Dispatch<
+    React.SetStateAction<{ [key: string]: any }[]>
+  >;
   insertedItems: Set<string>;
   setInsertedItems: React.Dispatch<React.SetStateAction<Set<string>>>;
   searchValue: string;
@@ -353,9 +393,24 @@ const NewValue = ({
   idName: string;
   updateTab: (unsaved: number) => void;
 }) => {
+  const crossClick = (ele: any) => {
+    setSelectedItems((prev) => {
+      const newSelected = prev.filter(
+        (item: any) => item[idName] !== ele[idName]
+      );
+      if (newSelected.length === 0) updateTab(0);
+      else updateTab(1);
+      return newSelected || [];
+    });
+    insertedItems.delete(ele.id);
+    setInsertedItems((insertedItems) => {
+      insertedItems.delete(ele[idName]);
+      return insertedItems;
+    });
+  };
   return (
     <div className="flex items-center gap-8 ">
-      <div className="flex items-center justify-between border-surface-600 bg-surface-300 px-2 py-1 outline-none border rounded-full h-10 min-w-96">
+      <div className="flex items-center justify-between border-surface-300 p-4  outline-none border rounded-full min-w-96">
         <input
           type="text"
           value={searchValue}
@@ -367,37 +422,26 @@ const NewValue = ({
         />
         <Search size={20} />
       </div>
-      <div className="grow flex flex-wrap gap-2 items-center border border-surface-600 bg-surface-300 rounded-full h-10 my-2 px-2">
-        {selectedItems.map((ele: any, index: number) => {
-          return (
-            <div
-              key={index}
-              className="flex justify-between items-center w-fit rounded-full bg-green100 border-green border text-green py-1 px-2 gap-2 text-nowrap"
-            >
-              <div>{ele.name}</div>
+      <div className="grow flex flex-wrap gap-2 items-center border border-surface-300 rounded-[30px] my-2 p-3">
+        {selectedItems.length > 0 ? (
+          selectedItems.map((ele: any, index: number) => {
+            return (
               <div
-                onClick={() => {
-                  setSelectedItems((prev) => {
-                    const newSelected = prev.filter(
-                      (item: any) => item[idName] !== ele[idName]
-                    );
-                    if (newSelected.length === 0) updateTab(0);
-                    else updateTab(1);
-                    return newSelected;
-                  });
-                  insertedItems.delete(ele.id);
-                  setInsertedItems((insertedItems) => {
-                    insertedItems.delete(ele[idName]);
-                    return insertedItems;
-                  });
-                }}
-                className="cursor-pointer"
+                key={index}
+                className="flex justify-between items-center w-fit rounded-full bg-green100 border-green border text-green py-1 px-2 gap-2 text-nowrap"
               >
-                <XCircle size={15} className="relative scale-[1.2]" />
+                <div>{ele.name}</div>
+                <div onClick={() => crossClick(ele)} className="cursor-pointer">
+                  <XCircle size={15} className="relative scale-[1.2]" />
+                </div>
               </div>
-            </div>
-          );
-        })}
+            );
+          })
+        ) : (
+          <div className="text-surface-400 py-1 border border-surface-0">
+            No {name} Added
+          </div>
+        )}
       </div>
     </div>
   );
@@ -406,7 +450,7 @@ const NewValue = ({
 const NameVal = ({ name, value }: { name: string; value: string }) => {
   return (
     <div className="flex items-center gap-20">
-      <div className="!text-xl w-32">{name}</div>
+      <div className="!text-xl w-32 !text-surface-600">{name}</div>
       <div className="text-black !text-lg">{value}</div>
     </div>
   );
@@ -424,8 +468,8 @@ const BadgeArray = ({
   textColor: string;
 }) => {
   return (
-    <div className="flex flex-row gap-2">
-      <div className="!text-xl w-32">{name}</div>
+    <div className="flex flex-row gap-2 items-center">
+      <div className="!text-xl w-32 text-surface-600">{name}</div>
       {data?.slice(0, Math.min(5, data.length)).map((item: any, index: any) => (
         <div
           key={index}
@@ -434,7 +478,17 @@ const BadgeArray = ({
           {item}
         </div>
       ))}
-      {!data && <>-</>}
+      {data ? (
+        data?.length > 5 && (
+          <div
+            className={`m-auto rounded-full ${bgColor} ${textColor} h-8 w-8 flex justify-center items-center`}
+          >
+            +{data.length - 5}
+          </div>
+        )
+      ) : (
+        <>-</>
+      )}
     </div>
   );
 };

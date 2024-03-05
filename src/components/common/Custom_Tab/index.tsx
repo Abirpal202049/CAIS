@@ -37,7 +37,7 @@ const Custom_Tab: React.FC<props> = ({
             }}
           >
             <div
-              className={`flex items-center !text-lg font-semibold relative ${
+              className={`flex items-center !text-lg relative ${
                 "unsaved" in ele ? "px-2" : ""
               }`}
             >
