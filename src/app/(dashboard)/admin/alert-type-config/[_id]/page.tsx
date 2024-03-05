@@ -1,7 +1,6 @@
 "use client";
 import React from "react";
 import { useGetAlertTypeofId, getAlertTypeofId } from "../../_api/alert_config";
-import { useQuery } from "@tanstack/react-query";
 import Custom_Tab from "@/components/common/Custom_Tab";
 import {
   useGetDisplay,
@@ -16,8 +15,7 @@ import {
   usePostWorkflowAlertConfig,
 } from "../../_api/workflow-config";
 import { MultiSelect } from "primereact/multiselect";
-import { Chips } from "primereact/chips";
-import { X, XCircle } from "lucide-react";
+import { CheckCircle2, Search, XCircle } from "lucide-react";
 import { Button } from "primereact/button";
 
 type ConfigProps = {
@@ -83,8 +81,8 @@ export default function Config({ params }: ConfigProps) {
       <div className="w-full flex justify-between items-center">
         <div className="flex gap-2">
           <h2 className="!text-2xl">Alert Type Configuration</h2>
-          <span className="flex items-center bg-pink text-surface-0 py-0.5 px-2 rounded-lg">
-            KYC
+          <span className="flex items-center bg-green100 text-green py-0.5 px-2 rounded-full border border-green">
+            {data.name}
           </span>
         </div>
         <div
@@ -97,14 +95,38 @@ export default function Config({ params }: ConfigProps) {
       </div>
       <div className="flex mt-5">
         <div className="pr-10 border-r-2">
-          <NameVal name="Name" value="data.name" />
-          <NameVal name="Identifier" value="data.identifier" />
-          <NameVal name="Configured" value={data.configured ? "Yes" : "No"} />
+          <NameVal name="Name" value={data.name} />
+          <NameVal name="Identifier" value={data.identifier} />
+          <div className="flex items-center gap-20">
+            <div className="!text-xl w-32">Configured</div>
+            <div className="text-black !text-lg">
+              {data["configured"] ? (
+                <CheckCircle2 className="text-green" />
+              ) : (
+                <XCircle className="text-red" />
+              )}
+            </div>
+          </div>
         </div>
         <div className="pl-10">
-          <BadgeArray name="Display" data={data.display_name_array} />
-          <BadgeArray name="Action" data={data.action_name_array} />
-          <BadgeArray name="WorkFlow" data={data.workflow_name_array} />
+          <BadgeArray
+            name="Display"
+            data={data.display_name_array}
+            bgColor="bg-green100"
+            textColor="bg-green"
+          />
+          <BadgeArray
+            name="Action"
+            data={data.action_name_array}
+            bgColor="bg-yellow100"
+            textColor="bg-yellow"
+          />
+          <BadgeArray
+            name="WorkFlow"
+            data={data.workflow_name_array}
+            bgColor="bg-purple100"
+            textColor="bg-purple"
+          />
         </div>
       </div>
       <Custom_Tab
@@ -119,7 +141,8 @@ export default function Config({ params }: ConfigProps) {
             id: ele,
           }))}
           allInfo={actions?.data}
-          name="action"
+          name="Action"
+          idName="action_id"
           setTabsModel={setTabsModel}
           tabIndex={selectedTabIndex}
           submitConfig={submitAction}
@@ -132,7 +155,8 @@ export default function Config({ params }: ConfigProps) {
             id: ele,
           }))}
           allInfo={display?.data}
-          name="display"
+          name="Display"
+          idName="display_id"
           setTabsModel={setTabsModel}
           tabIndex={selectedTabIndex}
           submitConfig={submitDisplay}
@@ -145,7 +169,8 @@ export default function Config({ params }: ConfigProps) {
             id: ele,
           }))}
           allInfo={workflow?.data}
-          name="workflow"
+          name="Workflow"
+          idName="workflow_id"
           setTabsModel={setTabsModel}
           tabIndex={selectedTabIndex}
           submitConfig={submitWorkflow}
@@ -159,6 +184,7 @@ const ConfigureTab = ({
   preValue,
   allInfo,
   name,
+  idName,
   setTabsModel,
   tabIndex,
   submitConfig,
@@ -166,12 +192,20 @@ const ConfigureTab = ({
   preValue: { name: string; id: string }[] | null;
   allInfo: [];
   name: string;
+  idName: "workflow_id" | "action_id" | "display_id";
   setTabsModel: React.Dispatch<React.SetStateAction<configTab[]>>;
   tabIndex: number;
   submitConfig?: (newAction: string[], deletedAction: string[]) => void;
 }) => {
   const [deletedActions, setDeletedActions] = React.useState<string[]>([]);
   const [selectedItems, setSelectedItems] = React.useState<[]>([]);
+  const [searchValue, setSearchValue] = React.useState<string>("");
+  const [insertedItems, setInsertedItems] = React.useState<Set<string>>(
+    new Set()
+  );
+  React.useEffect(() => {
+    setInsertedItems(new Set(preValue?.map((ele) => ele.id)));
+  }, []);
 
   const updateTab = (unsaved: number) => {
     setTabsModel((prev) => {
@@ -183,61 +217,54 @@ const ConfigureTab = ({
       });
     });
   };
+
   return (
-    <div className="my-2 max-w-[50rem]">
-      <div className="flex items-center border rounded-lg h-12 my-2 px-2 gap-2">
-        {preValue
-          ?.filter((ele, id) => {
-            if (deletedActions.includes(ele.id)) {
-              return false;
-            }
-            return true;
+    <div className="my-2 max-w-[80rem]">
+      <PreValue
+        preValue={preValue}
+        actions={deletedActions}
+        setActions={setDeletedActions}
+        updateTab={updateTab}
+        setInsertedItems={setInsertedItems}
+      />
+
+      <NewValue
+        selectedItems={selectedItems}
+        setSelectedItems={setSelectedItems}
+        insertedItems={insertedItems}
+        setInsertedItems={setInsertedItems}
+        searchValue={searchValue}
+        setSearchValue={setSearchValue}
+        name={name}
+        updateTab={updateTab}
+        idName={idName}
+      />
+
+      <div className="flex flex-wrap gap-x-5 gap-y-2">
+        {allInfo
+          ?.filter((ele: any) => {
+            if (searchValue === "") return true;
+            if (ele.name.toLowerCase().includes(searchValue.toLowerCase()))
+              return true;
+            return false;
           })
-          .map((ele, index) => {
+          .map((ele: any, index: number) => {
             return (
-              <div
+              <Button
                 key={index}
-                className="flex justify-between items-center w-fit rounded-full bg-surface-300 b p-1 px-2 gap-2"
-              >
-                <div>{ele.name}</div>
-                <div
-                  onClick={() => {
-                    setDeletedActions([...deletedActions, ele.id]);
-                    updateTab(2);
-                  }}
-                  className="cursor-pointer"
-                >
-                  <XCircle size={15} className="relative scale-[1.2]" />
-                </div>
-              </div>
+                className="flex justify-between items-center gap-2 !px-4 !py-2 !bg-green"
+                disabled={insertedItems.has(ele[idName])}
+                onClick={() => {
+                  insertedItems.add(ele[idName]);
+                  setInsertedItems(insertedItems);
+                  setSelectedItems([...selectedItems, ele]);
+                  updateTab(1);
+                }}
+                label={ele?.name}
+              />
             );
           })}
       </div>
-      <MultiSelect
-        value={selectedItems}
-        onChange={(e) => {
-          setSelectedItems(e.value);
-          if (e.value.length > 0) {
-            updateTab(1);
-          } else {
-            updateTab(0);
-          }
-        }}
-        options={allInfo}
-        optionLabel="name"
-        display="chip"
-        filter
-        placeholder={`Select ${name.charAt(0).toUpperCase() + name.slice(1)}`}
-        pt={{
-          token: {
-            className: "!bg-surface-300",
-          },
-          input: {
-            className: "border-surface-900",
-          },
-        }}
-        className="w-full md:w-20rem "
-      />
       <Button
         label="Submit"
         className="px-5 py-2 mt-12 float-right"
@@ -245,11 +272,133 @@ const ConfigureTab = ({
           console.log(selectedItems);
 
           submitConfig?.(
-            selectedItems.map((ele: any) => ele[`${name}_id`]),
+            selectedItems.map((ele: any) => ele[idName]),
             deletedActions
           );
         }}
       />
+    </div>
+  );
+};
+
+const PreValue = ({
+  preValue,
+  actions,
+  setActions,
+  updateTab,
+  setInsertedItems,
+}: {
+  preValue: { name: string; id: string }[] | [] | null;
+  actions: string[];
+  setActions: React.Dispatch<React.SetStateAction<string[]>>;
+  updateTab: (unsaved: number) => void;
+  setInsertedItems: React.Dispatch<React.SetStateAction<Set<string>>>;
+}) => {
+  return (
+    <div
+      className={`flex items-center border border-surface-600 rounded-full h-10 my-2 px-2 gap-2 bg-surface-300`}
+    >
+      {preValue
+        ?.filter((ele, id) => {
+          if (actions.includes(ele.id)) {
+            return false;
+          }
+          return true;
+        })
+        .map((ele, index) => {
+          return (
+            <div
+              key={index}
+              className="flex justify-between items-center w-fit rounded-full border border-red bg-red100 text-red py-1 px-2 gap-2 text-nowrap"
+            >
+              <div>{ele.name}</div>
+              <div
+                onClick={() => {
+                  setActions([...actions, ele.id]);
+                  updateTab(2);
+                  setInsertedItems((prev) => {
+                    prev.delete(ele.id);
+                    return prev;
+                  });
+                }}
+                className="cursor-pointer"
+              >
+                <XCircle size={15} className="relative scale-[1.2]" />
+              </div>
+            </div>
+          );
+        })}
+    </div>
+  );
+};
+
+const NewValue = ({
+  selectedItems,
+  setSelectedItems,
+  insertedItems,
+  setInsertedItems,
+  searchValue,
+  setSearchValue,
+  name,
+  idName,
+  updateTab,
+}: {
+  selectedItems: [];
+  setSelectedItems: React.Dispatch<React.SetStateAction<[]>>;
+  insertedItems: Set<string>;
+  setInsertedItems: React.Dispatch<React.SetStateAction<Set<string>>>;
+  searchValue: string;
+  setSearchValue: React.Dispatch<React.SetStateAction<string>>;
+  name: string;
+  idName: string;
+  updateTab: (unsaved: number) => void;
+}) => {
+  return (
+    <div className="flex items-center gap-8 ">
+      <div className="flex items-center justify-between border-surface-600 bg-surface-300 px-2 py-1 outline-none border rounded-full h-10 min-w-96">
+        <input
+          type="text"
+          value={searchValue}
+          onChange={(e) => setSearchValue(e.target.value)}
+          placeholder={`Search ${
+            name.charAt(0).toUpperCase() + name.slice(1)
+          }...`}
+          className=" grow mx-1 outline-none bg-[transparent]"
+        />
+        <Search size={20} />
+      </div>
+      <div className="grow flex flex-wrap gap-2 items-center border border-surface-600 bg-surface-300 rounded-full h-10 my-2 px-2">
+        {selectedItems.map((ele: any, index: number) => {
+          return (
+            <div
+              key={index}
+              className="flex justify-between items-center w-fit rounded-full bg-green100 border-green border text-green py-1 px-2 gap-2 text-nowrap"
+            >
+              <div>{ele.name}</div>
+              <div
+                onClick={() => {
+                  setSelectedItems((prev) => {
+                    const newSelected = prev.filter(
+                      (item: any) => item[idName] !== ele[idName]
+                    );
+                    if (newSelected.length === 0) updateTab(0);
+                    else updateTab(1);
+                    return newSelected;
+                  });
+                  insertedItems.delete(ele.id);
+                  setInsertedItems((insertedItems) => {
+                    insertedItems.delete(ele[idName]);
+                    return insertedItems;
+                  });
+                }}
+                className="cursor-pointer"
+              >
+                <XCircle size={15} className="relative scale-[1.2]" />
+              </div>
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 };
@@ -266,15 +415,22 @@ const NameVal = ({ name, value }: { name: string; value: string }) => {
 const BadgeArray = ({
   name,
   data,
+  bgColor,
+  textColor,
 }: {
   name: string;
   data: string[] | null;
+  bgColor: string;
+  textColor: string;
 }) => {
   return (
     <div className="flex flex-row gap-2">
       <div className="!text-xl w-32">{name}</div>
       {data?.slice(0, Math.min(5, data.length)).map((item: any, index: any) => (
-        <div key={index} className="bg-pink text-surface-0 p-1 rounded-lg">
+        <div
+          key={index}
+          className={`bg-surface-300 text-primary py-1 px-2 rounded-full ${bgColor} ${textColor}`}
+        >
           {item}
         </div>
       ))}
