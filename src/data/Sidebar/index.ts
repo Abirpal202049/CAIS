@@ -59,7 +59,7 @@ export const sideBarOption = [
       },
       {
         tabName: "User Confiugration",
-        link: "admin/user-management",
+        link: "user-management",
         iconName: "user-circle-block",
         size: 20,
         icon: userCircleBlock,
