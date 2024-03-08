@@ -10,14 +10,14 @@ import {
 export const sideBarOption = [
   {
     tabName: "Dashboard",
-    link: "dashboard",
+    link: "/dashboard",
     iconName: "dashboard",
     size: 25,
     icon: Grid01,
   },
   {
     tabName: "Incidents",
-    link: "alerts",
+    link: "/alerts/details",
     iconName: "warning",
     size: 25,
     icon: menuCircleVertical,
@@ -68,21 +68,21 @@ export const sideBarOption = [
   },
   {
     tabName: "Settings",
-    link: "setting",
+    link: "/setting",
     iconName: "setting",
     size: 30,
     icon: Setting,
   },
   {
     tabName: "Next Gen AI",
-    link: "next-gen-ai",
+    link: "/next-gen-ai",
     iconName: "home-setting",
     size: 25,
     icon: homeSetting,
   },
   {
     tabName: "Reports",
-    link: "reports",
+    link: "/reports",
     iconName: "reports",
     size: 25,
     icon: Report,
