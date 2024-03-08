@@ -19,7 +19,6 @@ export const useGetAllAlerts = () => {
   });
 };
 
-
 const createAlert = async (data: any) => {
   const res = await BASE_INSTANCE.post("/alerts", data);
   return res.data;
@@ -53,5 +52,17 @@ export const useCreateAlertType = () => {
   return useMutation({
     mutationKey: ["createAlertType"],
     mutationFn: createAlertType,
+  });
+};
+
+export const getAlertTypeofId = async (id: string) => {
+  const res = await BASE_INSTANCE.get(`/alert-type/${id}`);
+  return res.data;
+};
+
+export const useGetAlertTypeofId = (id: string) => {
+  return useQuery({
+    queryKey: ["alertTypeofId", id],
+    queryFn: () => getAlertTypeofId(id),
   });
 };

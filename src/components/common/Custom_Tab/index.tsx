@@ -2,6 +2,7 @@
 import React from "react";
 import styles from "../Custom_Tab/custom_tab.module.scss";
 import { useRouter } from "next/navigation";
+import { Dot } from "lucide-react";
 
 type props = {
   TabsModel: {
@@ -9,6 +10,7 @@ type props = {
     value: string;
     count?: number;
     redirect?: string;
+    unsaved?: number;
   }[];
   selectedTabIndex: number;
   setSelectedTabIndex: React.Dispatch<React.SetStateAction<number>>;
@@ -34,7 +36,23 @@ const Custom_Tab: React.FC<props> = ({
               if (ele.redirect) router.push(ele.redirect);
             }}
           >
-            <div>{ele.label}</div>
+            <div
+              className={`flex items-center !text-lg relative ${
+                "unsaved" in ele ? "px-2" : ""
+              }`}
+            >
+              {ele.label}
+              {"unsaved" in ele ? (
+                <Dot
+                  size={20}
+                  className={`absolute scale-[2] text-primaryLight -right-3 ${
+                    ele.unsaved === 0 ? "opacity-0" : ""
+                  }`}
+                />
+              ) : (
+                ""
+              )}{" "}
+            </div>
             {ele.count && (
               <div className={`${styles.countData}`}>{ele.count}</div>
             )}
