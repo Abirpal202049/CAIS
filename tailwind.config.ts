@@ -13,6 +13,7 @@ export default {
       green: "var(--green)",
       green100: "var(--green-100)",
       yellow: "var(--yellow)",
+      yellow100: "var(--yellow-100)",
       cyan: "var(--cyan)",
       pink: "var(--pink)",
       indigo: "var(--indigo)",

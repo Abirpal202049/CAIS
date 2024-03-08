@@ -34,8 +34,8 @@ const OptionsComponent = ({
                 ? `${Styles.sidebar_menu}`
                 : `${Styles.sidebar_menu_open}`
                 } ${sidebarSelected === option.link && "surface-200"} ${sidebarOpenState
-                  ? `${Styles.menulist_open}`
-                  : `${Styles.menulist_close}`
+                  ? `${Styles.menulist_open}  ${option?.options && option?.options?.length > 0 ? '':'hover:bg-surface-200'}`
+                  : `${Styles.menulist_close} `
                 }`}
             >
               <IconBtn
@@ -64,18 +64,18 @@ const OptionsComponent = ({
                         enterClassName="hidden"
                         leaveToClassName="hidden"
                       >
-                        <a ref={btnRef3} className="flex gap-2 ">
+                        <a ref={btnRef3} className="flex gap-2">
                           <span className="font-medium">{option?.tabName}</span>
                           <ChevronDown style={{ color: "gray" }} size={20} />
                           <Ripple />
                         </a>
                       </StyleClass>
-                      <ul className="list-none tab w-full   ml-[-1.2rem] hidden overflow-y-hidden transition-all transition-duration-400 transition-ease-in-out">
+                      <ul className="list-none tab w-full ml-[-1.2rem] hidden overflow-y-hidden transition-all transition-duration-400 transition-ease-in-out">
                         {
                           option?.options.map((opt) => (
-                            <li key={opt.tabName} className="flex  p-3">
+                            <li key={opt.tabName} className="flex  ">
                               {/* <homeSetting className={Styles.nestedIcon}/> */}
-                              <a className=" flex cursor-pointer  hover:surface-100 transition-duration-150 transition-colors items-center gap-1 w-full justify-evenly">
+                              <Link href={`${opt.link}`} className={`flex cursor-pointer  hover:surface-100 transition-duration-150 transition-colors items-center gap-1 w-full justify-evenly hover:bg-surface-200 rounded p-3`}>
                                 <IconBtn
                                   alt={opt.tabName}
                                   height={opt.size}
@@ -87,8 +87,8 @@ const OptionsComponent = ({
                                   link={opt.link}
                                   route={route}
                                 />
-                                <span className="font-medium !text-sm w-full">{opt.tabName}</span>
-                              </a>
+                                <span className="font-medium !text-base w-full">{opt.tabName}</span>
+                              </Link>
                             </li>
                           ))
                         }
@@ -96,7 +96,7 @@ const OptionsComponent = ({
                       </ul>
                     </div>
                   ) : (
-                    <Link href={option.link}>
+                    <Link href={option.link} >
                       <p>{option?.tabName}</p>
                     </Link>
                   )}

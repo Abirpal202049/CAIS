@@ -1,25 +1,23 @@
 "use client"
-import React, { useState } from 'react'
-import { useCreateWorkflowType, useGetWorkflow } from '../_api/workflow-config';
+import React, { useEffect, useState, useMemo } from 'react'
 import Custom_Table from '@/components/common/Custom_Table';
 import { Plus } from 'lucide-react';
-import { workflowColumns } from '@/data/admin/tableColumns';
-import { Dialog } from 'primereact/dialog';
 import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
+import { Dialog } from 'primereact/dialog';
+import { useCreateDisplayType, useGetDisplay } from '../_api/display.config';
 import { queryClient } from '@/components/Providers/QueryClientProvider';
+import { diaplayColumns } from '@/data/admin/tableColumns';
 import CustomTab from '@/components/common/admin-config/CustomTab';
 
-type Props = {}
-
-export default function WorkflowConfigPage({ }: Props) {
-  const { data, isLoading, isPending, isError } = useGetWorkflow();
-  const { mutate } = useCreateWorkflowType()
+const Page = () => {
+  const { data, isLoading, isError } = useGetDisplay();
   const [visible, setVisible] = useState(false);
   const [inputData, setInputData] = useState({
     name: '',
     identifier: ''
   })
+  const { mutate, isPending } = useCreateDisplayType()
 
   const handleSwitch = (data: any, field: any) => {
     switch (field) {
@@ -27,6 +25,7 @@ export default function WorkflowConfigPage({ }: Props) {
         return <div>{data[field]}</div>;
     }
   };
+
 
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputData((prevInputData) => ({
@@ -40,7 +39,7 @@ export default function WorkflowConfigPage({ }: Props) {
     mutate(inputData, {
       onSuccess: (data) => {
         console.log('Success ', data)
-        queryClient.invalidateQueries({ queryKey: ["allWorkflow"] })
+        queryClient.invalidateQueries({ queryKey: ["allDisplay"] })
       },
       onError: (err) => {
         console.log('Success ', err)
@@ -60,24 +59,25 @@ export default function WorkflowConfigPage({ }: Props) {
 
   return (
     <div className='overflow-hidden'>
+
       <CustomTab
         setVisible={setVisible}
         visible={visible}
-        title="Workflow Configuration"
-        ActionType="Add Workflow"
+        title="Display Configuration"
+        ActionType="Add Diaplay"
       />
+
       <div>
         {!isLoading && (
           <Custom_Table
             data={data?.data}
             columnFilter
             handleSwitch={handleSwitch}
-            showColumns={workflowColumns}
+            showColumns={diaplayColumns}
           />
         )}
       </div>
-
-      <Dialog draggable={false} header="Add New Workflow" visible={visible} style={{ width: '30vw' }} onHide={() => setVisible(false)} className='rounded p-2'>
+      <Dialog draggable={false} header="Add New Display" visible={visible} style={{ width: '30vw' }} onHide={() => setVisible(false)} className='rounded p-2'>
         <div className="flex flex-col  items-center">
           <div className='w-4/5 flex flex-col gap-5'>
             <div className='flex flex-col gap-2'>
@@ -88,10 +88,12 @@ export default function WorkflowConfigPage({ }: Props) {
               <label htmlFor="identifier">Identifier</label>
               <InputText id="identifier" value={inputData.identifier} aria-describedby="identifier-help" disabled />
             </div>
-            <Button label='Create Workflow' onClick={handleDisplaySubmit} disabled={isPending} type='submit' />
+            <Button label='Create Display' onClick={handleDisplaySubmit} disabled={isPending} type='submit' />
           </div>
         </div>
       </Dialog>
     </div>
   )
 }
+
+export default Page

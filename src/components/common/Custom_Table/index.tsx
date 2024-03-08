@@ -20,14 +20,17 @@ import {
   Expand,
   XCircle,
 } from "lucide-react";
-import { set } from "react-hook-form";
 import { Dialog } from "primereact/dialog";
 import { formatString } from "@/utils/formatData";
 import { OverlayPanel } from "primereact/overlaypanel";
 
 type Props = {
   tableHeading?: string;
-  data: any;
+  data:
+    | {
+        [key: string]: any;
+      }[]
+    | null;
   handleSwitch: any;
   select?: boolean;
   columnFilter?: boolean;
@@ -35,6 +38,7 @@ type Props = {
   ResizableColumns?: boolean;
   exportable?: boolean;
   expandable?: boolean;
+  showColumns?: { field: string; header: string }[];
   showColumnButton?: boolean;
 };
 
@@ -86,6 +90,7 @@ const Custom_Table: React.FC<Props> = ({
   handleSwitch,
   exportable,
   expandable,
+  showColumns = [],
   showColumnButton = true,
 }) => {
   const [selectedItems, setSelectedItems] = React.useState([]);
@@ -105,13 +110,18 @@ const Custom_Table: React.FC<Props> = ({
   const dtRef = React.useRef(null);
   const exportRef = useRef<OverlayPanel>(null);
   React.useEffect(() => {
-    const dynamicColumns = Object.keys(data[0]).map((ele) => ({
-      field: ele,
-      header: ele
-        .split("_")
-        .map((ele) => ele.charAt(0).toUpperCase() + ele.slice(1))
-        .join(" "),
-    }));
+    const allColumns =
+      data && data.length > 0
+        ? Object.keys(data[0]).map((ele) => ({
+            field: ele,
+            header: ele
+              .split("_")
+              .map((ele) => ele.charAt(0).toUpperCase() + ele.slice(1))
+              .join(" "),
+          }))
+        : [];
+
+    const dynamicColumns = showColumns.length > 0 ? showColumns : allColumns;
     setColumns(dynamicColumns);
     setVisibleColumns(dynamicColumns);
     setTimeout(() => {
@@ -300,7 +310,7 @@ const Custom_Table: React.FC<Props> = ({
       <div className={`${loading ? "hidden" : ""}`}>
         <DataTable
           ref={dtRef}
-          value={data}
+          value={data || []}
           header={tableHeader}
           // pagination from here
           paginator
